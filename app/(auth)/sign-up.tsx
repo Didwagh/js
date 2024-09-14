@@ -2,16 +2,16 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { useRouter } from 'expo-router';
 
-const welcome = () => {
+const Home = () => {
   const router = useRouter();
 
   const handlePress = () => {
-    router.push('/(auth)/sign-up');  // Navigate to the Details page
+    router.push('/(auth)/sign-in');  // Navigate to the Details page
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome</Text>
+      <Text style={styles.text}>signup</Text>
       <Button title="Go to Details" onPress={handlePress} />
     </View>
   );
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default welcome;
+export default Home;

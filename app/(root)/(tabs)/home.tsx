@@ -1,14 +1,32 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import { useRouter } from 'expo-router';
 
-const home = () => {
+const Home = () => {
+  const router = useRouter();
+
+  const handlePress = () => {
+    router.push('/(root)/(tabs)/profile');  // Navigate to the Details page
+  };
+
   return (
-    <View>
-      <Text>home</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>home in </Text>
+      <Button title="Go to Details" onPress={handlePress} />
     </View>
-  )
-}
+  );
+};
 
-export default home
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 20,
+    marginBottom: 20,
+  },
+});
 
-const styles = StyleSheet.create({})
+export default Home;
