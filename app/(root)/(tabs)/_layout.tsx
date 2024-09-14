@@ -23,9 +23,9 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="upload"
         options={{
-          title: 'profile',
+          title: 'upload',
           headerShown: false,
         }}
       />
