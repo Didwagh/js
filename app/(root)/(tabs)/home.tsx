@@ -1,19 +1,19 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { useRouter } from 'expo-router';
-import Map from '@/components/Map'
+import SimpleMap from '@/components/Map';  // Ensure the path is correct
 
 const Home = () => {
   const router = useRouter();
 
   const handlePress = () => {
-    router.navigate('/(root)/searchBar');  // Navigate to the Details page
+    router.navigate('/(root)/searchBar');  // Navigate to the searchBar page
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>sign in </Text>
-      <Map/>
+      <Text style={styles.text}>Sign In</Text>
+      <SimpleMap />
       <Button title="Go to Details" onPress={handlePress} />
     </View>
   );
