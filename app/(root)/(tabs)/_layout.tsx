@@ -16,7 +16,7 @@ const Layout = () => {
         name="home"
         options={{
           title: 'Home',
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
           ),

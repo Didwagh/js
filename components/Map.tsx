@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, ActivityIndicator, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Define the type for location state
 interface LocationType {
   latitude: number;
   longitude: number;
@@ -13,6 +14,8 @@ const SimpleMap = () => {
   const [location, setLocation] = useState<LocationType | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [address, setAddress] = useState<string | null>(null);
+  const [res, setRes] = useState<any>(null); // New state for storing API response
 
   useEffect(() => {
     const getLocation = async () => {
@@ -27,10 +30,39 @@ const SimpleMap = () => {
         let { coords } = await Location.getCurrentPositionAsync({
           accuracy: Location.Accuracy.High,
         });
-        setLocation({
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-        });
+
+        const reverseGeocode = async (latitude: number, longitude: number): Promise<any> => {
+          const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`;
+          try {
+            const response = await axios.get(url);
+            return response.data;
+          } catch (error) {
+            console.error(error);
+            return null;
+          }
+        };
+
+        const geocodeData = await reverseGeocode(coords.latitude, coords.longitude);
+
+        if (geocodeData) {
+          const locationData = {
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+            address: geocodeData.display_name || 'Address not found',
+            state: geocodeData.address.state || 'State not found',
+            district: geocodeData.address.state_district || 'District not found',
+          };
+
+          setLocation({
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+          });
+          setRes(geocodeData);
+          setAddress(locationData.address);
+
+          // Store data in AsyncStorage
+          await AsyncStorage.setItem('locationData', JSON.stringify(locationData));
+        }
       } catch (error) {
         setErrorMsg('Error fetching location');
       } finally {
@@ -73,9 +105,11 @@ const SimpleMap = () => {
           )}
         </MapView>
       )}
-          <Text>{location?.latitude}</Text>
-          <Text>{location?.longitude}</Text>
-
+      <Text>Latitude: {location?.latitude}</Text>
+      <Text>Longitude: {location?.longitude}</Text>
+      {address && <Text>Address: {address}</Text>}
+      {res?.address?.state && <Text>State: {res.address.state}</Text>}
+      {res?.address?.state_district && <Text>District: {res.address.state_district}</Text>}
     </View>
   );
 };
