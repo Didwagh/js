@@ -1,31 +1,69 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
-import SimpleMap from '@/components/Map';  // Ensure the path is correct
+import SimpleMap from '@/components/Map'; // Ensure the path is correct
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+interface BucketStorage {
+  latitude: string | null;
+  longitude: string | null;
+  state: string | null;
+  district: string | null;
+}
 
 const Home = () => {
   const router = useRouter();
+  const [bucketStorage, setBucketStorage] = useState<BucketStorage>({
+    latitude: null,
+    longitude: null,
+    state: null,
+    district: null,
+  });
+
+  useEffect(() => {
+    const loadLocationData = async () => {
+      try {
+        const data = await AsyncStorage.getItem('locationData');
+        if (data) {
+          const parsedData = JSON.parse(data);
+          setBucketStorage({
+            latitude: parsedData.latitude || 'latitude not found',
+            longitude: parsedData.longitude || 'longitude not found', // Corrected typo
+            state: parsedData.state || 'State not found',
+            district: parsedData.district || 'District not found',
+          });
+        }
+      } catch (error) {
+        console.error('Failed to load location data from AsyncStorage:', error);
+      }
+    };
+
+    loadLocationData();
+  }, []);
 
   const handlePress = () => {
-    router.navigate('/(root)/searchBar');  
+    router.navigate('/(root)/searchBar');
   };
 
   const handleSearchFocus = () => {
-    router.navigate('/(root)/searchBar');  
+    router.navigate('/(root)/searchBar');
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchContainer}>
-        <TextInput 
-          style={styles.searchInput} 
+        <TextInput
+          style={styles.searchInput}
           placeholder="Search"
-          onFocus={handleSearchFocus}  
+          onFocus={handleSearchFocus}
         />
         <Button title="Search" onPress={handlePress} />
       </View>
-      <Text style={styles.text}>Home</Text>
+      <Text style={styles.text}>State: {bucketStorage.state}</Text>
+      <Text style={styles.text}>District: {bucketStorage.district}</Text>
+      <Text style={styles.text}>Latitude: {bucketStorage.latitude}</Text>
+      <Text style={styles.text}>Longitude: {bucketStorage.longitude}</Text>
       <SimpleMap />
     </SafeAreaView>
   );
@@ -40,20 +78,20 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   searchContainer: {
-    flexDirection: 'row',  // Align children horizontally
-    alignItems: 'center',  // Center vertically
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 20,
-    width: '100%',          // Ensure the container uses full width
+    width: '100%',
   },
   searchInput: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    flex: 1,               // Take up remaining space in the row
-    marginRight: 10,       // Space between the input and button
+    flex: 1,
+    marginRight: 10,
     paddingHorizontal: 10,
   },
 });

@@ -14,8 +14,6 @@ const SimpleMap = () => {
   const [location, setLocation] = useState<LocationType | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [address, setAddress] = useState<string | null>(null);
-  const [res, setRes] = useState<any>(null); // New state for storing API response
 
   useEffect(() => {
     const getLocation = async () => {
@@ -31,7 +29,7 @@ const SimpleMap = () => {
           accuracy: Location.Accuracy.High,
         });
 
-        const reverseGeocode = async (latitude: number, longitude: number): Promise<any> => {
+        const reverseGeocode = async (latitude: number, longitude: number) => {
           const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`;
           try {
             const response = await axios.get(url);
@@ -48,7 +46,6 @@ const SimpleMap = () => {
           const locationData = {
             latitude: coords.latitude,
             longitude: coords.longitude,
-            address: geocodeData.display_name || 'Address not found',
             state: geocodeData.address.state || 'State not found',
             district: geocodeData.address.state_district || 'District not found',
           };
@@ -57,8 +54,6 @@ const SimpleMap = () => {
             latitude: coords.latitude,
             longitude: coords.longitude,
           });
-          setRes(geocodeData);
-          setAddress(locationData.address);
 
           // Store data in AsyncStorage
           await AsyncStorage.setItem('locationData', JSON.stringify(locationData));
@@ -105,11 +100,13 @@ const SimpleMap = () => {
           )}
         </MapView>
       )}
-      <Text>Latitude: {location?.latitude}</Text>
-      <Text>Longitude: {location?.longitude}</Text>
-      {address && <Text>Address: {address}</Text>}
-      {res?.address?.state && <Text>State: {res.address.state}</Text>}
-      {res?.address?.state_district && <Text>District: {res.address.state_district}</Text>}
+      {location && (
+        <>
+          <Text>Latitude: {location.latitude}</Text>
+          <Text>Longitude: {location.longitude}</Text>
+        </>
+      )}
+    
     </View>
   );
 };
