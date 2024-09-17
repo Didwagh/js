@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Button, TextInput } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Button, TextInput, ActivityIndicator } from 'react-native';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useThemeColor } from '@/hooks/useThemeColor';
+import DisasterNearMe from '@/components/DisasterMe';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useThemeColor } from '@/hooks/useThemeColor'; 
+interface BucketStorage {
+  latitude: string | null;
+  longitude: string | null;
+  state: string | null;
+  district: string | null;
+}
 
-// Define types for the event data
 interface Event {
   id: string;
   title: string;
@@ -18,15 +26,14 @@ interface Event {
       coordinates?: [number, number];
     };
     address?: {
-      city?: string; // Add city
-      district?: string; // Add district
+      city?: string;
+      district?: string;
       country_code?: string;
     };
   };
   timezone?: string;
   state?: string;
 }
-
 
 const API_KEY = 'HFEefhit2ZKqfj_IKjCrJU-07wG4_7R7tMJnrorz';
 const BASE_URL = 'https://api.predicthq.com/v1';
@@ -43,8 +50,35 @@ const Index: React.FC = () => {
   const backgroundColor = useThemeColor({ light: '#ffffff', dark: '#000000' }, 'background');
   const textColor = useThemeColor({ light: '#000000', dark: '#ffffff' }, 'text');
 
+  // BucketStorage
+  const [bucketStorage, setBucketStorage] = useState<BucketStorage>({
+    latitude: null,
+    longitude: null,
+    state: null,
+    district: null,
+  });
 
-  // Function to fetch events
+  useEffect(() => {
+    const loadLocationData = async () => {
+      try {
+        const data = await AsyncStorage.getItem('locationData');
+        if (data) {
+          const parsedData = JSON.parse(data);
+          setBucketStorage({
+            latitude: parsedData.latitude || 'latitude not found',
+            longitude: parsedData.longitude || 'longitude not found',
+            state: parsedData.state || 'State not found',
+            district: parsedData.district || 'District not found',
+          });
+        }
+      } catch (error) {
+        console.error('Failed to load location data from AsyncStorage:', error);
+      }
+    };
+
+    loadLocationData();
+  }, []);
+
   const fetchEvents = async (url: string) => {
     try {
       const response = await axios.get(url, {
@@ -53,7 +87,6 @@ const Index: React.FC = () => {
         },
       });
 
-      // Filter out duplicate events and events not in the 'disasters' category
       setEvents(prevEvents => [
         ...prevEvents,
         ...response.data.results.filter((event: Event) =>
@@ -70,17 +103,16 @@ const Index: React.FC = () => {
     }
   };
 
-  // Function to fetch events based on location
   const fetchAllEvents = async () => {
     if (!query) return;
 
-    setLoading(true); // Set loading to true when starting a new fetch
-    setEvents([]); // Clear existing events
+    setLoading(true);
+    setEvents([]);
 
     let url = `${BASE_URL}/events?q=${encodeURIComponent(query)}&limit=10&sort=start&category=disasters`;
     while (url) {
       await fetchEvents(url);
-      url = nextUrl || ""; // Update URL for the next page
+      url = nextUrl || "";
     }
   };
 
@@ -91,7 +123,7 @@ const Index: React.FC = () => {
   }, [query]);
 
   const handleSearch = () => {
-    setQuery(location); // Set query to trigger data fetch
+    setQuery(location);
   };
 
   const loadMoreEvents = () => {
@@ -101,70 +133,74 @@ const Index: React.FC = () => {
     }
   };
 
-  if (loading && !events.length) {
-    return (
-      <View style={[styles.container, { backgroundColor }]}>
-        <Text style={{ color: textColor }}>Loading...</Text>
-      </View>
-    );
-  }
+  const handleEventsFetched = (newEvents: Event[]) => {
+    setEvents(newEvents);
+  };
 
-  if (error) {
-    return (
-      <View style={[styles.container, { backgroundColor }]}>
-        <Text style={{ color: textColor }}>Error: {error}</Text>
-      </View>
-    );
-  }
+  const handleError = (error: string) => {
+    setError(error);
+  };
+
+  const handleLoading = (loading: boolean) => {
+    setLoading(loading);
+  };
 
   return (
-    <View style={[styles.container, { backgroundColor }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor }]}>
       <View style={styles.searchContainer}>
         <TextInput
-          style={[
-            styles.input,
-            { borderColor: textColor, color: textColor } // Apply text color and border color based on theme
-          ]}
+          style={[styles.input, { borderColor: textColor, color: textColor }]}
           placeholder="Enter location (e.g., Mumbai, India)"
-          placeholderTextColor={textColor} // Apply placeholder color based on theme
+          placeholderTextColor={textColor}
           value={location}
           onChangeText={setLocation}
         />
-       <Button title="Search" onPress={handleSearch} />
+        <Button title="Search" onPress={handleSearch} />
       </View>
-
-
-      {events.length > 0 ? (
-        <FlatList
-          data={events}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={[styles.event, { backgroundColor: textColor }]}>
-              <Text style={{ color: backgroundColor }}>{item.title}</Text>
-              <Text style={{ color: backgroundColor }}>Date: {item.start}</Text>
-              <Text style={{ color: backgroundColor }}>Category: {item.category || 'Not available'}</Text>
-              {item.labels && item.labels.length > 0 && (
-                <Text style={{ color: backgroundColor }}>Labels: {item.labels.join(', ')}</Text>
-              )}
-              {item.geo?.address?.city || item.geo?.address?.district ? (
-                <Text style={{ color: backgroundColor }}>Location: {item.geo.address.city || item.geo.address.district}</Text>
-              ) : (
-                <Text style={{ color: backgroundColor }}>Location: Not available</Text>
-              )}
-              {item.timezone && <Text style={{ color: backgroundColor }}>Timezone: {item.timezone}</Text>}
-              {item.state && <Text style={{ color: backgroundColor }}>Status: {item.state}</Text>}
-            </View>
-          )}
-        />
+      <DisasterNearMe
+        onEventsFetched={handleEventsFetched}
+        onError={handleError}
+        onLoading={handleLoading}
+        bucketStorage={bucketStorage}
+      />
+      {loading && !events.length ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={textColor} />
+          <Text style={{ color: textColor, marginTop: 8 }}>Loading...</Text>
+        </View>
       ) : (
-        <Text style={{ color: textColor }}>No events found.</Text>
+        <>
+          {events.length > 0 ? (
+            <FlatList
+              data={events}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={[styles.event, { backgroundColor: textColor }]}>
+                  <Text style={{ color: backgroundColor }}>{item.title}</Text>
+                  <Text style={{ color: backgroundColor }}>Date: {item.start}</Text>
+                  <Text style={{ color: backgroundColor }}>Category: {item.category || 'Not available'}</Text>
+                  {item.labels && item.labels.length > 0 && (
+                    <Text style={{ color: backgroundColor }}>Labels: {item.labels.join(', ')}</Text>
+                  )}
+                  {item.geo?.address?.city || item.geo?.address?.district ? (
+                    <Text style={{ color: backgroundColor }}>Location: {item.geo.address.city || item.geo.address.district}</Text>
+                  ) : (
+                    <Text style={{ color: backgroundColor }}>Location: Not available</Text>
+                  )}
+                  {item.timezone && <Text style={{ color: backgroundColor }}>Timezone: {item.timezone}</Text>}
+                  {item.state && <Text style={{ color: backgroundColor }}>Status: {item.state}</Text>}
+                </View>
+              )}
+            />
+          ) : (
+            <Text style={{ color: textColor }}>No events found.</Text>
+          )}
+          {nextUrl && events.length >= 10 && (
+            <Button title="Load More" onPress={loadMoreEvents} />
+          )}
+        </>
       )}
-      {nextUrl && events.length >= 10 && (
-        <Button title="Load More" onPress={loadMoreEvents} />
-      )}
-
-
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -185,16 +221,17 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 8,
   },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
   event: {
     marginBottom: 16,
     padding: 16,
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 8,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
