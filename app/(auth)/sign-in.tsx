@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
-
 const SignIn = () => {
   const router = useRouter();
-
   const handlePress = () => {
     router.navigate('/(root)/(tabs)/home');  
   };
