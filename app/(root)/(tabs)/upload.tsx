@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Button, Text, Alert, TextInput } from 'react-native';
-import * as DocumentPicker from 'expo-document-picker'; // Ensure you install this package
-import { uploadVideo, createDisasterReport } from '@/lib/appwrite'; // Adjust the import path
+import { View, Button, Text, Alert, TextInput, StyleSheet } from 'react-native';
+import * as DocumentPicker from 'expo-document-picker'; 
+import { uploadVideo, createDisasterReport } from '@/lib/appwrite'; 
+import { Video, ResizeMode } from 'expo-av'; 
 
 const VideoUploader: React.FC = () => {
   const [videoUri, setVideoUri] = useState<string | null>(null);
@@ -14,11 +15,10 @@ const VideoUploader: React.FC = () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({ type: 'video/*' });
 
-      // Check if the result is successful
+      
       if (result.assets && result.assets.length > 0) {
-        const { uri, mimeType } = result.assets[0]; // Accessing the first asset
+        const { uri } = result.assets[0]; 
         setVideoUri(uri);
-        console.log('MIME Type:', mimeType); // Log the MIME type
       } else {
         Alert.alert('No video selected');
       }
@@ -50,7 +50,7 @@ const VideoUploader: React.FC = () => {
         reporter: reporterId,
       });
 
-      Alert.alert('Upload successful', `Video URL: ${url}`);
+      Alert.alert('Upload successful', `Video uploaded successfully.`);
     } catch (error) {
       console.error('Upload failed:', error);
       Alert.alert('Upload failed');
@@ -60,24 +60,59 @@ const VideoUploader: React.FC = () => {
   };
 
   return (
-    <View style={{ padding: 20 }}>
+    <View style={styles.container}>
       <TextInput
         placeholder="Enter disaster title"
         value={title}
         onChangeText={setTitle}
-        style={{
-          borderColor: 'gray',
-          borderWidth: 1,
-          marginBottom: 10,
-          padding: 10,
-        }}
+        style={styles.input}
       />
       <Button title="Pick a Video" onPress={pickVideo} />
-      {videoUri && <Text>Selected Video: {videoUri}</Text>}
+      {videoUri && (
+        <View style={styles.videoContainer}>
+          <Text>Selected Video:</Text>
+          <Video
+            source={{ uri: videoUri }}
+            style={styles.video}
+            useNativeControls
+            resizeMode={ResizeMode.CONTAIN} // Use the ResizeMode enum
+            isLooping
+          />
+        </View>
+      )}
       <Button title={uploading ? 'Uploading...' : 'Upload Video'} onPress={handleUpload} disabled={uploading} />
-      {uploadUrl && <Text>Uploaded Video URL: {uploadUrl}</Text>}
+      {uploadUrl && <Text style={styles.uploadedUrl}>Uploaded Video URL: {uploadUrl}</Text>}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f9f9f9',
+  },
+  input: {
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#fff',
+  },
+  videoContainer: {
+    marginVertical: 10,
+  },
+  video: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+    backgroundColor: '#000',
+  },
+  uploadedUrl: {
+    marginTop: 10,
+    color: 'green',
+  },
+});
 
 export default VideoUploader;

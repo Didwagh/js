@@ -15,10 +15,9 @@ export const appwriteConfig = {
   databaseId: "66f65b1b003421eeb2d1",
   userCollectionId: "66f65b65003c84699459",
   disasterCollectionId: "66f65b9d002eb0a0d117",
-  storageId: "66f65d3f000136515646" // Replace with your storage bucket ID
+  storageId: "66f65d3f000136515646" 
 };
 
-// Initialize Appwrite client
 const client = new Client();
 client
   .setEndpoint(appwriteConfig.endpoint)
@@ -27,38 +26,31 @@ client
 
 const account = new Account(client);
 const databases = new Databases(client);
-const storage = new Storage(client); // Initialize Storage client
+const storage = new Storage(client); 
 
-// Function to upload video and return its URL
 export const uploadVideo = async (videoUri: string): Promise<string> => {
   try {
-    // Get video file information
     const fileInfo = await FileSystem.getInfoAsync(videoUri);
     
-    // Check if the file exists
     if (!fileInfo.exists) {
       throw new Error('File does not exist');
     }
 
-    // Ensure name is defined
-    const fileName = fileInfo.uri.split('/').pop() || 'video.mp4'; // Fallback name
+    const fileName = fileInfo.uri.split('/').pop() || 'video.mp4'; 
 
-    // Create a file object with the required structure
     const videoFile = {
-      name: fileName, // Ensure this is a string
-      type: 'video/mp4', // Change this according to your video type
-      size: fileInfo.size || 0, // Default to 0 if size is not available
+      name: fileName, 
+      type: 'video/mp4',
+      size: fileInfo.size || 0, 
       uri: videoUri
     };
 
-    // Upload the video to Appwrite storage
     const response = await storage.createFile(
       appwriteConfig.storageId,
-      ID.unique(), // Generate a unique ID for the file
-      videoFile // Set appropriate permissions
+      ID.unique(), 
+      videoFile 
     );
 
-    // Return the file URL
     const fileUrl = `${appwriteConfig.endpoint}/storage/files/${response.$id}/view`;
     return fileUrl;
   } catch (error) {
@@ -67,19 +59,37 @@ export const uploadVideo = async (videoUri: string): Promise<string> => {
   }
 };
 
-// Function to create a disaster report
 export const createDisasterReport = async (data: { title: string; video: string; reporter: string }) => {
-  console.log(data)
   try {
     const response = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.disasterCollectionId,
-      ID.unique(), // Generate a unique ID for the document
-      data // The data to store in the document
+      ID.unique(), 
+      data 
     );
     return response;
   } catch (error) {
     console.error('Error creating disaster report:', error);
     throw new Error('Failed to create disaster report');
+  }
+};
+
+export const signUp = async (email: string, password: string, name: string) => {
+  try {
+    const response = await account.create(ID.unique(), email, password, name);
+    return response;
+  } catch (error) {
+    console.error('Error signing up:', error);
+    throw new Error('Failed to sign up');
+  }
+};
+
+export const signIn = async (email: string, password: string) => {
+  try {
+    const response = await account.createSession(email, password);
+    return response;
+  } catch (error) {
+    console.error('Error signing in:', error);
+    throw new Error('Failed to sign in');
   }
 };
