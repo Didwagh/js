@@ -55,7 +55,7 @@ export const uploadVideo = async (videoUri: string): Promise<string> => {
     const response = await storage.createFile(
       appwriteConfig.storageId,
       ID.unique(), // Generate a unique ID for the file
-      videoFile, // Set appropriate permissions
+      videoFile // Set appropriate permissions
     );
 
     // Return the file URL
@@ -67,3 +67,19 @@ export const uploadVideo = async (videoUri: string): Promise<string> => {
   }
 };
 
+// Function to create a disaster report
+export const createDisasterReport = async (data: { title: string; video: string; reporter: string }) => {
+  console.log(data)
+  try {
+    const response = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.disasterCollectionId,
+      ID.unique(), // Generate a unique ID for the document
+      data // The data to store in the document
+    );
+    return response;
+  } catch (error) {
+    console.error('Error creating disaster report:', error);
+    throw new Error('Failed to create disaster report');
+  }
+};
