@@ -6,7 +6,7 @@ import {
   Storage,
 } from "react-native-appwrite";
 import * as FileSystem from 'expo-file-system';
-
+//this is all appwrite config dont leak it out 
 // Appwrite configuration
 export const appwriteConfig = {
   endpoint: "https://cloud.appwrite.io/v1",
