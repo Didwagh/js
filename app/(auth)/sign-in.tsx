@@ -1,18 +1,33 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
-
 const SignIn = () => {
   const router = useRouter();
-
   const handlePress = () => {
-    router.navigate('/(root)/(tabs)/home');  // Navigate to the Details page
+    router.navigate('/(root)/(tabs)/home');  
   };
-
+  const [formData, setFormData] = useState({
+    email:"",
+    password:""
+  })
   return (
     <View style={styles.container}>
       <Text style={styles.text}>sign in </Text>
-      <Button title="Go to Details" onPress={handlePress} />
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        placeholderTextColor={"gray"}
+        value={formData.email}
+        onChangeText={(text) => setFormData({ ...formData, email: text })}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="password"
+        placeholderTextColor={"gray"}
+        value={formData.password}
+        onChangeText={(text) => setFormData({ ...formData, password: text })}
+      />
+      <Button title="Login " onPress={handlePress} />
     </View>
   );
 };
@@ -20,12 +35,24 @@ const SignIn = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    backgroundColor: "#282c34",
   },
   text: {
     fontSize: 20,
+    color: "gray",
     marginBottom: 20,
+  },
+  input: {
+    height: 40,
+    borderColor: "white",
+    borderWidth: 1,
+    marginBottom: 15,
+    paddingHorizontal: 10,
+    color: "white",
+    width: "80%",
   },
 });
 

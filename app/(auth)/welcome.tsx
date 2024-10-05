@@ -1,12 +1,12 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import { useRouter } from 'expo-router';
+import React from "react";
+import { StyleSheet, Text, View, Button } from "react-native";
+import { useRouter } from "expo-router";
 
 const welcome = () => {
   const router = useRouter();
 
   const handlePress = () => {
-    router.push('/(auth)/sign-up');  // Navigate to the Details page
+    router.push("/(auth)/sign-up"); // Navigate to the Details page
   };
 
   return (
@@ -20,12 +20,13 @@ const welcome = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   text: {
     fontSize: 20,
     marginBottom: 20,
+    color:'gray'
   },
 });
 
