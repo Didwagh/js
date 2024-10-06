@@ -26,7 +26,7 @@ const MoreInfo = ({moreInfo,setMoreInfo,page,lastpage,handleSignup,}:any) => {
       /> */}
 
       <View style={styles.pickerContainer}>
-        <Ionicons name="school-outline" size={20} color="gray" style={styles.icon} />
+        <Ionicons name="school-outline" size={20} color="#333" style={styles.icon} />
         <Picker
           style={styles.picker}
           selectedValue={moreInfo.skill}
@@ -42,7 +42,7 @@ const MoreInfo = ({moreInfo,setMoreInfo,page,lastpage,handleSignup,}:any) => {
       </View>
 
       <View style={styles.pickerContainer}>
-        <Ionicons name="calendar-outline" size={20} color="gray" style={styles.icon} />
+        <Ionicons name="calendar-outline" size={20} color="#333" style={styles.icon} />
         <Picker
           selectedValue={moreInfo.availability}
           style={styles.picker}

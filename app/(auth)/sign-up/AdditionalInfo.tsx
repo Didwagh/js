@@ -11,7 +11,7 @@ const AdditionalInfo = ({ additionalInfo, setAdditionalInfo }: any) => {
       <Text style={styles.text}>Additional Information</Text>
       
       <View style={styles.inputContainer}>
-        <Ionicons name="home-outline" size={24} color="gray" style={styles.icon} />
+        <Ionicons name="home-outline" size={24} color="#333" style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Enter your Permanent Address"
@@ -26,7 +26,7 @@ const AdditionalInfo = ({ additionalInfo, setAdditionalInfo }: any) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Ionicons name="business-outline" size={24} color="gray" style={styles.icon} />
+        <Ionicons name="business-outline" size={24} color="#333" style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="City"
@@ -41,7 +41,7 @@ const AdditionalInfo = ({ additionalInfo, setAdditionalInfo }: any) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Ionicons name="map-outline" size={24} color="gray" style={styles.icon} />
+        <Ionicons name="map-outline" size={24} color="#333" style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="State"
@@ -56,7 +56,7 @@ const AdditionalInfo = ({ additionalInfo, setAdditionalInfo }: any) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Ionicons name="earth-outline" size={24} color="gray" style={styles.icon} />
+        <Ionicons name="earth-outline" size={24} color="#333" style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Country"
