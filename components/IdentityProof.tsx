@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { View, Button, Image, StyleSheet } from "react-native";
+import { View, Button, TouchableOpacity, Text, Image, StyleSheet } from "react-native";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import { PermissionsAndroid } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
+
 const IdentityProof = () => {
   const [imageUri, setImageUri] = useState(null);
   const options:any = {
@@ -88,8 +90,18 @@ const IdentityProof = () => {
 
   return (
     <View style={styles.container}>
-      <Button title="Choose Image" onPress={chooseImage} />
-      <Button title="Take Photo" onPress={takePhoto} />
+      <Text style={styles.text}>Upload Identity Proof</Text>
+      
+      <TouchableOpacity style={styles.buttonContainer} onPress={chooseImage}>
+        <Ionicons name="image-outline" size={24} color="white" />
+        <Text style={styles.buttonText}>Choose Image</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.buttonContainer} onPress={takePhoto}>
+        <Ionicons name="camera-outline" size={24} color="white" />
+        <Text style={styles.buttonText}>Take Photo</Text>
+      </TouchableOpacity>
+      
       {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
     </View>
   );
@@ -99,13 +111,43 @@ export default IdentityProof;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  text: {
+    fontSize: 24,
+    marginBottom: 5,
+    marginTop: 20,
+    color: "#333",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 10,
+    backgroundColor: '#6A92D5', 
+    borderRadius: 5,
+    padding: 10,
+    width: 130,
+    height: 50, 
+  },
+  buttonText: {
+    fontSize: 12,
+    marginLeft: 10,
+    color: '#fff',
+    fontWeight: 'bold',
   },
   image: {
     width: 200,
     height: 200,
     marginTop: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+  },
+  icon: {
+    marginRight: 10,
   },
 });
