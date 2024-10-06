@@ -1,160 +1,75 @@
-import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TextInput,
-  Dimensions,
-} from "react-native";
-import { useRouter } from "expo-router";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Picker } from "@react-native-picker/picker";
-import ButtonComponent from "@/components/ButtonComponet";
-import PersonalInfo from "./PersonalInfo";
-import AdditionalInfo from "./AdditionalInfo";
-import EmergencyInfo from "./EmergencyInfo";
-import MoreInfo from "./MoreInfo";
+import React, { useState } from "react";
+import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { signUp } from "@/lib/appwrite"; // Adjust the import path
+import { useRouter } from 'expo-router';
 
-var { width, height } = Dimensions.get("screen");
-const Signup = () => {
+const SignupPage: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+
   const router = useRouter();
-  const [page, setPage] = useState(1);
-  const [lastpage, setLastpage] = useState(3);
-  const [role, setRole] = useState("");
-  const [showSignupBtn, setShowSignupBtn] = useState(false);
-  const [personalInfo, setPersonalInfo] = useState({
-    name: "",
-    email: "",
-    gender: "",
-    dob: "",
-    mobile: "",
-    password: "",
-    role: "Volunteer",
-  });
-  const [additionalInfo, setAdditionalInfo] = useState({
-    address: "",
-    city: "",
-    state: "",
-    country: "",
-  });
-  const [emergencyInfo, setEmergencyInfo] = useState({
-    emergencyContactName: "",
-    emergencyContact: "",
-    emergencyRelationWithContact: "",
-  });
 
-  const [moreInfo, setMoreInfo] = useState({
-    skill: "", //First Aid, Search and Rescue, Logistics
-    availability: "", //full-time/part-time, hours of availability
-  });
 
-  useEffect(() => {
-    if (role == "Volunteer" || role == "NGO" || role == "Relief Worker") {
-      setLastpage(4);
-    } else {
-      setLastpage(3);
+  const handleSignup = async () => {
+    router.navigate('/(auth)/sign-in');
+    try {
+     const respone = await signUp(email, password, name);
+      // Alert.alert("Success", "User registered successfully!"  );
+      Alert.alert("" , respone.$id  );
+      
+    } catch (error: any) { // Cast error to 'any'
+      Alert.alert("Error", error.message || "Registration failed!");
     }
-  }, [role]);
-
-  const handleSignup = () => {
-    // Handle signup logic here (e.g., API call)
-    console.log("Signing up with:", { ...personalInfo, ...AdditionalInfo });
-    router.push("/(auth)/sign-in"); // Navigate to Sign In page
   };
-  const handleDateChange = () => {};
-  // GPS Coordinates (if relevant for real-time location tracking)
-  // Role or Purpose of Registration
-  // User Type (e.g., Volunteer, Relief Worker, Victim/Survivor, Coordinator)
-  // Skills or Expertise (e.g., First Aid, Search and Rescue, Logistics)
+
   return (
-    <GestureHandlerRootView>
-      <View style={styles.container}>
-        {page === 1 && (
-          <View>
-            <PersonalInfo
-              personalInfo={personalInfo}
-              setPersonalInfo={setPersonalInfo}
-              role={role}
-              setRole={setRole}
-              setLastpage={setLastpage}
-            />
-            <ButtonComponent
-              page={page}
-              lastPage={lastpage}
-              setPage={setPage}
-            />
-          </View>
-        )}
-
-        {page === 2 && (
-          <View>
-            <AdditionalInfo
-              additionalInfo={additionalInfo}
-              setAdditionalInfo={setAdditionalInfo}
-            />
-            <ButtonComponent
-              page={page}
-              lastPage={lastpage}
-              setPage={setPage}
-            />
-          </View>
-        )}
-
-        {page === 3 && (
-          <View>
-            <EmergencyInfo
-              emergencyInfo={emergencyInfo}
-              setEmergencyInfo={setEmergencyInfo}
-              page={page}
-              lastpage={lastpage}
-              handleSignup={handleSignup}
-            />
-            <ButtonComponent
-              page={page}
-              lastPage={lastpage}
-              setPage={setPage}
-            />
-          </View>
-        )}
-
-        {page === 4 && (
-          <View>
-            <MoreInfo
-              moreInfo={moreInfo}
-              setMoreInfo={setMoreInfo}
-              page={page}
-              lastpage={lastpage}
-              handleSignup={handleSignup}
-            />
-            <ButtonComponent
-              page={page}
-              setPage={setPage}
-              lastPage={lastpage}
-            />
-          </View>
-        )}
-      </View>
-    </GestureHandlerRootView>
+    <View style={styles.container}>
+      <Text style={styles.title}>Sign Up</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Name"
+        value={name}
+        onChangeText={setName}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+      <Button title="Register" onPress={handleSignup} />
+    </View>
   );
 };
-
-export default Signup;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: "#282c34",
-    // backgroundColor: "#f0f4f8",
+    padding: 16,
   },
-  page: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: width * 0.8,
-    height: height,
+  title: {
+    fontSize: 24,
+    marginBottom: 16,
+    textAlign: "center",
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    marginBottom: 12,
+    paddingLeft: 8,
   },
 });
+
+export default SignupPage;

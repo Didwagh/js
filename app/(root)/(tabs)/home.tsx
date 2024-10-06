@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import SimpleMap from '@/components/Map'; // Ensure the path is correct
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { checkSession } from '@/lib/appwrite';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface BucketStorage {
@@ -49,6 +50,9 @@ const Home = () => {
   const handleSearchFocus = () => {
     router.navigate('/(root)/searchBar');
   };
+
+  
+  
 
   return (
     <SafeAreaView style={styles.container}>
