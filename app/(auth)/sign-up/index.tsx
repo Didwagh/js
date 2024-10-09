@@ -20,7 +20,7 @@ var { width, height } = Dimensions.get("screen");
 const Signup = () => {
   const router = useRouter();
   const [page, setPage] = useState(1);
-  const [lastpage, setLastpage] = useState(3);
+  const [lastpage, setLastpage] = useState(4);
   const [role, setRole] = useState("");
   const [showSignupBtn, setShowSignupBtn] = useState(false);
   const [personalInfo, setPersonalInfo] = useState({
@@ -30,7 +30,7 @@ const Signup = () => {
     dob: "",
     mobile: "",
     password: "",
-    role: "Volunteer",
+    role: "",
   });
   const [additionalInfo, setAdditionalInfo] = useState({
     address: "",
@@ -49,13 +49,13 @@ const Signup = () => {
     availability: "", //full-time/part-time, hours of availability
   });
 
-  useEffect(() => {
-    if (role == "Volunteer" || role == "NGO" || role == "Relief Worker") {
-      setLastpage(4);
-    } else {
-      setLastpage(3);
-    }
-  }, [role]);
+  // useEffect(() => {
+  //   if (role == "User" || role == "Volunteer" || role == "NGO" || role == "Relief Worker") {
+  //     setLastpage(4);
+  //   } else {
+  //     setLastpage(3);
+  //   }
+  // }, [role]);
 
   const handleSignup = () => {
     // Handle signup logic here (e.g., API call)
