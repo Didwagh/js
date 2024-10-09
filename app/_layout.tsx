@@ -3,6 +3,7 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import  GlobalProvider  from '@/context/GlobalProvider';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -27,6 +28,7 @@ export default function RootLayout() {
   }
 
   return (
+    <GlobalProvider>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -35,5 +37,6 @@ export default function RootLayout() {
         <Stack.Screen name="+not-found" />
       </Stack>
     </ThemeProvider>
+    </GlobalProvider>
   );
 }
