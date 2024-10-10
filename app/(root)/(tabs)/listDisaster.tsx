@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, ActivityIndicator, Alert, Button } from 'react-native';
 import { Client, Databases, Models } from "react-native-appwrite"; 
-import { getUnapprovedDisasterReports } from '@/lib/appwrite'; 
+import { getUnapprovedDisasterReports, updateDisasterReportApproval } from '@/lib/appwrite'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useGlobalContext } from '@/context/GlobalProvider'; 
 import { appwriteConfig } from '@/lib/appwrite'; 
@@ -71,12 +71,7 @@ const DisasterReports = () => {
 
   const updateReportApproval = async (reportId: string, approvedBy: string) => {
     try {
-      await databases.updateDocument(
-        appwriteConfig.databaseId,
-        appwriteConfig.disasterCollectionId,
-        reportId,
-        { approvedBy }
-      );
+      await updateDisasterReportApproval(reportId, approvedBy);
 
       // Filter out the report from the state
       setReports((prevReports) =>
