@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
-// import { registerUser } from "@/lib/appwrite"; // Adjust the import path
+import { createUser } from "@/lib/appwrite"; // Adjust the import path
 import { useRouter } from 'expo-router';
 
 const SignupPage: React.FC = () => {
@@ -13,13 +13,14 @@ const SignupPage: React.FC = () => {
 
   const handleSignup = async () => {
     router.navigate('/(auth)/sign-in');
-    // try {
-    //  const respone = await registerUser(email, password, name);
-    //   // Alert.alert("Success", "User registered successfully!"  );
-    //   Alert.alert("" , respone.$id );
-    // } catch (error: any) { // Cast error to 'any'
-    //   Alert.alert("Error", error.message || "Registration failed!");
-    // }
+    try {
+     const respone = await createUser(email, password, name);
+      // Alert.alert("Success", "User registered successfully!"  );
+      Alert.alert("" , respone.$id  );
+      
+    } catch (error: any) { // Cast error to 'any'
+      Alert.alert("Error", error.message || "Registration failed!");
+    }
   };
 
   return (
