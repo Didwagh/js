@@ -29,6 +29,13 @@ const Layout = () => {
           headerShown: false,
         }}
       />
+      <Tabs.Screen
+        name="listDisaster"
+        options={{
+          title: 'listDisaster',
+          headerShown: false,
+        }}
+      />
     </Tabs>
   );
 };

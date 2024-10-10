@@ -1,34 +1,40 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from "react-native";
 import { useRouter } from "expo-router";
 import { useGlobalContext } from "@/context/GlobalProvider";
 import { signOut } from "@/lib/appwrite";
 
 const Welcome = () => {
-  const { loading, isLogged, setIsLogged } = useGlobalContext(); // Make sure to have a way to set login state
+  const { loading, isLogged, setIsLogged } = useGlobalContext();
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!loading && isLogged) {
-      router.push("/(root)/(tabs)/home");
+    setMounted(true); // Set mounted to true when the component is ready
+  }, []);
+
+  useEffect(() => {
+    if (mounted && !loading) {
+      if (isLogged) {
+        router.push("/(root)/(tabs)/home");
+      }
     }
-  }, [loading, isLogged, router]);
+  }, [loading, isLogged, mounted, router]);
 
   const handlePress = () => {
-    router.push("/(auth)/sign-up"); // Navigate to the Sign Up page
+    router.push("/(auth)/sign-up");
   };
 
   const handlePressLogin = () => {
-    router.push("/(auth)/sign-in"); // Navigate to the Sign In page
+    router.push("/(auth)/sign-in");
   };
 
   const handlePressLogout = async () => {
     try {
       await signOut();
-      setIsLogged(false); // Update the global context to reflect that the user is logged out
+      setIsLogged(false);
       Alert.alert("Logged Out", "You have successfully logged out.");
-      router.push("/(auth)/sign-up"); // Redirect to sign-in page after logout
-      // router.push("/(auth)/sign-in"); // Redirect to sign-in page after logout
+      router.push("/(auth)/sign-in"); // Redirect to sign-in page after logout
     } catch (error) {
       Alert.alert("Logout Failed", );
     }
@@ -37,7 +43,7 @@ const Welcome = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: 'https://example.com/welcome-image.png' }} // Add your own image URL or local asset
+        source={{ uri: 'https://example.com/welcome-image.png' }}
         style={styles.image}
       />
       <Text style={styles.title}>Welcome to Disaster Relief Coordination</Text>
