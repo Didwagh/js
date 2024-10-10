@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
-import SimpleMap from '@/components/Map'; // Ensure the path is correct
+import SimpleMap from '@/components/Map';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useGlobalContext } from '@/context/GlobalProvider'; // Adjust the path as necessary
+import { useGlobalContext } from '@/context/GlobalProvider';
+import AddressAlertModal from '@/components/AddressAlertModal'; // Adjust the path as necessary
 
 interface BucketStorage {
   latitude: string | null;
   longitude: string | null;
   state: string | null;
   district: string | null;
+  city: string | null;
 }
 
 const Home = () => {
   const router = useRouter();
-  const { user } = useGlobalContext(); // Retrieve user from context
+  const { user } = useGlobalContext();
   const [bucketStorage, setBucketStorage] = useState<BucketStorage>({
     latitude: null,
     longitude: null,
     state: null,
     district: null,
+    city: null,
   });
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const loadLocationData = async () => {
@@ -34,6 +38,7 @@ const Home = () => {
             longitude: parsedData.longitude || 'longitude not found',
             state: parsedData.state || 'State not found',
             district: parsedData.district || 'District not found',
+            city: parsedData.city || 'District not found',
           });
         }
       } catch (error) {
@@ -43,9 +48,9 @@ const Home = () => {
 
     loadLocationData();
 
-    // Check for user district and show alert if null
-    if (user && user.district === null) {
-      Alert.alert('No Home Address', 'No home address is saved.');
+    // Check for user district and show modal if empty
+    if (user && user.district === "") {
+      setModalVisible(true);
     }
   }, [user]);
 
@@ -55,6 +60,26 @@ const Home = () => {
 
   const handleSearchFocus = () => {
     router.navigate('/(root)/searchBar');
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const setHomeAddress = async () => {
+    try {
+      const currentLocation = {
+        latitude: bucketStorage.latitude,
+        longitude: bucketStorage.longitude,
+        state: bucketStorage.state,
+        district: bucketStorage.district,
+      };
+      await AsyncStorage.setItem('homeAddress', JSON.stringify(currentLocation));
+      alert('Home address set successfully!');
+    } catch (error) {
+      console.error('Failed to set home address:', error);
+    }
+    closeModal();
   };
 
   return (
@@ -82,9 +107,17 @@ const Home = () => {
 
       <Text style={styles.text}>State: {bucketStorage.state}</Text>
       <Text style={styles.text}>District: {bucketStorage.district}</Text>
+      <Text style={styles.text}>city: {bucketStorage.city}</Text>
       <Text style={styles.text}>Latitude: {bucketStorage.latitude}</Text>
       <Text style={styles.text}>Longitude: {bucketStorage.longitude}</Text>
       <SimpleMap />
+
+      {/* Use the AddressAlertModal component */}
+      <AddressAlertModal 
+        visible={modalVisible} 
+        onClose={closeModal} 
+        onSetHomeAddress={setHomeAddress} 
+      />
     </SafeAreaView>
   );
 };

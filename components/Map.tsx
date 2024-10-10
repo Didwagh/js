@@ -48,6 +48,7 @@ const SimpleMap = () => {
             longitude: coords.longitude,
             state: geocodeData.address.state || 'State not found',
             district: geocodeData.address.state_district || 'District not found',
+            city: geocodeData.address.city || geocodeData.address.town || 'City not found',
           };
 
           setLocation({
@@ -106,7 +107,6 @@ const SimpleMap = () => {
           <Text>Longitude: {location.longitude}</Text>
         </>
       )}
-    
     </View>
   );
 };
