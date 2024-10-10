@@ -5,7 +5,8 @@ import SimpleMap from '@/components/Map';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useGlobalContext } from '@/context/GlobalProvider';
-import AddressAlertModal from '@/components/AddressAlertModal'; // Adjust the path as necessary
+import AddressAlertModal from '@/components/AddressAlertModal';
+import { updateUserLocation } from '@/lib/appwrite'; // Import the function to update user location
 
 interface BucketStorage {
   latitude: string | null;
@@ -38,7 +39,7 @@ const Home = () => {
             longitude: parsedData.longitude || 'longitude not found',
             state: parsedData.state || 'State not found',
             district: parsedData.district || 'District not found',
-            city: parsedData.city || 'District not found',
+            city: parsedData.city || 'City not found',
           });
         }
       } catch (error) {
@@ -68,19 +69,31 @@ const Home = () => {
 
   const setHomeAddress = async () => {
     try {
+      const locationData = await AsyncStorage.getItem('locationData');
+      const parsedLocationData = locationData ? JSON.parse(locationData) : null;
+  
       const currentLocation = {
         latitude: bucketStorage.latitude,
         longitude: bucketStorage.longitude,
         state: bucketStorage.state,
-        district: bucketStorage.district,
+        district: parsedLocationData?.district || '',
+        city: parsedLocationData?.city || '',
       };
+  
       await AsyncStorage.setItem('homeAddress', JSON.stringify(currentLocation));
       alert('Home address set successfully!');
+  
+      // Update user location in the database
+      await updateUserLocation({
+        city: currentLocation.city,
+        district: currentLocation.district,
+      });
     } catch (error) {
       console.error('Failed to set home address:', error);
     }
     closeModal();
   };
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -107,7 +120,7 @@ const Home = () => {
 
       <Text style={styles.text}>State: {bucketStorage.state}</Text>
       <Text style={styles.text}>District: {bucketStorage.district}</Text>
-      <Text style={styles.text}>city: {bucketStorage.city}</Text>
+      <Text style={styles.text}>City: {bucketStorage.city}</Text>
       <Text style={styles.text}>Latitude: {bucketStorage.latitude}</Text>
       <Text style={styles.text}>Longitude: {bucketStorage.longitude}</Text>
       <SimpleMap />
