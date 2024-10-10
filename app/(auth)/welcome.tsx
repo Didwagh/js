@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from "react-native";
 import { useRouter } from "expo-router";
 import { useGlobalContext } from "@/context/GlobalProvider";
+import { signOut } from "@/lib/appwrite";
 
 const Welcome = () => {
-  const { loading, isLogged } = useGlobalContext();
+  const { loading, isLogged, setIsLogged } = useGlobalContext(); // Make sure to have a way to set login state
   const router = useRouter();
 
   useEffect(() => {
@@ -19,6 +20,18 @@ const Welcome = () => {
 
   const handlePressLogin = () => {
     router.push("/(auth)/sign-in"); // Navigate to the Sign In page
+  };
+
+  const handlePressLogout = async () => {
+    try {
+      await signOut();
+      setIsLogged(false); // Update the global context to reflect that the user is logged out
+      Alert.alert("Logged Out", "You have successfully logged out.");
+      router.push("/(auth)/sign-up"); // Redirect to sign-in page after logout
+      // router.push("/(auth)/sign-in"); // Redirect to sign-in page after logout
+    } catch (error) {
+      Alert.alert("Logout Failed", );
+    }
   };
 
   return (
@@ -41,6 +54,9 @@ const Welcome = () => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonContainer} onPress={handlePressLogin}>
           <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonContainer} onPress={handlePressLogout}>
+          <Text style={styles.buttonText}>Logout</Text>
         </TouchableOpacity>
       </View>
     </View>
