@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useGlobalContext } from '@/context/GlobalProvider';
 import AddressAlertModal from '@/components/AddressAlertModal';
-import { updateUserLocation } from '@/lib/appwrite'; // Import the function to update user location
+import { getUsersWithTokens, sendPushNotification, updateUserLocation } from '@/lib/appwrite'; // Import the function to update user location
 
 interface BucketStorage {
   latitude: string | null;
@@ -27,6 +27,27 @@ const Home = () => {
     city: null,
   });
   const [modalVisible, setModalVisible] = useState(false);
+
+  const fetchUsers = async () => {
+    try {
+      const usersWithTokens = await getUsersWithTokens();
+      console.log(usersWithTokens);
+  
+      // Check if there are tokens and send notifications
+      if (usersWithTokens.length > 0) {
+        for (const user of usersWithTokens) {
+          await sendPushNotification(user.token); // Extract the token directly
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch users:', error);
+    }
+  };
+  
+  // Call the function, for example, when a component mounts
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   useEffect(() => {
     const loadLocationData = async () => {
