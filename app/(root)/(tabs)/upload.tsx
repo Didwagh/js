@@ -5,6 +5,7 @@ import { uploadVideo, createDisasterReport } from '@/lib/appwrite';
 import { Video, ResizeMode } from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useGlobalContext } from "@/context/GlobalProvider";
+import { Picker } from '@react-native-picker/picker';
 
 const VideoUploader: React.FC = () => {
   const { user } = useGlobalContext();
@@ -12,6 +13,7 @@ const VideoUploader: React.FC = () => {
   const [uploading, setUploading] = useState<boolean>(false);
   const [uploadUrl, setUploadUrl] = useState<string | null>(null);
   const [title, setTitle] = useState<string>('');
+  const [disasterType, setDisasterType] = useState<string>(''); // State for disaster type
 
   const pickVideo = async () => {
     try {
@@ -38,6 +40,10 @@ const VideoUploader: React.FC = () => {
       Alert.alert('Please enter a title for the disaster report');
       return;
     }
+    if (!disasterType) {
+      Alert.alert('Please select a disaster type');
+      return;
+    }
   
     setUploading(true);
     try {
@@ -53,6 +59,7 @@ const VideoUploader: React.FC = () => {
         city: parsedLocationData?.city || '',
         district: parsedLocationData?.district || '',
         approvedBy: '', 
+        disasterType, // Use the selected disaster type
       });
   
       Alert.alert('Upload successful', 'Video uploaded and disaster report created successfully.');
@@ -72,6 +79,15 @@ const VideoUploader: React.FC = () => {
         onChangeText={setTitle}
         style={styles.input}
       />
+      <Picker
+        selectedValue={disasterType}
+        onValueChange={(itemValue) => setDisasterType(itemValue)}
+        style={styles.picker}
+      >
+        <Picker.Item label="Select disaster type" value="" />
+        <Picker.Item label="Natural" value="natural" />
+        <Picker.Item label="Man-Made" value="man-made" />
+      </Picker>
       <Button title="Pick a Video" onPress={pickVideo} />
       {videoUri && (
         <View style={styles.videoContainer}>
@@ -102,6 +118,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#fff',
+  },
+  picker: {
+    height: 50,
+    marginBottom: 10,
+    borderColor: 'gray',
+    borderWidth: 1,
     borderRadius: 5,
     backgroundColor: '#fff',
   },

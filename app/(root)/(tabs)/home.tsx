@@ -28,26 +28,7 @@ const Home = () => {
   });
   const [modalVisible, setModalVisible] = useState(false);
 
-  const fetchUsers = async () => {
-    try {
-      const usersWithTokens = await getUsersWithTokens();
-      console.log(usersWithTokens);
-  
-      // Check if there are tokens and send notifications
-      if (usersWithTokens.length > 0) {
-        for (const user of usersWithTokens) {
-          await sendPushNotification(user.token); // Extract the token directly
-        }
-      }
-    } catch (error) {
-      console.error('Failed to fetch users:', error);
-    }
-  };
-  
-  // Call the function, for example, when a component mounts
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+
 
   useEffect(() => {
     const loadLocationData = async () => {
