@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, Dimensions, Button } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Button } from 'react-native'
 import React from 'react'
 import { TextInput } from 'react-native-gesture-handler';
 import { Picker } from '@react-native-picker/picker';
 import IdentityProof from '@/components/IdentityProof'; 
 const { width, height } = Dimensions.get("screen");
+import { Ionicons } from '@expo/vector-icons';
 
 // 11.	Skills or Expertise (e.g., First Aid, Search and Rescue, Logistics) 
 // 12.	Availability (full-time/part-time, hours of availability) 
@@ -25,6 +26,7 @@ const MoreInfo = ({moreInfo,setMoreInfo,page,lastpage,handleSignup,}:any) => {
       /> */}
 
       <View style={styles.pickerContainer}>
+        <Ionicons name="school-outline" size={20} color="#333" style={styles.icon} />
         <Picker
           style={styles.picker}
           selectedValue={moreInfo.skill}
@@ -36,14 +38,16 @@ const MoreInfo = ({moreInfo,setMoreInfo,page,lastpage,handleSignup,}:any) => {
           <Picker.Item label="First Aid" value="First Aid" />
           <Picker.Item label="Search and Rescue" value="Search and Rescue" />
           <Picker.Item label="Logistics" value="Logistics" />
-        </Picker>    
+        </Picker>
       </View>
+
       <View style={styles.pickerContainer}>
+        <Ionicons name="calendar-outline" size={20} color="#333" style={styles.icon} />
         <Picker
           selectedValue={moreInfo.availability}
           style={styles.picker}
           onValueChange={(itemValue) =>
-            setMoreInfo({ ...moreInfo, availability: itemValue })
+          setMoreInfo({ ...moreInfo, availability: itemValue })
           }
         >
           <Picker.Item label="Select Availability" value="" />
@@ -52,25 +56,25 @@ const MoreInfo = ({moreInfo,setMoreInfo,page,lastpage,handleSignup,}:any) => {
           <Picker.Item label="Hours" value="Hours" />
         </Picker>
       </View>
+
       <IdentityProof/>
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor={"gray"}
-        value={moreInfo.password}
-        onChangeText={(text) => setMoreInfo({ ...moreInfo, password: text })}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor={"gray"}
-        value={moreInfo.password}
-        onChangeText={(text) => setMoreInfo({ ...moreInfo, password: text })}
-      />
+
+      {/* <View style={styles.inputContainer}>
+        <Ionicons name="lock-closed-outline" size={20} color="gray" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor={"gray"}
+          value={moreInfo.password}
+          onChangeText={(text) => setMoreInfo({ ...moreInfo, password: text })}
+          secureTextEntry
+        />
+      </View> */}
+
       {page === lastpage && (
-        <View style={styles.buttonContainer}>
-          <Button title="Sign Up" onPress={handleSignup} />
-        </View>
+        <TouchableOpacity style={styles.buttonContainer} onPress={handleSignup}>
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableOpacity >
       )}
     </View>
   );
@@ -88,38 +92,65 @@ const styles = StyleSheet.create({
     width: width * 0.8,
     height: height,
   },
-  buttonContainer: {
-    marginTop: 20, // Add some space above the button
-    width: "100%", // Ensure the button takes full width
-  },
-  
   pickerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: "#fff",
-    color: "gray",
-    overflow: "hidden",
+    borderColor: "#ccc",
+    borderRadius: 5,
     width: "100%",
-    marginBottom: 10,
-    // backgroundColor:"#000"
+    marginBottom: 15,
+    backgroundColor: "#fff", 
+    paddingHorizontal: 10,
   },
 
   picker: {
-    color: "gray",
+    flex: 1,
+    color: "#ccc",
     height: 50,
     width: "100%",
   },
   text: {
-    fontSize: 20,
+    fontSize: 24,
     marginBottom: 20,
-    color: "gray",
+    color: "#333",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   input: {
+    flex: 1,
     height: 40,
-    borderColor: "white",
+    color: '#333',
+    padding: 5,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#ccc',
     borderWidth: 1,
     marginBottom: 15,
     paddingHorizontal: 10,
-    color: "white",
-    width: "100%",
+    borderRadius: 5,
+    width: '100%',
+    backgroundColor: '#fff',
   },
+  icon: {
+    marginRight: 10,
+  },
+  buttonContainer: {
+    width: '50%',
+    marginTop: 40,
+    marginBottom: 10,
+    borderRadius: 5,
+    backgroundColor: '#4169E1',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 13,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+    
 });

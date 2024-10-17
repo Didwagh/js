@@ -1,6 +1,6 @@
 // SignIn.tsx
 import React, { useState } from 'react';
-import { StyleSheet, Button, Text, View, TextInput, Alert } from 'react-native';
+import { StyleSheet, Button, Text, View, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { signIn } from '@/lib/appwrite'; // Adjust the import path accordingly
@@ -32,31 +32,35 @@ const SignIn: React.FC = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Welcome Back!</Text>
       <View style={styles.inputContainer}>
-        <Ionicons name="mail-outline" size={20} color="gray" style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="gray"
-          value={formData.email}
-          onChangeText={(text) => setFormData({ ...formData, email: text })}
-        />
-      </View>
+          <Ionicons name="mail-outline" size={20} color="gray" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your email address"
+            placeholderTextColor="#ccc"
+            value={formData.email}
+            onChangeText={(text) => setFormData({ ...formData, email: text })}
+            autoCapitalize="none" 
+            keyboardType="email-address"
+          />
+        </View>
+      
+        <View style={styles.inputContainer}>
+          <Ionicons name="lock-closed-outline" size={20} color="gray" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your password"
+            placeholderTextColor="#ccc"
+            value={formData.password}
+            onChangeText={(text) => setFormData({ ...formData, password: text })}
+            secureTextEntry={true}
+            autoCapitalize="none"
+          />
+        </View>
 
-      <View style={styles.inputContainer}>
-        <Ionicons name="lock-closed-outline" size={20} color="gray" style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="gray"
-          value={formData.password}
-          onChangeText={(text) => setFormData({ ...formData, password: text })}
-          secureTextEntry={true}
-        />
-      </View>
+      <TouchableOpacity style={styles.buttonContainer} onPress={handlePress}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity >
 
-      <View style={styles.buttonContainer}>
-        <Button title="Login" onPress={handlePress} color="#4CAF50" />
-      </View>
     </View>
   );
 };
@@ -74,6 +78,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 20,
+    textAlign: 'center',
   },
   inputContainer: {
     flexDirection: 'row',
@@ -93,12 +98,22 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 40,
     color: '#333',
+    padding: 5,
   },
   buttonContainer: {
     width: '50%',
     marginTop: 20,
-    marginBottom: 20,
+    marginBottom: 10,
     borderRadius: 5,
+    backgroundColor: '#4169E1',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 13,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
 

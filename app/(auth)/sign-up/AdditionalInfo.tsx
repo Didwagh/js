@@ -1,6 +1,7 @@
 import { View, Text, Dimensions, StyleSheet } from 'react-native'
 import React from 'react'
 import { TextInput } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
 
 
 const { width, height } = Dimensions.get("screen");
@@ -8,42 +9,67 @@ const AdditionalInfo = ({ additionalInfo, setAdditionalInfo }: any) => {
   return (
     <View style={styles.pageStyle}>
       <Text style={styles.text}>Additional Information</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Address"
-        placeholderTextColor={"gray"}
-        value={additionalInfo.address}
-        onChangeText={(text) =>
-          setAdditionalInfo({ ...additionalInfo, address: text })
-        }
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="City"
-        placeholderTextColor={"gray"}
-        value={additionalInfo.city}
-        onChangeText={(text) =>
-          setAdditionalInfo({ ...additionalInfo, city: text })
-        }
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="State"
-        placeholderTextColor={"gray"}
-        value={additionalInfo.state}
-        onChangeText={(text) =>
-          setAdditionalInfo({ ...additionalInfo, state: text })
-        }
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Country"
-        placeholderTextColor={"gray"}
-        value={additionalInfo.country}
-        onChangeText={(text) =>
-          setAdditionalInfo({ ...additionalInfo, country: text })
-        }
-      />
+      
+      <View style={styles.inputContainer}>
+        <Ionicons name="home-outline" size={24} color="#333" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your Permanent Address"
+          placeholderTextColor="#ccc"
+          value={additionalInfo.address}
+          onChangeText={(text) =>
+            setAdditionalInfo({ ...additionalInfo, address: text })
+          }
+          accessible={true}
+          accessibilityLabel="Address Input"
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Ionicons name="business-outline" size={24} color="#333" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="City"
+          placeholderTextColor="#ccc"
+          value={additionalInfo.city}
+          onChangeText={(text) =>
+            setAdditionalInfo({ ...additionalInfo, city: text })
+          }
+          accessible={true}
+          accessibilityLabel="City Input"
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Ionicons name="map-outline" size={24} color="#333" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="State"
+          placeholderTextColor="#ccc"
+          value={additionalInfo.state}
+          onChangeText={(text) =>
+            setAdditionalInfo({ ...additionalInfo, state: text })
+          }
+          accessible={true}
+          accessibilityLabel="State Input"
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Ionicons name="earth-outline" size={24} color="#333" style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Country"
+          placeholderTextColor="#ccc"
+          value={additionalInfo.country}
+          onChangeText={(text) =>
+            setAdditionalInfo({ ...additionalInfo, country: text })
+          }
+          accessible={true}
+         accessibilityLabel="Country Input"
+        />
+      </View>
+
     </View>
   );
 };
@@ -66,23 +92,30 @@ const styles = StyleSheet.create({
     right: 10,
   },
   text: {
-    // color: "white",
-    fontSize: 20,
+    fontSize: 24,
     marginBottom: 20,
-    color: "gray",
+    color: "#333",
+    fontWeight: "bold",
+    textAlign: "center",
   },
-  input: {
-    height: 40,
-    borderColor: "white",
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#ccc',
     borderWidth: 1,
     marginBottom: 15,
     paddingHorizontal: 10,
-    color: "white",
-    // color: 'rgba(200,250,250,0.6)',
-    width: "100%",
+    borderRadius: 5,
+    width: '100%',
+    backgroundColor: '#fff',
   },
-  infoText: {
-    color: "white",
-    marginBottom: 20,
+  icon: {
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    color: '#333',
+    padding: 5,
   },
 });

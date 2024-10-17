@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { createUser } from "@/lib/appwrite"; // Adjust the import path
 import { useRouter } from 'expo-router';
 import usePushNotification from '@/hooks/usePushNotification'; // Adjust the path to where you saved the hook
@@ -21,9 +21,9 @@ const SignupPage: React.FC = () => {
     }
 
     try {
-      const response = await createUser(email, password, name, expoPushToken); // Pass the token to createUser
+      const response = await createUser(email, password, name, expoPushToken);
       Alert.alert("Success", "User registered successfully! ID: " + response.$id);
-      router.navigate('/(auth)/sign-in');
+      router.push('/(auth)/sign-in');
     } catch (error: any) {
       Alert.alert("Error", error.message || "Registration failed!");
     }
@@ -53,7 +53,9 @@ const SignupPage: React.FC = () => {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title="Register" onPress={handleSignup} />
+      <TouchableOpacity style={styles.button} onPress={handleSignup}>
+        <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -62,19 +64,39 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    padding: 16,
+    alignItems: "center",
+    padding: 20,
+    backgroundColor: "#f7f9fc",
   },
   title: {
     fontSize: 24,
-    marginBottom: 16,
+    marginBottom: 20,
+    fontWeight: 'bold',
+    color: '#333',
     textAlign: "center",
   },
   input: {
-    height: 40,
-    borderColor: "gray",
+    height: 48,
+    borderColor: "#ccc",
     borderWidth: 1,
+    borderRadius: 8,
     marginBottom: 12,
-    paddingLeft: 8,
+    paddingLeft: 10,
+    width: '100%',
+  },
+  button: {
+    backgroundColor: '#4169E1',
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 10,
+    alignItems: 'center',
+    width: '100%',
+  },
+  buttonText: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
 

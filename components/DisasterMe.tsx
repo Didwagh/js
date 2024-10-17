@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, Button, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
@@ -43,7 +43,9 @@ const DisasterNearMe: React.FC<DisasterNearMeProps> = ({ onEventsFetched, onErro
 
   return (
     <View style={styles.container}>
-      <Button title="Disaster Near Me" onPress={fetchDisastersNearMe} />
+      <TouchableOpacity style={styles.button} onPress={fetchDisastersNearMe}>
+        <Text style={styles.buttonText}>Disaster Near Me</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -51,6 +53,19 @@ const DisasterNearMe: React.FC<DisasterNearMeProps> = ({ onEventsFetched, onErro
 const styles = StyleSheet.create({
   container: {
     marginBottom: 16,
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#4CAF50', 
+    paddingVertical: 15, 
+    paddingHorizontal: 20, 
+    borderRadius: 25, 
+  },
+  buttonText: {
+    color: '#fff', 
+    fontSize: 16, 
+    fontWeight: '600', 
+    textAlign: 'center',
   },
 });
 

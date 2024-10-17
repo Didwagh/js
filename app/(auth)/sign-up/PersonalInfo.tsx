@@ -1,7 +1,9 @@
-import { View, Text, Dimensions, StyleSheet } from 'react-native'
+import { View, Text, Dimensions, StyleSheet,Button  } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Picker } from '@react-native-picker/picker';
 import { TextInput } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
+
 // import DatePicker from 'react-native-date-picker';
 
 
@@ -18,24 +20,35 @@ const PersonalInfoPage = ({personalInfo,setPersonalInfo,role,setRole,setLastpage
     <View>
       <View style={styles.pageStyle}>
         <Text style={styles.text}>Personal Information</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Name"
-          placeholderTextColor={"gray"}
-          value={personalInfo.name}
-          onChangeText={(text) =>
-            setPersonalInfo({ ...personalInfo, name: text })
-          }
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor={"gray"}
-          value={personalInfo.email}
-          onChangeText={(text) =>
-            setPersonalInfo({ ...personalInfo, email: text })
-          }
-        />
+        
+        <View style={styles.inputContainer}>
+          <Ionicons name="person-outline" size={20} color="#333" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Full Name"
+            placeholderTextColor="#ccc"
+            value={personalInfo.name}
+            onChangeText={(text) =>
+              setPersonalInfo({ ...personalInfo, name: text })
+            }
+            autoCapitalize="words"
+          />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Ionicons name="mail-outline" size={20} color="#333" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Email Address"
+            placeholderTextColor="#ccc"
+            value={personalInfo.email}
+            onChangeText={(text) =>
+              setPersonalInfo({ ...personalInfo, email: text })
+            }
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
 
         <View style={styles.pickerContainer}>
           <Picker
@@ -51,15 +64,20 @@ const PersonalInfoPage = ({personalInfo,setPersonalInfo,role,setRole,setLastpage
             <Picker.Item label="Other" value="other" />
           </Picker>
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="Date of Birth ex: 27-12-2006"
-          placeholderTextColor={"gray"}
-          value={personalInfo.dob}
-          onChangeText={(text) =>
-            setPersonalInfo({ ...personalInfo, dob: text })
-          }
-        />
+
+        <View style={styles.inputContainer}>
+          <Ionicons name="calendar-outline" size={20} color="#333" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Date of Birth (DD-MM-YYYY)"
+            placeholderTextColor="#ccc"
+            value={personalInfo.dob}
+            onChangeText={(text) =>
+              setPersonalInfo({ ...personalInfo, dob: text })
+            }
+          />
+        </View>
+
         {/* <DatePicker mode='date' date={dob} onDateChange={(value:Date)=>setDob(value)}/> */}
           {/* <TextInput
           style={styles.input}
@@ -76,17 +94,20 @@ const PersonalInfoPage = ({personalInfo,setPersonalInfo,role,setRole,setLastpage
             setPersonalInfo({ ...personalInfo, dob: value.toISOString() }); // Update personalInfo with ISO string
           }}
         /> */}
-        <TextInput
-          style={styles.input}
-          placeholder="Mobile Number"
-          keyboardType="numeric"
-          maxLength={10}
-          placeholderTextColor={"gray"}
-          value={personalInfo.mobile}
-          onChangeText={(text) =>
-            setPersonalInfo({ ...personalInfo, mobile: text })
-          }
-        />
+           <View style={styles.inputContainer}>
+          <Ionicons name="call-outline" size={20} color="#333" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Mobile Number"
+            keyboardType="phone-pad"
+            maxLength={10}
+            placeholderTextColor="#ccc"
+            value={personalInfo.mobile}
+            onChangeText={(text) =>
+              setPersonalInfo({ ...personalInfo, mobile: text })
+            }
+          />
+        </View>
 
         <View style={styles.pickerContainer}>
           <Picker
@@ -97,25 +118,27 @@ const PersonalInfoPage = ({personalInfo,setPersonalInfo,role,setRole,setLastpage
               setRole(role);
             }}
           >
-            {/* Volunteer, Relief Worker, users, admin, NGOs */}
             <Picker.Item label="Select Role" value="" />
             <Picker.Item label="User" value="User" />
             <Picker.Item label="Volunteer" value="Volunteer" />
             <Picker.Item label="Relief Worker" value="Relief Worker" />
-            <Picker.Item label="Admin" value="Admin" />
             <Picker.Item label="NGO" value="NGO" />
           </Picker>
         </View>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor={"gray"}
-          value={personalInfo.password}
-          onChangeText={(text) =>
-            setPersonalInfo({ ...personalInfo, password: text })
-          }
-        />
+        <View style={styles.inputContainer}>
+          <Ionicons name="lock-closed-outline" size={20} color="#333" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor="#ccc"
+            value={personalInfo.password}
+            secureTextEntry={true}
+            onChangeText={(text) =>
+              setPersonalInfo({ ...personalInfo, password: text })
+            }
+          />
+        </View>
       </View>
     </View>
   );
@@ -131,36 +154,51 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: width * 0.8,
-    height: height,
+    height: height,    
   },
   pickerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: "#fff",
-    color: "gray",
-    overflow: "hidden",
+    borderColor: "#ccc",
+    borderRadius: 5,
     width: "100%",
-    marginBottom: 10,
-    // backgroundColor:"#000"
+    marginBottom: 15,
+    backgroundColor: "#fff", 
+    paddingHorizontal: 3,
   },
 
   picker: {
-    color: "gray",
+    flex: 1,
+    color: "#ccc",
     height: 50,
     width: "100%",
   },
   text: {
-    fontSize: 20,
+    fontSize: 24,
     marginBottom: 20,
-    color: "gray",
+    color: "#333",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   input: {
+    flex: 1,
     height: 40,
-    borderColor: "white",
+    color: '#333',
+    padding: 5,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#ccc',
     borderWidth: 1,
     marginBottom: 15,
     paddingHorizontal: 10,
-    color: "white",
-    // color: 'rgba(200,250,250,0.6)',
-    width: "100%",
+    borderRadius: 5,
+    width: '100%',
+    backgroundColor: '#fff',
+  },
+  icon: {
+    marginRight: 10,
   },
 });
