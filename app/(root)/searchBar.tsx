@@ -35,7 +35,9 @@ interface Event {
   state?: string;
 }
 
-const API_KEY = 'HFEefhit2ZKqfj_IKjCrJU-07wG4_7R7tMJnrorz';
+// const API_KEY = 'HFEefhit2ZKqfj_IKjCrJU-07wG4_7R7tMJnrorz';
+const API_KEY = 'RwGqA_Ogj2jVNF-eLAh8ruxqhmrW_IepZBGtbAJC';
+
 const BASE_URL = 'https://api.predicthq.com/v1';
 
 const Index: React.FC = () => {
