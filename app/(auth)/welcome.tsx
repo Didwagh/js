@@ -36,7 +36,7 @@ const Welcome = () => {
       Alert.alert("Logged Out", "You have successfully logged out.");
       router.push("/(auth)/sign-in");
     } catch (error) {
-      Alert.alert("Logout Failed", error.message); // Display error message
+      Alert.alert("Logout Failed", (error as Error).message || "An unknown error occurred.");// Display error message
     }
   };
 
@@ -67,7 +67,7 @@ const Welcome = () => {
           <Text style={styles.buttonText}>🔑 Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={handlePressLogout}>
+        <TouchableOpacity style={styles.loginButton} onPress={handlePressLogout}>
           <Text style={styles.buttonText}>Logout</Text>
         </TouchableOpacity>
       </View>

@@ -23,7 +23,8 @@ const SignupPage: React.FC = () => {
     try {
       const response = await createUser(email, password, name, expoPushToken);
       Alert.alert("Success", "User registered successfully! ID: " + response.$id);
-      router.push('/(auth)/sign-in');
+      router.navigate('/(root)/(tabs)/home');  
+
     } catch (error: any) {
       Alert.alert("Error", error.message || "Registration failed!");
     }
