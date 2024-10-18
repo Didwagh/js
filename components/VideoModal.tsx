@@ -1,10 +1,11 @@
 import React from 'react';
 import { Modal, View, Text, Button, StyleSheet } from 'react-native';
+import { Video, ResizeMode } from 'expo-av';
 
 interface VideoModalProps {
   visible: boolean;
   onClose: () => void;
-  videoUrl?: string; // Make sure to define the videoUrl prop here
+  videoUrl?: string;
 }
 
 const bucketId = '66f65d3f000136515646';
@@ -18,7 +19,6 @@ const VideoModal: React.FC<VideoModalProps> = ({ visible, onClose, videoUrl }) =
   };
 
   const updatedUrl = videoUrl ? convertUrl(videoUrl) : '';
-  console.log(updatedUrl)
 
   return (
     <Modal
@@ -30,7 +30,18 @@ const VideoModal: React.FC<VideoModalProps> = ({ visible, onClose, videoUrl }) =
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <Text>Hey there, here is the video!</Text>
-          <Text>{updatedUrl}</Text>
+          {updatedUrl ? (
+            <Video
+              source={{ uri: updatedUrl }}
+              style={styles.video}
+              useNativeControls
+              resizeMode={ResizeMode.CONTAIN} // Use the ResizeMode enum
+              isLooping
+              shouldPlay
+            />
+          ) : (
+            <Text>No video available.</Text>
+          )}
           <Button title="Close" onPress={onClose} />
         </View>
       </View>
@@ -51,6 +62,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 10,
     alignItems: 'center',
+  },
+  video: {
+    width: '100%',
+    height: 200,
+    marginVertical: 10,
   },
 });
 
