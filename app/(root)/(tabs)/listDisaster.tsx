@@ -5,6 +5,7 @@ import { getUnapprovedDisasterReports, updateDisasterReportApproval } from '@/li
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useGlobalContext } from '@/context/GlobalProvider'; 
 import { appwriteConfig } from '@/lib/appwrite'; 
+import VideoModal from '@/components/VideoModal'; // Import the modal
 
 const client = new Client()
   .setEndpoint(appwriteConfig.endpoint)
@@ -24,6 +25,8 @@ const DisasterReports = () => {
   const [reports, setReports] = useState<DisasterReport[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [userCity, setUserCity] = useState<string | null>(null);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [selectedReport, setSelectedReport] = useState<DisasterReport | null>(null);
   const { user } = useGlobalContext();
 
   useEffect(() => {
@@ -72,12 +75,9 @@ const DisasterReports = () => {
   const updateReportApproval = async (reportId: string, approvedBy: string) => {
     try {
       await updateDisasterReportApproval(reportId, approvedBy);
-
-      // Filter out the report from the state
       setReports((prevReports) =>
         prevReports.filter((report) => report.$id !== reportId)
       );
-
       Alert.alert('Success', approvedBy === 'rejected' ? 'Report rejected successfully.' : 'Report approved successfully.');
     } catch (error) {
       console.error(error);
@@ -97,16 +97,21 @@ const DisasterReports = () => {
     updateReportApproval(reportId, 'rejected');
   };
 
+  const handleVideoButtonPress = (report: DisasterReport) => {
+    setSelectedReport(report);
+    setModalVisible(true);
+  };
+
   const renderReport = ({ item }: { item: DisasterReport }) => (
     <View style={styles.reportContainer}>
       <Text style={styles.title}>{item.title}</Text>
       <Text>City: {item.city}</Text>
       <Text>District: {item.district}</Text>
       <Text>Approved By: {item.approvedBy || 'Not approved'}</Text>
-      <Text>Video: <Text style={styles.link}>{item.video}</Text></Text>
       <View style={styles.buttonContainer}>
         <Button title="Approve" onPress={() => handleApprove(item.$id)} />
         <Button title="Reject" onPress={() => handleReject(item.$id)} />
+        <Button title="Video" onPress={() => handleVideoButtonPress(item)} />
       </View>
     </View>
   );
@@ -116,13 +121,20 @@ const DisasterReports = () => {
   }
 
   return (
-    <FlatList
-      data={reports}
-      renderItem={renderReport}
-      keyExtractor={(item) => item.$id}
-      contentContainerStyle={styles.listContainer}
-      ListEmptyComponent={<Text>No unapproved disaster reports found.</Text>}
-    />
+    <View>
+      <FlatList
+        data={reports}
+        renderItem={renderReport}
+        keyExtractor={(item) => item.$id}
+        contentContainerStyle={styles.listContainer}
+        ListEmptyComponent={<Text>No unapproved disaster reports found.</Text>}
+      />
+      <VideoModal 
+        visible={modalVisible} 
+        onClose={() => setModalVisible(false)} 
+        videoUrl={selectedReport?.video} // Pass the video URL here
+      />
+    </View>
   );
 };
 
@@ -140,9 +152,6 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     fontSize: 18,
-  },
-  link: {
-    color: 'blue',
   },
   buttonContainer: {
     flexDirection: 'row',
