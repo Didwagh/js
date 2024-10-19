@@ -35,7 +35,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ visible, onClose, videoUrl }) =
               source={{ uri: updatedUrl }}
               style={styles.video}
               useNativeControls
-              resizeMode={ResizeMode.CONTAIN} // Use the ResizeMode enum
+              resizeMode={ResizeMode.CONTAIN}
               isLooping
               shouldPlay
             />
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    width: 300,
+    width: '115%', // Increased width by 15%
     padding: 20,
     backgroundColor: 'white',
     borderRadius: 10,
