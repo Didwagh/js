@@ -26,7 +26,6 @@ const SignupPage: React.FC = () => {
     }
 
     try {
-      // You might want to upload the ID proof file here
       const response = await createUser(email, password, name, expoPushToken, userType, idProofUri); // Pass idProofUri
       Alert.alert("Success", "User registered successfully! ID: " + response.$id);
       router.navigate('/(root)/(tabs)/home');  
