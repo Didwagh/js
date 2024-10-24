@@ -13,6 +13,7 @@ const VideoUploader: React.FC = () => {
   const [uploading, setUploading] = useState<boolean>(false);
   const [uploadUrl, setUploadUrl] = useState<string | null>(null);
   const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>(''); // New state for description
   const [disasterType, setDisasterType] = useState<string>(''); // State for disaster type
 
   const pickVideo = async () => {
@@ -44,6 +45,10 @@ const VideoUploader: React.FC = () => {
       Alert.alert('Please select a disaster type');
       return;
     }
+    if (!description) {
+      Alert.alert('Please enter a description for the disaster report');
+      return; // Check for description
+    }
   
     setUploading(true);
     try {
@@ -60,6 +65,7 @@ const VideoUploader: React.FC = () => {
         district: parsedLocationData?.district || '',
         approvedBy: '', 
         disasterType, // Use the selected disaster type
+        description, // Include the description
       });
   
       Alert.alert('Upload successful', 'Video uploaded and disaster report created successfully.');
@@ -77,6 +83,12 @@ const VideoUploader: React.FC = () => {
         placeholder="Enter disaster title"
         value={title}
         onChangeText={setTitle}
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Enter disaster description" // New input for description
+        value={description}
+        onChangeText={setDescription}
         style={styles.input}
       />
       <Picker

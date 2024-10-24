@@ -71,6 +71,17 @@ const Layout = () => {
           ),
         }}
       />
+      <Tabs.Screen
+        name="details"
+        options={{
+          href:  null,
+          title: '',
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'clipboard' : 'clipboard-outline'} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 };
