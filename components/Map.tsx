@@ -31,14 +31,21 @@ const SimpleMap = () => {
 
         const reverseGeocode = async (latitude: number, longitude: number) => {
           const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`;
+          console.log(url);
           try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, {
+              headers: {
+                'User-Agent': 'js' // Replace with your app name and a contact email
+              }
+            });
             return response.data;
           } catch (error) {
+            console.log("reverse geo code error");
             console.error(error);
             return null;
           }
         };
+        
 
         const geocodeData = await reverseGeocode(coords.latitude, coords.longitude);
 
