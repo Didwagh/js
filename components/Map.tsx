@@ -31,14 +31,21 @@ const SimpleMap = () => {
 
         const reverseGeocode = async (latitude: number, longitude: number) => {
           const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`;
+          console.log(url);
           try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, {
+              headers: {
+                'User-Agent': 'js' // Replace with your app name and a contact email
+              }
+            });
             return response.data;
           } catch (error) {
+            console.log("reverse geo code error");
             console.error(error);
             return null;
           }
         };
+        
 
         const geocodeData = await reverseGeocode(coords.latitude, coords.longitude);
 
@@ -48,6 +55,7 @@ const SimpleMap = () => {
             longitude: coords.longitude,
             state: geocodeData.address.state || 'State not found',
             district: geocodeData.address.state_district || 'District not found',
+            city: geocodeData.address.city || geocodeData.address.town || 'City not found',
           };
 
           setLocation({
@@ -79,8 +87,8 @@ const SimpleMap = () => {
     <View style={styles.container}>
       {loading ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#0000ff" />
-          <Text>Loading Map...</Text>
+          <ActivityIndicator size="large" color="#007bff" />
+          <Text style={styles.loadingText}>Loading Map...</Text>
         </View>
       ) : errorMsg ? (
         <View style={styles.errorContainer}>
@@ -101,12 +109,11 @@ const SimpleMap = () => {
         </MapView>
       )}
       {location && (
-        <>
-          <Text>Latitude: {location.latitude}</Text>
-          <Text>Longitude: {location.longitude}</Text>
-        </>
+        <View style={styles.locationContainer}>
+          <Text style={styles.locationText}>Latitude: {location.latitude}</Text>
+          <Text style={styles.locationText}>Longitude: {location.longitude}</Text>
+        </View>
       )}
-    
     </View>
   );
 };
@@ -115,6 +122,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
+    backgroundColor: 'gray',
+    padding: 10, 
+    justifyContent: 'center',
+    borderRadius: 8,
   },
   map: {
     flex: 1,
@@ -124,14 +135,40 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#fff', 
+    padding: 20,
+    borderRadius: 8,
+  },
+  loadingText: {
+    color: '#007bff', 
+    fontSize: 18,
+    marginTop: 10,
+    fontWeight: '500',
   },
   errorContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 12,
   },
   errorText: {
     color: 'red',
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: '500',
+  },
+  locationContainer: {
+    padding: 15,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    marginTop: 10,
+  },
+  locationText: {
+    color: '#333', 
+    fontSize: 16,
+    fontWeight: '500',
   },
 });
 

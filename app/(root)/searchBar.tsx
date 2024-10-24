@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Button, TextInput, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Button, TextInput, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useThemeColor } from '@/hooks/useThemeColor';
@@ -35,7 +35,9 @@ interface Event {
   state?: string;
 }
 
-const API_KEY = 'HFEefhit2ZKqfj_IKjCrJU-07wG4_7R7tMJnrorz';
+// const API_KEY = 'HFEefhit2ZKqfj_IKjCrJU-07wG4_7R7tMJnrorz';
+const API_KEY = 'RwGqA_Ogj2jVNF-eLAh8ruxqhmrW_IepZBGtbAJC';
+
 const BASE_URL = 'https://api.predicthq.com/v1';
 
 const Index: React.FC = () => {
@@ -146,16 +148,18 @@ const Index: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }]}>
+    <SafeAreaView style={[styles.container]}>
       <View style={styles.searchContainer}>
         <TextInput
-          style={[styles.input, { borderColor: textColor, color: textColor }]}
+          style={[styles.searchInput]}
           placeholder="Enter location (e.g., Mumbai, India)"
-          placeholderTextColor={textColor}
+          placeholderTextColor="#888"
           value={location}
           onChangeText={setLocation}
         />
-        <Button title="Search" onPress={handleSearch} />
+        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+          <Text style={styles.searchButtonText}>Search</Text>
+        </TouchableOpacity>
       </View>
       <DisasterNearMe
         onEventsFetched={handleEventsFetched}
@@ -165,8 +169,8 @@ const Index: React.FC = () => {
       />
       {loading && !events.length ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={textColor} />
-          <Text style={{ color: textColor, marginTop: 8 }}>Loading...</Text>
+          <ActivityIndicator size="large" color="#333" />
+          <Text style={styles.loadingText}>Loading...</Text>
         </View>
       ) : (
         <>
@@ -175,28 +179,30 @@ const Index: React.FC = () => {
               data={events}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                <View style={[styles.event, { backgroundColor: textColor }]}>
-                  <Text style={{ color: backgroundColor }}>{item.title}</Text>
-                  <Text style={{ color: backgroundColor }}>Date: {item.start}</Text>
-                  <Text style={{ color: backgroundColor }}>Category: {item.category || 'Not available'}</Text>
+                <View style={[styles.event]}>
+                  <Text style={styles.eventTitle}>{item.title}</Text>
+                  <Text style={styles.eventDetail}>Date: {item.start}</Text>
+                  <Text style={styles.eventDetail}>Category: {item.category || 'Not available'}</Text>
                   {item.labels && item.labels.length > 0 && (
-                    <Text style={{ color: backgroundColor }}>Labels: {item.labels.join(', ')}</Text>
+                    <Text style={styles.eventDetail}>Labels: {item.labels.join(', ')}</Text>
                   )}
                   {item.geo?.address?.city || item.geo?.address?.district ? (
-                    <Text style={{ color: backgroundColor }}>Location: {item.geo.address.city || item.geo.address.district}</Text>
+                    <Text style={styles.eventDetail}>Location: {item.geo.address.city || item.geo.address.district}</Text>
                   ) : (
-                    <Text style={{ color: backgroundColor }}>Location: Not available</Text>
+                    <Text style={styles.eventDetail}>Location: Not available</Text>
                   )}
-                  {item.timezone && <Text style={{ color: backgroundColor }}>Timezone: {item.timezone}</Text>}
-                  {item.state && <Text style={{ color: backgroundColor }}>Status: {item.state}</Text>}
+                  {item.timezone && <Text style={styles.eventDetail}>Timezone: {item.timezone}</Text>}
+                  {item.state && <Text style={styles.eventDetail}>Status: {item.state}</Text>}
                 </View>
               )}
             />
           ) : (
-            <Text style={{ color: textColor }}>No events found.</Text>
+            <Text style={styles.noEventsText}>No events found.</Text>
           )}
           {nextUrl && events.length >= 10 && (
-            <Button title="Load More" onPress={loadMoreEvents} />
+            <TouchableOpacity style={styles.loadMoreButton} onPress={loadMoreEvents}>
+              <Text style={styles.searchButtonText}>Load More</Text>
+            </TouchableOpacity>          
           )}
         </>
       )}
@@ -208,30 +214,84 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: '#f7f9fc',
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
-  },
-  input: {
+    marginBottom: 15,
+    marginTop: 10,
+    width: '100%',
+    backgroundColor: '#fff', 
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    borderColor: '#ddd',
     borderWidth: 1,
-    padding: 8,
-    borderRadius: 4,
+  },
+  searchInput: {
+    height: 40,
     flex: 1,
-    marginRight: 8,
+    paddingHorizontal: 10,
+  },
+  searchButton: {
+    backgroundColor: '#4CAF50',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginLeft: 10,
+  },
+  searchButtonText: {
+    color: '#fff', 
+    fontSize: 16,
+    fontWeight: '600',
   },
   event: {
-    marginBottom: 16,
-    padding: 16,
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: '#ddd',
-    borderRadius: 8,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+  },
+  eventTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  eventDetail: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 4,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  loadingText: {
+    color: '#333',
+    marginTop: 8,
+    fontSize: 16,
+  },
+  noEventsText: {
+    color: '#333',
+    textAlign: 'center',
+    fontSize: 16,
+    marginTop: 20,
+  },
+  loadMoreButton: {
+    backgroundColor: '#333',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignSelf: 'center',
+    marginTop: 20,
   },
 });
 
