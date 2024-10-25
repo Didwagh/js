@@ -121,13 +121,13 @@ const DisasterReports = () => {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList
         data={reports}
         renderItem={renderReport}
         keyExtractor={(item) => item.$id}
         contentContainerStyle={styles.listContainer}
-        ListEmptyComponent={<Text>No unapproved disaster reports found.</Text>}
+        ListEmptyComponent={<Text style={styles.emptyText}>No unapproved disaster reports found.</Text>}
       />
       <VideoModal 
         visible={modalVisible} 
@@ -139,10 +139,16 @@ const DisasterReports = () => {
 };
 
 const styles = StyleSheet.create({
-  listContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: '#f7f9fc',  
     padding: 20,
   },
+  listContainer: {
+    paddingBottom: 20,
+  },
   reportContainer: {
+    backgroundColor: '#fff',
     padding: 15,
     marginVertical: 10,
     borderWidth: 1,
@@ -152,11 +158,30 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     fontSize: 18,
+    color: '#333',
+    marginBottom: 5,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
+    marginTop: 15,
+  },
+  button: {
+    backgroundColor: '#007bff',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#999',
+    textAlign: 'center',
+    marginTop: 30,
   },
 });
 

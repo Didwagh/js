@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import SimpleMap from '@/components/Map';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useGlobalContext } from '@/context/GlobalProvider';
 import AddressAlertModal from '@/components/AddressAlertModal';
-import { getUsersWithTokens, sendPushNotification, updateUserLocation } from '@/lib/appwrite'; // Import the function to update user location
+import { getUsersWithTokens, sendPushNotification, signOut, updateUserLocation } from '@/lib/appwrite'; // Import the function to update user location
 import { Ionicons } from '@expo/vector-icons';
 
 interface BucketStorage {
@@ -18,6 +18,8 @@ interface BucketStorage {
 }
 
 const Home = () => {
+  const { loading, isLogged, setIsLogged } = useGlobalContext();
+
   const router = useRouter();
   const { user } = useGlobalContext();
   const [bucketStorage, setBucketStorage] = useState<BucketStorage>({
@@ -96,42 +98,54 @@ const Home = () => {
     }
     closeModal();
   };
+
+  const handlePressLogout = async () => {
+    try {
+      await signOut();
+      setIsLogged(false);
+      Alert.alert("Logged Out", "You have successfully logged out.");
+      router.push("/(auth)/sign-in");
+    } catch (error) {
+      Alert.alert("Logout Failed", (error as Error).message || "An unknown error occurred.");// Display error message
+    }
+  };
   
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.searchContainer}>
-        <TouchableOpacity style={styles.searchButton} onPress={handlePress}>
-          {/* <Text style={styles.searchButtonText}>Search</Text> */}
-          <Ionicons name="search-outline" size={24} color="#888" />
-        </TouchableOpacity>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search for a location"
-          placeholderTextColor="#888"
-          onFocus={handleSearchFocus}
-        />
-        
+      <View style={styles.navContainer}>
+        <View style={styles.searchContainer}>
+          <TouchableOpacity style={styles.searchButton} onPress={handlePress}>
+            {/* <Text style={styles.searchButtonText}>Search</Text> */}
+            <Ionicons name="search-outline" size={24} color="#888" />
+          </TouchableOpacity>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search for a location"
+            placeholderTextColor="#888"
+            onFocus={handleSearchFocus}
+          />
+         </View>
+         <TouchableOpacity style={styles.searchButton} onPress={handlePressLogout}>
+            {/* <Text style={styles.searchButtonText}>Search</Text> */}
+            <Ionicons name="person-circle-outline" size={24} color="#888" />
+          </TouchableOpacity>
       </View>
+      
 
       {/* Display user information if available */}
       {user ? (
         <View style={styles.userInfo}>
-          <Text style={styles.text}>Name: {user.username}</Text>
-          <Text style={styles.text}>Email: {user.email}</Text>
-          <Text style={styles.text}>District: {user.district}</Text>
+          <Text style={styles.label}>Name: {user.username}</Text>
+          {/* <Text style={styles.text}>Email: {user.email}</Text>
+          <Text style={styles.text}>District: {user.district}</Text> */}
           <Text style={styles.text}>City: {user.city}</Text>
         </View>
       ) : (
         <Text style={styles.text}>No user logged in</Text>
       )}
 
-      {/* <Text style={styles.text}>State: {bucketStorage.state}</Text>
-      <Text style={styles.text}>District: {bucketStorage.district}</Text>
-      <Text style={styles.text}>City: {bucketStorage.city}</Text>
-      <Text style={styles.text}>Latitude: {bucketStorage.latitude}</Text>
-      <Text style={styles.text}>Longitude: {bucketStorage.longitude}</Text> */}
-      <View style={styles.infoContainer}>
+      {/* <View style={styles.infoContainer}>
         <Text style={styles.label}>State: </Text>
         <Text style={styles.text}>{bucketStorage.state}</Text>
         <Text style={styles.label}>District: </Text>
@@ -140,7 +154,7 @@ const Home = () => {
         <Text style={styles.text}>{bucketStorage.latitude}</Text>
         <Text style={styles.label}>Longitude: </Text>
         <Text style={styles.text}>{bucketStorage.longitude}</Text>
-      </View>
+      </View> */}
       <SimpleMap />
 
       {/* Use the AddressAlertModal component */}
@@ -159,12 +173,17 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#f7f9fc',
   },
+  navContainer:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 15,
     marginTop: 10,
-    width: '100%',
+    width: '90%',
     backgroundColor: '#fff', 
     paddingHorizontal: 15,
     borderRadius: 10,

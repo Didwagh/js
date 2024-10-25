@@ -56,6 +56,7 @@ const DisasterReportsPage: React.FC = () => {
         data={disasters}
         renderItem={renderDisasterItem}
         keyExtractor={(item) => item.$id}
+        // showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -65,11 +66,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#f9f9f9',
   },
   header: {
-    fontSize: 24,
-    marginBottom: 20,
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#333',
+    marginTop: 30,
+    textAlign: 'center',
   },
   item: {
     padding: 10,
@@ -77,10 +81,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#222',
   },
 });
 

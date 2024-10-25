@@ -93,6 +93,7 @@ const UserApprovalPage: React.FC = () => {
         renderItem={renderUserItem}
         keyExtractor={(item) => item.$id}
         contentContainerStyle={styles.list}
+        // showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -106,26 +107,29 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    marginBottom: 20,
+    fontWeight: '600',
+    color: '#333',
+    marginTop: 30,
     textAlign: 'center',
   },
   userItem: {
     padding: 10,
     marginVertical: 8,
     backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#ccc',
     borderRadius: 8,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 2,
   },
   userText: {
     fontSize: 16,
+    fontWeight: '500',
     marginBottom: 10,
+    color: '#555',
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: 10,
   },
   list: {
     paddingBottom: 20,
@@ -134,6 +138,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 150,
     marginVertical: 10,
+    borderRadius: 8,
+    resizeMode: 'cover',
   },
 });
 

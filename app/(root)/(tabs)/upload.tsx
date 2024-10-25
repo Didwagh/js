@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, Text, Alert, TextInput, StyleSheet } from 'react-native';
+import { View, Button, TouchableOpacity, Text, Alert, TextInput, StyleSheet } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker'; 
 import { uploadVideo, createDisasterReport } from '@/lib/appwrite'; 
 import { Video, ResizeMode } from 'expo-av';
@@ -73,25 +73,39 @@ const VideoUploader: React.FC = () => {
   
   return (
     <View style={styles.container}>
-      <TextInput
-        placeholder="Enter disaster title"
-        value={title}
-        onChangeText={setTitle}
-        style={styles.input}
-      />
+      <Text style={styles.heading}>Report and Share Critical Disaster Information</Text>
+
+      {/* <Text style={styles.label}>Select Disaster Type</Text> */}
+      <View style={styles.pickerContainer}>
       <Picker
         selectedValue={disasterType}
         onValueChange={(itemValue) => setDisasterType(itemValue)}
         style={styles.picker}
       >
-        <Picker.Item label="Select disaster type" value="" />
+        <Picker.Item label="Select Disaster Type" value="" />
         <Picker.Item label="Natural" value="natural" />
         <Picker.Item label="Man-Made" value="man-made" />
       </Picker>
-      <Button title="Pick a Video" onPress={pickVideo} />
-      {videoUri && (
+      </View>
+
+      <TextInput
+        placeholder="Enter Disaster Description"
+        value={title}
+        onChangeText={setTitle}
+        style={styles.input}
+      />
+
+      <TouchableOpacity 
+        onPress={pickVideo} 
+        style={styles.button}
+        activeOpacity={0.7} // Reduces opacity when pressed for feedback
+      >
+       <Text style={styles.buttonText}>Pick a Video</Text>
+      </TouchableOpacity>
+      
+      {videoUri ? (
         <View style={styles.videoContainer}>
-          <Text>Selected Video:</Text>
+          <Text style={styles.label}>Selected Video:</Text>
           <Video
             source={{ uri: videoUri }}
             style={styles.video}
@@ -100,9 +114,24 @@ const VideoUploader: React.FC = () => {
             isLooping
           />
         </View>
+        ) : (
+          <Text style={styles.noVideoText}>No video selected. Please pick a video.</Text>
       )}
-      <Button title={uploading ? 'Uploading...' : 'Upload Video'} onPress={handleUpload} disabled={uploading} />
-      {uploadUrl && <Text style={styles.uploadedUrl}>Uploaded Video URL: {uploadUrl}</Text>}
+
+      <TouchableOpacity
+        onPress={handleUpload}
+        style={[styles.button, uploading && styles.buttonDisabled]} // Disable styling when uploading
+        disabled={uploading}
+        activeOpacity={0.7}
+      >
+        <Text style={styles.buttonText}>{uploading ? 'Uploading...' : 'Upload Video'}</Text>
+      </TouchableOpacity>
+      
+      {uploadUrl && (
+        <Text style={styles.uploadedUrl}>
+        Uploaded Video URL: <Text style={styles.urlLink}>{uploadUrl}</Text>
+        </Text>
+      )}
     </View>
   );
 };
@@ -111,36 +140,85 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#f7f9fc',
+  },
+  heading: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginTop: 40,
+    color: '#333',
+    textAlign: 'center',
+  },
+  label: {
+    marginTop: 15,
+    fontSize: 16,
+    marginBottom: 5,
+    color: '#333',
+    textAlign: 'center',  
+    fontWeight: 'bold', 
   },
   input: {
-    borderColor: 'gray',
+    borderColor: '#ccc',
     borderWidth: 1,
-    marginBottom: 10,
-    padding: 10,
+    marginTop: 15,
+    padding: 12,
     borderRadius: 5,
     backgroundColor: '#fff',
+    fontSize: 16,
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: '#ccc',  
+    borderRadius: 5,
+    marginTop: 15,  
+    backgroundColor: '#fff',  
   },
   picker: {
     height: 50,
-    marginBottom: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    backgroundColor: '#fff',
+    width: '100%',
   },
   videoContainer: {
-    marginVertical: 10,
+    marginVertical: 15,
   },
   video: {
     width: '100%',
     height: 200,
-    borderRadius: 10,
-    backgroundColor: '#000',
+    borderRadius: 12,
+    backgroundColor: '#ccc',
   },
   uploadedUrl: {
     marginTop: 10,
+    fontSize: 16,
     color: 'green',
+    textAlign: 'center',
+  },
+  link: {
+    color: '#1E90FF',
+    textDecorationLine: 'underline',
+  },
+  button: {
+    backgroundColor: '#007bff', 
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 15,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  buttonDisabled: {
+    backgroundColor: '#aaa', 
+  },
+  noVideoText: {
+    color: '#999',
+    fontStyle: 'italic',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  urlLink: {
+    textDecorationLine: 'underline',
   },
 });
 

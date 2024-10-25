@@ -67,9 +67,9 @@ const Welcome = () => {
           <Text style={styles.buttonText}>🔑 Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.loginButton} onPress={handlePressLogout}>
+        {/* <TouchableOpacity style={styles.loginButton} onPress={handlePressLogout}>
           <Text style={styles.buttonText}>Logout</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
