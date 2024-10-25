@@ -42,12 +42,20 @@ const DisasterReportsPage: React.FC = () => {
   );
 
   const showDisasterDetails = (item: Disaster) => {
-    Alert.alert(
-      item.title,
-      `Description: ${item.description}\nCity: ${item.city}\nDistrict: ${item.district}\nType: ${item.disasterType || "N/A"}\nVideo: ${item.video || "N/A"}`,
-      [{ text: "OK" }]
-    );
+    router.push({
+      pathname: '/details', // Adjust the path to your details page
+      params: {
+        id: item.$id,
+        title: item.title,
+        description: item.description || "No description available",
+        city: item.city,
+        district: item.district,
+        disasterType: item.disasterType || "N/A",
+        video: item.video || "N/A",
+      },
+    });
   };
+  
 
   return (
     <View style={styles.container}>
