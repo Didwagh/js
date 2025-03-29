@@ -1,0 +1,269 @@
+[33mcommit e4ed365c82948d5dfb378d2bf359b2b495e4497e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mkaran[m[33m)[m
+Author: yogesh-3104 <yg4977428@gmail.com>
+Date:   Sat Mar 29 17:19:31 2025 +0530
+
+    Update the ui
+
+[33mcommit cf244d3d1be30874d01962875de96a248ca27176[m[33m ([m[1;31morigin/karan[m[33m)[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Thu Oct 24 17:04:00 2024 +0530
+
+    upload des , layout details , helpUs , detasils
+
+[33mcommit 5b5803ec97c87a06810b0e95cb66614a9505fe67[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Thu Oct 24 16:32:02 2024 +0530
+
+    admin and volunteer in layout
+
+[33mcommit 1d3a9c878c4d139aef49b3b0cf986bc5b3044e27[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Thu Oct 24 15:58:32 2024 +0530
+
+    user creation user one
+
+[33mcommit 0357cf097a3ee8a2358572a3c80bf86e79cd091b[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Thu Oct 24 15:21:52 2024 +0530
+
+    the map api updated
+
+[33mcommit 1e009c638370f99a9586bb4387c8786808fb1810[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Sat Oct 19 14:19:34 2024 +0530
+
+    pass argument in alert but not in page'
+
+[33mcommit 170e32d2be6da6031e646890308e9fa691506e04[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Sat Oct 19 13:33:55 2024 +0530
+
+    user approving succesfull with image visblity
+
+[33mcommit 75fd0bb8ff0011b811a8c962868f391d1cc71334[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Sat Oct 19 13:17:19 2024 +0530
+
+    user image upload succesful
+
+[33mcommit daec8f9ee1eaeadfc93786f1a683ab19bfa8bd9f[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Fri Oct 18 17:13:59 2024 +0530
+
+    video is played
+
+[33mcommit fc8f940dd0ff88699084636036a87f311b779d29[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Fri Oct 18 16:59:07 2024 +0530
+
+    url change success
+
+[33mcommit c1a241828c681e264d451433e4865dc7a70f2d93[m
+Merge: b83a4f0 17e0b79
+Author: Tanmay6686 <tanmay29mg@gmail.com>
+Date:   Thu Oct 17 20:23:41 2024 +0530
+
+    Merge branch 'karan' of https://github.com/Didwagh/js into karan
+
+[33mcommit b83a4f027410f0a51e8bea9275d0b19827ec595d[m
+Author: Tanmay6686 <tanmay29mg@gmail.com>
+Date:   Thu Oct 17 20:17:37 2024 +0530
+
+    layout in tabs and apps changes
+
+[33mcommit 17e0b793b11815e3655f69c8dca40340bc07705f[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Thu Oct 17 20:11:48 2024 +0530
+
+    new api key added
+
+[33mcommit 2c873fa897cec93f4c4b7fa5c9a7909edb34ccc1[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Thu Oct 17 17:24:39 2024 +0530
+
+    mini hcanges
+
+[33mcommit d0f3d28da77d51fe5c4b19159990292e26fc6b44[m
+Merge: 1a0205b d2ab1a6
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Thu Oct 17 17:14:30 2024 +0530
+
+    Merge branch 'tanmay' of https://github.com/Didwagh/js into karan
+
+[33mcommit 1a0205b1e1c9de0cee2735bfe86cd5bc549a1bf6[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Fri Oct 11 21:42:20 2024 +0530
+
+    well approving and getting user and sending notifincation but not recieving them for some reason
+
+[33mcommit 2fd92dc1da2db1473ffdf7e54345ddace2c9da5b[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Fri Oct 11 20:29:38 2024 +0530
+
+    works like charm betch notification
+
+[33mcommit 2201cc8ebb2de7d3e8897a7a412dc8906b965a1d[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Fri Oct 11 20:06:11 2024 +0530
+
+    user expo token succesfully saved
+
+[33mcommit 3c58e70b42743b0692591f84c64fe8760f5f9c49[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Fri Oct 11 17:38:48 2024 +0530
+
+    eas file sathi commit
+
+[33mcommit 733a87944c00df9ad20e0d8533af1750ed8887dd[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Thu Oct 10 17:32:22 2024 +0530
+
+    approval and reject better looking
+
+[33mcommit f6a7bf7abc83ab7ab11facc7c6cb3f1a82ce68f9[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Thu Oct 10 17:25:56 2024 +0530
+
+    reject and accept succesfull
+
+[33mcommit f4d1c438c599d831df87b10a399d56a022f35faa[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Thu Oct 10 13:36:13 2024 +0530
+
+    user location update success from backedn
+
+[33mcommit 47f522fec6407f5c2783c883ddcb5c90c3a67d42[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Thu Oct 10 13:16:20 2024 +0530
+
+    city added in async storage
+
+[33mcommit bf0b45a28dc1bdfa56ebc0895ce5f092e9d23ab0[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Thu Oct 10 12:57:02 2024 +0530
+
+    district and city is set as empty string
+
+[33mcommit d2ab1a6e69584deec63f7710629233910e00041e[m
+Author: Tanmay6686 <tanmay29mg@gmail.com>
+Date:   Wed Oct 9 20:47:10 2024 +0530
+
+    Changes in index in app\auth\sign-up, searchBar, home, DisasterMe, map
+
+[33mcommit d2276f6984c44f159aa1f65439a11c42b9dcd70a[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Wed Oct 9 13:38:07 2024 +0530
+
+    added working the user login and autosession checker
+
+[33mcommit 8304f62851293457de1632795fa1b7548bd78097[m
+Author: Tanmay6686 <tanmay29mg@gmail.com>
+Date:   Sun Oct 6 17:46:50 2024 +0530
+
+    changes in signup folder
+
+[33mcommit bfb61fe83fe03dc83f0ba05bee6ae8bce375d494[m
+Author: Tanmay6686 <tanmay29mg@gmail.com>
+Date:   Sun Oct 6 17:42:12 2024 +0530
+
+    Changes in signup folder and buttoncomponent and identityproof
+
+[33mcommit e1c5a2a1349fdea123e8dde29bf78bf0b1f4983a[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Sun Oct 6 15:55:44 2024 +0530
+
+    not stable login implemnted
+
+[33mcommit d352b9c9483b87a8ad0383f72464dadfcd582449[m
+Author: Tanmay6686 <tanmay29mg@gmail.com>
+Date:   Sun Oct 6 11:06:54 2024 +0530
+
+    Welcome and sign-in changes
+
+[33mcommit 42da854c309931024ec4c018e793b8d4bba90560[m
+Author: Tanmay6686 <tanmay29mg@gmail.com>
+Date:   Sat Oct 5 19:00:16 2024 +0530
+
+    welcomw and login ui
+
+[33mcommit 5ad9d0d3e1f81deea24b8ed7cd7afb9ddb546fb6[m
+Merge: 7bee57e e1a5998
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Sat Oct 5 15:25:36 2024 +0530
+
+    Merge branch 'back' of https://github.com/Didwagh/js into karan
+
+[33mcommit 7bee57e2807f8af5500f2aad45edbfb666ba8e9b[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Tue Oct 1 10:02:01 2024 +0530
+
+    checking commit
+
+[33mcommit cecd63fb8a2936caa24d0f2f7deda273284ec0d1[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Sun Sep 29 14:50:40 2024 +0530
+
+    disaster video play balk and singin funcion
+
+[33mcommit ccc16a650fd9d8a23258e28d47d2eb99d558e127[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Sun Sep 29 14:41:14 2024 +0530
+
+    disaster succesfully created
+
+[33mcommit 7b691c5030555b4df66908dd70dacb4f0c1244fe[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Sun Sep 29 14:31:39 2024 +0530
+
+    video uploade succesfull
+
+[33mcommit e1a5998babbe8764010e55b6485d793b6bb8a1b0[m[33m ([m[1;31morigin/back[m[33m, [m[1;32mback[m[33m)[m
+Author: yogesh-3104 <yg4977428@gmail.com>
+Date:   Wed Sep 25 13:48:28 2024 +0530
+
+    update the sign-up
+
+[33mcommit 99279b1eb5931e8bb3a458278f6623dda4ce8366[m
+Author: yogesh-3104 <yg4977428@gmail.com>
+Date:   Sat Sep 21 15:05:16 2024 +0530
+
+    initial commit
+
+[33mcommit ff6290090bb70fad7ac01d12775162f6a9612eb6[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Tue Sep 17 15:49:20 2024 +0530
+
+    disaster near me added
+
+[33mcommit c0abcbce7bab6eea28071b55ef7a4e1c7bf4dbf3[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Tue Sep 17 15:27:34 2024 +0530
+
+    async storage lat,long,dist,state
+
+[33mcommit 3e9d81b73f124027b844464743f2c6a591ab7572[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Mon Sep 16 14:48:06 2024 +0530
+
+    reverse geo code and async storage added
+
+[33mcommit 99e2bfb71b7c75fda0ba0c50d489573a14ed2b92[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Sun Sep 15 14:17:00 2024 +0530
+
+    map and user location added
+
+[33mcommit c95bec17c7dd6593f7456da42a40bf6ab8d648f8[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Sun Sep 15 13:47:36 2024 +0530
+
+    search function has been added adnd working
+
+[33mcommit 356f07a5212c2b66344fd784312686ca2b09c0b1[m
+Author: Didwagh <didwaghkaran7@gmail.com>
+Date:   Sat Sep 14 16:38:02 2024 +0530
+
+    screen transer / component works
+
+[33mcommit acfa7998502587dc100a8bfa8a941d218ff7e1fe[m
+Au

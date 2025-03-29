@@ -1,84 +1,103 @@
-import { Tabs } from 'expo-router';
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { useGlobalContext } from '@/context/GlobalProvider';
+import { Tabs } from "expo-router";
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 const Layout = () => {
   const { user } = useGlobalContext();
   console.log(user);
-
-  const isAdmin = user.email === 'admin@gmail.com';
+  // const isAdmin= user.role !== 'user' &&  user.role!=='volunteer' && user.role !== 'ngo'
+  const isAdmin = user.email === "admin@gmail.com" || "admin1@gmail.com";
   console.log(isAdmin);
-  const isVolunteer = user.role != "User"
-  console.log(isVolunteer)
+  const isVolunteer = user.role != "User";
+  console.log(isVolunteer);
 
   return (
-    <Tabs initialRouteName="index" screenOptions={{ tabBarActiveTintColor: 'black' }}>
+    <Tabs
+      initialRouteName="index"
+      screenOptions={{ tabBarActiveTintColor: "black" }}
+    >
       <Tabs.Screen
         name="home"
         options={{
-          href: '/home', // Specify href here
-          title: '',
+          href: "/home", // Specify href here
+          title: "",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? "home" : "home-outline"}
+              color={color}
+            />
           ),
         }}
       />
       <Tabs.Screen
         name="upload"
         options={{
-          href: '/upload', // Specify href here
-          title: '',
+          href: "/upload", // Specify href here
+          title: "",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'cloud-upload' : 'cloud-upload-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? "cloud-upload" : "cloud-upload-outline"}
+              color={color}
+            />
           ),
         }}
       />
       <Tabs.Screen
         name="listDisaster"
         options={{
-            href: isVolunteer ? '/listDisaster' : null,
-      
-          title: '',
+          href: isVolunteer ? "/listDisaster" : null,
+
+          title: "",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'clipboard' : 'clipboard-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? "clipboard" : "clipboard-outline"}
+              color={color}
+            />
           ),
         }}
       />
-   
-        <Tabs.Screen
-          name="approveUser"
-          options={{
-            href: isAdmin ? '/approveUser' : null,
-            title: '',
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon name={focused ? 'clipboard' : 'clipboard-outline'} color={color} />
-            ),
-          }}
-        />
-     
+      <Tabs.Screen
+        name="approveUser"
+        options={{
+          href: isAdmin ? "/approveUser" : null,
+          title: "",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "checkmark" : "checkmark-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
       <Tabs.Screen
         name="helpUs"
         options={{
-          href: isVolunteer ? '/helpUs' : null,
-          title: '',
+          href: isVolunteer ? "/helpUs" : null,
+          title: "",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'clipboard' : 'clipboard-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? "help" : "help-outline"}
+              color={color}
+            />
           ),
         }}
       />
       <Tabs.Screen
-        name="details"
+        name="disasterInfo"
         options={{
-          href:  null,
-          title: '',
+          href: null,
+          // title: "Details",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'clipboard' : 'clipboard-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? "clipboard" : "clipboard-outline"}
+              color={color}
+            />
           ),
         }}
       />

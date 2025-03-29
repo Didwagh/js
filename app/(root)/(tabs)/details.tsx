@@ -2,12 +2,30 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import VideoModal from '@/components/VideoModal'; // Adjust the import path as needed
+import { _DEFAULT_PROGRESS_UPDATE_INTERVAL_MILLIS } from 'expo-av/build/AV';
+import { create } from 'react-test-renderer';
 
 const DetailsPage: React.FC = () => {
   const { id, title, description, city, district, disasterType, video } = useLocalSearchParams();
   console.log(disasterType)
   const [modalVisible, setModalVisible] = useState(false);
 
+
+  const disasterResponse = {
+    "volacano Eruption": {
+      "do's": ["rgedfhd", "sdjgdsg", "dsfgdf"],
+      "don't": ["msrif", "fd", "fgdfg"],
+      blog: "https://volacnoErup.org",
+      video: "http://youtube/Volcano1234",
+    },
+    "earth quake": {
+      "do's": ["rgedfhd", "sdjgdsg", "dsfgdf"],
+      "don't": ["msrif", "fd", "fgdfg"],
+      blog: "https://volacnoErup.org",
+      video: "http://youtube/Volcano1234",
+    }
+    //...
+  };
   const handleOpenVideo = () => {
     setModalVisible(true);
   };
