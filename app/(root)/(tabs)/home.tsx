@@ -8,7 +8,7 @@ import { useGlobalContext } from '@/context/GlobalProvider';
 import AddressAlertModal from '@/components/AddressAlertModal';
 import { getUsersWithTokens, sendPushNotification, updateUserLocation } from '@/lib/appwrite'; // Import the function to update user location
 import { Ionicons } from '@expo/vector-icons';
-import Navbar from '@/components/Navbar';
+// import Navbar from '@/components/Navbar';
 
 interface BucketStorage {
   latitude: string | null;
@@ -101,7 +101,7 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Navbar/>
+      {/* <Navbar/> */}
       <View style={styles.searchContainer}>
         <TouchableOpacity style={styles.searchButton} onPress={handlePress}>
           {/* <Text style={styles.searchButtonText}>Search</Text> */}
