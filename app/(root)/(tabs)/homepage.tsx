@@ -16,7 +16,7 @@ const HomeScreen: React.FC = () => {
       {/* Hero Section */}
       <View style={styles.heroSection}>
         <Text style={styles.heroTitle}>Disaster Relief & Response</Text>
-        <Text style={styles.heroSubtitle}>Be the help they need – Join, Report, and Support!</Text>
+        <Text style={styles.heroSubtitle}>Be the help they need - Join, Report, and Support!</Text>
         <View style={styles.buttonRow}>
           <TouchableOpacity style={styles.buttonPrimary}>
             <Ionicons name="megaphone" size={20} color="white" />

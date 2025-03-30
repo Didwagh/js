@@ -1,14 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput } from 'react-native';
-import { useRouter } from 'expo-router';
-import SimpleMap from '@/components/Map';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useGlobalContext } from '@/context/GlobalProvider';
-import AddressAlertModal from '@/components/AddressAlertModal';
-import { getUsersWithTokens, sendPushNotification, updateUserLocation } from '@/lib/appwrite'; // Import the function to update user location
-import { Ionicons } from '@expo/vector-icons';
-// import Navbar from '@/components/Navbar';
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
+import { useRouter } from "expo-router";
+import SimpleMap from "@/components/Map";
+import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useGlobalContext } from "@/context/GlobalProvider";
+import AddressAlertModal from "@/components/AddressAlertModal";
+import {
+  getUsersWithTokens,
+  sendPushNotification,
+  updateUserLocation,
+} from "@/lib/appwrite"; // Import the function to update user location
+import { Ionicons } from "@expo/vector-icons";
+import Navbar from "@/components/Navbar";
 
 interface BucketStorage {
   latitude: string | null;
@@ -30,24 +41,22 @@ const Home = () => {
   });
   const [modalVisible, setModalVisible] = useState(false);
 
-
-
   useEffect(() => {
     const loadLocationData = async () => {
       try {
-        const data = await AsyncStorage.getItem('locationData');
+        const data = await AsyncStorage.getItem("locationData");
         if (data) {
           const parsedData = JSON.parse(data);
           setBucketStorage({
-            latitude: parsedData.latitude || 'latitude not found',
-            longitude: parsedData.longitude || 'longitude not found',
-            state: parsedData.state || 'State not found',
-            district: parsedData.district || 'District not found',
-            city: parsedData.city || 'City not found',
+            latitude: parsedData.latitude || "latitude not found",
+            longitude: parsedData.longitude || "longitude not found",
+            state: parsedData.state || "State not found",
+            district: parsedData.district || "District not found",
+            city: parsedData.city || "City not found",
           });
         }
       } catch (error) {
-        console.error('Failed to load location data from AsyncStorage:', error);
+        console.error("Failed to load location data from AsyncStorage:", error);
       }
     };
 
@@ -60,11 +69,11 @@ const Home = () => {
   }, [user]);
 
   const handlePress = () => {
-    router.navigate('/(root)/searchBar');
+    router.navigate("/(root)/searchBar");
   };
 
   const handleSearchFocus = () => {
-    router.navigate('/(root)/searchBar');
+    router.navigate("/(root)/searchBar");
   };
 
   const closeModal = () => {
@@ -73,35 +82,37 @@ const Home = () => {
 
   const setHomeAddress = async () => {
     try {
-      const locationData = await AsyncStorage.getItem('locationData');
+      const locationData = await AsyncStorage.getItem("locationData");
       const parsedLocationData = locationData ? JSON.parse(locationData) : null;
-  
+
       const currentLocation = {
         latitude: bucketStorage.latitude,
         longitude: bucketStorage.longitude,
         state: bucketStorage.state,
-        district: parsedLocationData?.district || '',
-        city: parsedLocationData?.city || '',
+        district: parsedLocationData?.district || "",
+        city: parsedLocationData?.city || "",
       };
-  
-      await AsyncStorage.setItem('homeAddress', JSON.stringify(currentLocation));
-      alert('Home address set successfully!');
-  
+
+      await AsyncStorage.setItem(
+        "homeAddress",
+        JSON.stringify(currentLocation)
+      );
+      alert("Home address set successfully!");
+
       // Update user location in the database
       await updateUserLocation({
         city: currentLocation.city,
         district: currentLocation.district,
       });
     } catch (error) {
-      console.error('Failed to set home address:', error);
+      console.error("Failed to set home address:", error);
     }
     closeModal();
   };
-  
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Navbar/> */}
+      <Navbar />
       <View style={styles.searchContainer}>
         <TouchableOpacity style={styles.searchButton} onPress={handlePress}>
           {/* <Text style={styles.searchButtonText}>Search</Text> */}
@@ -113,7 +124,6 @@ const Home = () => {
           placeholderTextColor="#888"
           onFocus={handleSearchFocus}
         />
-        
       </View>
 
       {/* Display user information if available */}
@@ -146,10 +156,10 @@ const Home = () => {
       <SimpleMap />
 
       {/* Use the AddressAlertModal component */}
-      <AddressAlertModal 
-        visible={modalVisible} 
-        onClose={closeModal} 
-        onSetHomeAddress={setHomeAddress} 
+      <AddressAlertModal
+        visible={modalVisible}
+        onClose={closeModal}
+        onSetHomeAddress={setHomeAddress}
       />
     </SafeAreaView>
   );
@@ -159,18 +169,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#f7f9fc',
+    backgroundColor: "#f7f9fc",
   },
   searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 15,
     marginTop: 10,
-    width: '100%',
-    backgroundColor: '#fff', 
+    width: "100%",
+    backgroundColor: "#fff",
     paddingHorizontal: 15,
     borderRadius: 10,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     borderWidth: 1,
   },
   searchInput: {
@@ -179,30 +189,30 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   searchButton: {
-    // backgroundColor: '#4CAF50', 
+    // backgroundColor: '#4CAF50',
     // paddingVertical: 10,
     // paddingHorizontal: 1,
     borderRadius: 8,
     // marginLeft: 10,
   },
   searchButtonText: {
-    color: '#fff', 
+    color: "#fff",
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   infoContainer: {
     marginBottom: 20,
-    alignItems: 'flex-start', 
+    alignItems: "flex-start",
   },
   label: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#333', 
+    fontWeight: "600",
+    color: "#333",
   },
   text: {
     fontSize: 18,
     marginBottom: 5,
-    color: '#555', 
+    color: "#555",
   },
   userInfo: {
     marginBottom: 20,
