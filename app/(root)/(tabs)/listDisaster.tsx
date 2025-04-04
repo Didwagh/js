@@ -75,8 +75,8 @@ const DisasterReports = () => {
           district: doc.district || "",
           approvedBy: doc.approvedBy || "",
         }));
-
         setReports(mappedReports);
+
       } catch (error) {
         console.error(error);
         Alert.alert("Error", "Failed to load disaster reports");
@@ -141,7 +141,7 @@ const DisasterReports = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.btn, { backgroundColor: "#ef4256" }]}
-          onPress={() => handleApprove(item.$id)}
+          onPress={() => handleReject(item.$id)}
         >
           <Text style={styles.btnText}>Reject</Text>
         </TouchableOpacity>

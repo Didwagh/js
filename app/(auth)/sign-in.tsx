@@ -1,14 +1,6 @@
 // SignIn.tsx
-import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  Button,
-  Text,
-  View,
-  TextInput,
-  Alert,
-  TouchableOpacity,
-} from "react-native";
+import React, { useState } from "react";
+import {StyleSheet,Button,Text,View,TextInput,Alert,TouchableOpacity,} from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { signIn } from "@/lib/appwrite"; // Adjust the import path accordingly
@@ -18,7 +10,6 @@ interface FormData {
   password: string;
 }
 
-// const { res, setRes } = useRes();
 const SignIn: React.FC = () => {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
@@ -27,10 +18,13 @@ const SignIn: React.FC = () => {
   });
 
   const handlePress = async () => {
+    if (!formData.email || !formData.password) {
+      Alert.alert("Error", "Please fill in both fields.");
+      return;
+    }
     try {
       const response = await signIn(formData.email, formData.password);
       // console.log(response);
-
       // console.log('Login successful:', response);
       // setRes(JSON.stringify(response,null,2));
       // setRes(JSON.stringify(response, null, 2));
@@ -61,10 +55,7 @@ const SignIn: React.FC = () => {
           placeholder="Enter your email address"
           placeholderTextColor="#ccc"
           value={formData.email}
-          onChangeText={(text) => {
-            console.log("Email changed:", text);
-            setFormData({ ...formData, email: text });
-          }}
+          onChangeText={(text) => setFormData((prev)=>({ ...prev, email: text }))}
           autoCapitalize="none"
           keyboardType="email-address"
         />
@@ -82,7 +73,8 @@ const SignIn: React.FC = () => {
           placeholder="Enter your password"
           placeholderTextColor="#ccc"
           value={formData.password}
-          onChangeText={(text) => setFormData({ ...formData, password: text })}
+          // onChangeText={(text) => setFormData({ ...formData, password: text })}
+          onChangeText={(text) =>setFormData((prev)=>({ ...prev, password: text }))}
           secureTextEntry={true}
           autoCapitalize="none"
         />

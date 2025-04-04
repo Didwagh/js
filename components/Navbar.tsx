@@ -12,7 +12,7 @@ const Navbar = () => {
     <View>
       <View style={styles.navbar}>
         <Text style={styles.navbarText}>Navbar</Text>
-        <TouchableOpacity onPress={handleToggle}>
+        <TouchableOpacity onPress={handleToggle} >
           {isMenuOpen ? (
             <Entypo name="cross" size={25} />
           ) : (
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 40,
     right: 0,
-    width: "80%",
+    width: "70%",
     zIndex: 1,
   },
 });

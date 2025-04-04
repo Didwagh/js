@@ -1,19 +1,24 @@
 import {Alert,Dimensions,StyleSheet,Text,TouchableOpacity,View,} from "react-native";
 import React from "react";
 import { signOut } from "@/lib/appwrite";
-import { router } from "expo-router";
+import {  router,useNavigation } from "expo-router";
 import { useGlobalContext } from "@/context/GlobalProvider";
 
 const Drawer = () => {
   const { setIsLogged } = useGlobalContext();
+  // const router=useNavigation();
   const handlePress = (action: any) => {
     Alert.alert(`You clicked on: ${action} ${Dimensions.get("window").height}`);
   };
   const handleViewProfile = () => {
-    Alert.alert(`You clicked on: View Profile`);
+    // Alert.alert(`You clicked on: View Profile`);
+    // router.navigate('/(root)/profile');
+    router.push('/(root)/profile')
+    // Alert.alert(`You clicked on: View Profile`);
   };
   const handleUpdateProfile = () => {
     Alert.alert(`You clicked on: Update Profile`);
+    router.push('/(root)\\updateProfile')
   };
   const handleChangePassword = () => {
     Alert.alert(`You clicked on: change password`);
@@ -47,7 +52,7 @@ const Drawer = () => {
           <Text style={styles.buttonText}>My Profile</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.button}
           onPress={() => handleUpdateProfile()}
         >
@@ -59,7 +64,7 @@ const Drawer = () => {
           onPress={() => handleChangePassword()}
         >
           <Text style={styles.buttonText}>Change Password</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           style={styles.button}
@@ -68,7 +73,7 @@ const Drawer = () => {
           <Text style={styles.buttonText}>Settings</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={() => handleLogout()}>
+        <TouchableOpacity style={[styles.button,{backgroundColor:'#dd0000'}]} onPress={() => handleLogout()} >
           <Text style={styles.buttonText}>Logout</Text>
         </TouchableOpacity>
       </View>
@@ -81,7 +86,7 @@ export default Drawer;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    // alignItems: "center",
     backgroundColor: "white",
     padding: 20,
   },
@@ -96,7 +101,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     borderRadius: 8,
     marginBottom: 15,
-    width: "100%",
+    width: "70%",
     alignItems: "center",
   },
   buttonText: {

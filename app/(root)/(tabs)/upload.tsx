@@ -23,6 +23,7 @@ const VideoUploader: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>(""); // New state for description
   const [disasterType, setDisasterType] = useState<string>(""); // State for disaster type
+  const [report, setReport] = useState("");
 
   const pickVideo = async () => {
     try {
@@ -31,6 +32,7 @@ const VideoUploader: React.FC = () => {
       if (result.assets && result.assets.length > 0) {
         const { uri } = result.assets[0];
         setVideoUri(uri);
+        setReport(JSON.stringify(result));
       } else {
         Alert.alert("No video selected");
       }
@@ -145,6 +147,11 @@ const VideoUploader: React.FC = () => {
       </TouchableOpacity>
       {uploadUrl && (
         <Text style={styles.uploadedUrl}>Uploaded Video URL: {uploadUrl}</Text>
+      )}
+      {report && (
+        // report.map((item)=>{
+        <Text>{report}</Text>
+        // })
       )}
     </View>
   );
