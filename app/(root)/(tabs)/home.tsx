@@ -1,5 +1,5 @@
 import React from "react";
-import {View,Text,TouchableOpacity,FlatList,ScrollView,StyleSheet,} from "react-native";
+import {View,Text,TouchableOpacity,FlatList,ScrollView,Dimensions,StyleSheet,} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -11,6 +11,8 @@ const HomeScreen: React.FC = () => {
     { id: "1", title: "Flood in Jakarta", status: "Urgent Assistance Needed" },
     { id: "2", title: "Wildfire in California", status: "Evacuations Ongoing" },
     { id: "3", title: "Earthquake in Japan", status: "Rescue Teams Deployed" },
+    { id: "4", title: "Landslide in Nepal", status: "Blocked roads, need rescue" },
+    { id: "5", title: "Storm in Philippines", status: "Power outage in many areas" },
   ];
   const router=useRouter()
   const handleNavigate=()=>{}
@@ -36,11 +38,12 @@ const HomeScreen: React.FC = () => {
       </View>
 
       <View style={styles.content}>
-        {/* Live Disaster Updates */}
         <Text style={styles.sectionTitle}>Live Disaster Updates</Text>
         <FlatList
           data={disasterUpdates}
           keyExtractor={(item) => item.id}
+          style={styles.flatList}
+          contentContainerStyle={{ paddingBottom: 10 }}
           renderItem={({ item }) => (
             <View style={styles.disasterCard}>
               <Text style={styles.disasterTitle}>{item.title}</Text>
@@ -50,7 +53,7 @@ const HomeScreen: React.FC = () => {
         />
 
         {/* How You Can Help */}
-        <Text style={styles.sectionTitle}>How You Can Help</Text>
+        {/* <Text style={styles.sectionTitle}>How You Can Help</Text> */}
         <View style={styles.helpSection}>
           <TouchableOpacity style={styles.helpCard}>
             <Ionicons name="people" size={30} color="#4CAF50" />
@@ -86,7 +89,10 @@ const styles = StyleSheet.create({
   disasterStatus: { fontSize: 14, color: "red", marginTop: 5 },
   helpSection: {flexDirection: "row",justifyContent: "space-between",marginTop: 10,},
   helpCard: {alignItems: "center",padding: 15,backgroundColor: "white",borderRadius: 8,flex: 1,marginHorizontal: 5,elevation: 2,},
-  helpCardText:{flex:1,textAlign:'center',padding:1}
+  helpCardText:{flex:1,textAlign:'center',padding:1},
+  flatList: {
+    maxHeight: Dimensions.get("window").height * 0.35, // Adjust height as needed
+  },
 });
 
 export default HomeScreen;
