@@ -6,6 +6,7 @@ import {
   Storage,
 } from "react-native-appwrite";
 import * as FileSystem from 'expo-file-system';
+import axios from "axios";
 //this is all appwrite config dont leak it out 
 // Appwrite configuration
 export const appwriteConfig = {
@@ -76,8 +77,14 @@ export const createDisasterReport = async (data: { title: string; video: string;
 
 export const signUp = async (email: string, password: string, name: string) => {
   try {
-    const response = await account.create(ID.unique(), email, password, name);
-    return response;
+    // const response = await account.create(ID.unique(), email, password, name);
+    const emailRequest = {
+      emailContent: "there is fire new me please help i might get hurt , give me step by step way to save myself  make it consise and shoud contain bullet points only safety is priority // this is test api and not real sos call give me appropriate repsone ",
+      tone: "serious" 
+    };
+    
+    return generateEmailReply(emailRequest)
+     
   } catch (error) {
     console.error('Error signing up:', error);
     throw new Error('Failed to sign up');
@@ -93,3 +100,62 @@ export const signIn = async (email: string, password: string) => {
     throw new Error('Failed to sign in');
   }
 };
+
+
+interface EmailRequest {
+  emailContent: string;
+  tone?: string;
+}
+
+const geminiApiUrl = process.env.GEMINI_API_URL || 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='; // Set this to your Gemini API URL
+const geminiApiKey = process.env.GEMINI_API_KEY || 'AIzaSyD8-vbOO8QIIN_x6DYFwmRp5-op_P5SJqo'; // Set your Gemini API Key
+
+async function generateEmailReply(emailRequest: EmailRequest): Promise<string> {
+  const prompt = buildPrompt(emailRequest);
+
+  const requestBody = {
+    contents: [
+      {
+        parts: [
+          {
+            text: prompt,
+          },
+        ],
+      },
+    ],
+  };
+
+  try {
+    const response = await axios.post(`${geminiApiUrl}${geminiApiKey}`, requestBody, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return extractResponseContent(response.data);
+  } catch (error) {
+    console.error('Error generating email reply:', error);
+    throw new Error('Error processing the request');
+  }
+}
+
+function buildPrompt(emailRequest: EmailRequest): string {
+  let prompt = 'disaster is happening near me with this info';
+  if (emailRequest.tone) {
+    prompt += `, use a serious tone`;
+  }
+
+  prompt += `, original message: ${emailRequest.emailContent}`;
+  return prompt;
+}
+
+function extractResponseContent(response: any): string {
+  try {
+    const content = response.candidates[0].content.parts[0].text;
+    return content;
+  } catch (error) {
+    console.error('Error extracting response content:', error);
+    throw new Error('Error processing the response content');
+  }
+}
+
