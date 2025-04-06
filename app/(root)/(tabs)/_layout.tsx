@@ -45,28 +45,27 @@ const Layout = () => {
           title: "",
           // headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "search" : "search"}
-              color={color}
-            />
+            <TabBarIcon name={focused ? "search" : "search"} color={color} />
           ),
         }}
       />
-      {(isUser || isVolunteer) && <Tabs.Screen
-      // <Tabs.Screen
-        name="upload"
-        options={{
-          href: "/upload", // Specify href here
-          title: "",
-          headerShown: false,
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "cloud-upload" : "cloud-upload-outline"}
-              color={color}
-            />
-          ),
-        }}
-      />}
+      {(isUser || isVolunteer) && (
+        <Tabs.Screen
+          // <Tabs.Screen
+          name="upload"
+          options={{
+            href: "/upload", // Specify href here
+            title: "",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabBarIcon
+                name={focused ? "cloud-upload" : "cloud-upload-outline"}
+                color={color}
+              />
+            ),
+          }}
+        />
+      )}
 
       <Tabs.Screen
         name="listDisaster"
@@ -130,6 +129,20 @@ const Layout = () => {
           ),
         }}
       />
+      <Tabs.Screen
+        name="Donate"
+        options={{
+          href: "/Donation/DonationForm",
+          title: "Donate",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "information-circle" : "information"}
+              color={color}
+            />
+          ),
+        }}
+      />
       {/* <Tabs.Screen
         name="homepage"
         options={{
@@ -158,7 +171,6 @@ const Layout = () => {
           // header: ({ navigation }) => (
           //   <Navbar navigation={navigation} /> // Use custom Navbar as header
           // ),
-
 
           // headerStyle: { backgroundColor: "skyblue" },
           // headerTintColor: "#fff",

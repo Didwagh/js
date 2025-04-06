@@ -2,10 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+interface Requirement {
+  id: string;
+  type: string;
+  required: number;
+  received: number;
+  description: string;
+}
 const DonationPage = () => {
-  const [requirements, setRequirements] = useState([]);
-  const navigation = useNavigation();
-
+  const [requirements, setRequirements] = useState<Requirement[]>([]);
+  const navigation = useNavigation<any>();
   useEffect(() => {
     // Fetch from Appwrite or backend
     setRequirements([
@@ -30,7 +36,7 @@ const DonationPage = () => {
             <Button
               title="Donate"
               color="#1e90ff"
-            //   onPress={() => navigation.navigate('DonationForm', { requirement: item })}
+              onPress={() => navigation.navigate('Donation/DonationForm', { requirement: item })}
             />
           </View>
         </View>
