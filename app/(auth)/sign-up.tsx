@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 // import { registerUser } from "@/lib/appwrite"; // Adjust the import path
 import { useRouter } from 'expo-router';
-import { signUp } from "@/lib/appwrite";
+import { chatbot, signUp } from "@/lib/appwrite";
 
 const SignupPage: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -16,9 +16,13 @@ const SignupPage: React.FC = () => {
     // router.navigate('/(auth)/sign-in');
     try {
       console.log("first")
-     const respone = await signUp(email, password, name);
+    //  const respone = await signUp(email, password, name);
       // Alert.alert("Success", "User registered successfully!"  );
-      Alert.alert("" , respone );
+      // Alert.alert("" , respone );
+
+      const response = await chatbot("hell");
+      Alert.alert("" , response );
+
     } catch (error: any) { // Cast error to 'any'
       Alert.alert("Error", error.message || "Registration failed!");
     }
