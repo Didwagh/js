@@ -11,7 +11,7 @@ const Navbar = () => {
   return (
     <View>
       <View style={styles.navbar}>
-        <Text style={styles.navbarText}>Navbar</Text>
+        <Text style={styles.navbarText}></Text>
         <TouchableOpacity onPress={handleToggle} >
           {isMenuOpen ? (
             <Entypo name="cross" size={25} />
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 7,
     justifyContent: "space-between",
-    backgroundColor: "white",
+    backgroundColor: "#dfdfdf",
     zIndex: 2,
   },
   navbarText: {
