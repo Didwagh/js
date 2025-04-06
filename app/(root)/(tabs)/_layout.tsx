@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { useGlobalContext } from "@/context/GlobalProvider";
-import {  MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import Navbar from "@/components/Navbar";
 const Layout = () => {
@@ -9,12 +9,15 @@ const Layout = () => {
   console.log(user);
   // const isAdmin= user.role !== 'user' &&  user.role!=='volunteer' && user.role !== 'ngo'
   // const isAdmin = user.email === "admin@gmail.com" || "admin1@gmail.com";
-  const isAdmin = user.role === 'Admin'
-  console.log(isAdmin);
-  const isUser = user.role === 'User'
-  console.log(isUser);
-  const isVolunteer = !isAdmin && !isUser;
-  console.log(isVolunteer);
+  const isAdmin = user.role === "Admin";
+  // console.log(isAdmin);
+  const isUser = user.role === "User";
+  // console.log(isUser);
+  const isVolunteer = user.role === "Volunteer";
+
+  const isNgo = user.role === "NGO";
+  // console.log(isVolunteer);
+  // console.log("***************************NGO***********************************",isNgo);
 
   return (
     <Tabs
@@ -41,7 +44,7 @@ const Layout = () => {
       <Tabs.Screen
         name="search"
         options={{
-          href: "/(root)/searchBar", // Specify href here
+          href: (isUser || isVolunteer)?"/(root)/searchBar":null, // Specify href here
           title: "",
           // headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -49,28 +52,28 @@ const Layout = () => {
           ),
         }}
       />
-      {(isUser || isVolunteer) && (
-        <Tabs.Screen
-          // <Tabs.Screen
-          name="upload"
-          options={{
-            href: "/upload", // Specify href here
-            title: "",
-            headerShown: false,
-            tabBarIcon: ({ color, focused }) => (
-              <TabBarIcon
-                name={focused ? "cloud-upload" : "cloud-upload-outline"}
-                color={color}
-              />
-            ),
-          }}
-        />
-      )}
+
+      <Tabs.Screen
+        // <Tabs.Screen
+        name="upload"
+        options={{
+          href: (isUser || isVolunteer) ?"/upload":null, // Specify href here
+          title: "",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "cloud-upload" : "cloud-upload-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
 
       <Tabs.Screen
         name="listDisaster"
         options={{
-          href: isVolunteer ? "/listDisaster" : null,
+          href: isAdmin ? "/listDisaster" : null,
+          // href: "/listDisaster" ,
           title: "",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -99,7 +102,8 @@ const Layout = () => {
       <Tabs.Screen
         name="helpUs"
         options={{
-          href: isVolunteer ? "/helpUs" : null,
+          // href: isVolunteer ? "/helpUs" : null,
+          href: "/helpUs" ,
           title: "reports",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -130,14 +134,36 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name="Donate"
+        name="Donation/DonationForm"
         options={{
-          href: "/Donation/DonationForm",
+          href: null,
           title: "Donate",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "information-circle" : "information"}
+            <FontAwesome5 name="donate" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Donation/DonationPage"
+        options={{
+          href: (isUser || isVolunteer)?"/Donation/DonationPage":null,
+          title: "Donate",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <FontAwesome5 name="list" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Donation/PostRequirementForm"
+        options={{
+          href: isNgo ? "/Donation/PostRequirementForm" : null,
+          title: "DonatePost",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialIcons
+              name={focused ? "post-add" : "post-add"}
               color={color}
             />
           ),
@@ -157,8 +183,9 @@ const Layout = () => {
       <Tabs.Screen
         name="details"
         options={{
-          href: "/details",
-          title: "detail",
+          // href: "/details",
+          href: null,
+          title: "",
           // headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <MaterialIcons

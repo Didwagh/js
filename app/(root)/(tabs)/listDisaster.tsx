@@ -1,19 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  ActivityIndicator,
-  Alert,
-  Button,
-  TouchableOpacity,
-} from "react-native";
+import {View,Text,FlatList,StyleSheet,ActivityIndicator,Alert,Button,TouchableOpacity,} from "react-native";
 import { Client, Databases, Models } from "react-native-appwrite";
-import {
-  getUnapprovedDisasterReports,
-  updateDisasterReportApproval,
-} from "@/lib/appwrite";
+import {getUnapprovedDisasterReports,updateDisasterReportApproval} from "@/lib/appwrite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useGlobalContext } from "@/context/GlobalProvider";
 import { appwriteConfig } from "@/lib/appwrite";
