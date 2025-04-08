@@ -150,7 +150,7 @@ function buildPrompt(emailRequest: EmailRequest): string {
 function extractResponseContent(response: any): string {
   try {
     const content = response.candidates[0].content.parts[0].text;
-    return content;
+    return content.replace(/\*/g, '').trim();
   } catch (error) {
     console.error("Error extracting response content:", error);
     throw new Error("Error processing the response content");
