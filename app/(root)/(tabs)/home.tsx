@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   helpCard: {alignItems: "center",padding: 15,backgroundColor: "white",borderRadius: 8,flex: 1,marginHorizontal: 5,elevation: 2,},
   helpCardText:{flex:1,textAlign:'center',padding:1},
   flatList: {
-    maxHeight: Dimensions.get("window").height * 0.35, // Adjust height as needed
+    maxHeight: Dimensions.get("window").height * 0.45, // Adjust height as needed
   },
 });
 

@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { useGlobalContext } from "@/context/GlobalProvider";
-import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5, MaterialIcons, Octicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 import Navbar from "@/components/Navbar";
 const Layout = () => {
@@ -44,7 +44,7 @@ const Layout = () => {
       <Tabs.Screen
         name="search"
         options={{
-          href: (isUser || isVolunteer)?"/(root)/searchBar":null, // Specify href here
+          href: isUser || isVolunteer ? "/(root)/searchBar" : null, // Specify href here
           title: "",
           // headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -57,7 +57,7 @@ const Layout = () => {
         // <Tabs.Screen
         name="upload"
         options={{
-          href: (isUser || isVolunteer) ?"/upload":null, // Specify href here
+          href: isUser || isVolunteer ? "/upload" : null, // Specify href here
           title: "",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -103,7 +103,7 @@ const Layout = () => {
         name="helpUs"
         options={{
           // href: isVolunteer ? "/helpUs" : null,
-          href: "/helpUs" ,
+          href: "/helpUs",
           title: "reports",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -147,9 +147,10 @@ const Layout = () => {
       <Tabs.Screen
         name="Donation/DonationPage"
         options={{
-          href: (isUser || isVolunteer)?"/Donation/DonationPage":null,
-          title: "Donate",
-          headerShown: false,
+          href: isUser || isVolunteer ? "/Donation/DonationPage" : null,
+          // title: "Donate & Help",
+          title: "",
+          headerShown: true,
           tabBarIcon: ({ color, focused }) => (
             <FontAwesome5 name="list" color={color} />
           ),
@@ -159,7 +160,34 @@ const Layout = () => {
         name="Donation/PostRequirementForm"
         options={{
           href: isNgo ? "/Donation/PostRequirementForm" : null,
-          title: "DonatePost",
+          title: "",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialIcons
+              name={focused ? "post-add" : "post-add"}
+              size={28}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="chatBot"
+        options={{
+          href: !isAdmin ? "/chatBot" : null,
+          title: "",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <Octicons name="dependabot" size={28} color={color} />
+          ),
+        }}
+      />
+      {/* <Tabs.Screen
+        name="sos"
+        options={{
+          // href: isUser ? "/sos" : null,
+          href: "/(root)(tabs)sos",
+          title: "SOS",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <MaterialIcons
@@ -168,7 +196,7 @@ const Layout = () => {
             />
           ),
         }}
-      />
+      /> */}
       {/* <Tabs.Screen
         name="homepage"
         options={{

@@ -70,7 +70,7 @@ const Drawer = () => {
           style={styles.button}
           onPress={() => handlePress("Settings")}
         >
-          <Text style={styles.buttonText}>Settings</Text>
+          <Text style={styles.buttonText}>Location</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={[styles.button,{backgroundColor:'#dd0000'}]} onPress={() => handleLogout()} >
