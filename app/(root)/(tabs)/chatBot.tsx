@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, ActivityIndicator, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, ActivityIndicator, TouchableOpacity, ImageBackground, ScrollView, KeyboardAvoidingView,  Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { chatbot } from '@/lib/appwrite';
 import { Picker } from '@react-native-picker/picker';
@@ -67,117 +67,103 @@ const ChatBot: React.FC = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-      <View style={styles.languagePickerContainer}>
-        <Picker
-          selectedValue={language}
-          style={styles.picker}
-          onValueChange={(itemValue: Language) => {
-            setLanguage(itemValue);
-            saveLanguage(itemValue); // Save the selected language
-          }}
-        >
-          <Picker.Item label="English" value="en" />
-          <Picker.Item label="Hindi" value="hi" />
-          <Picker.Item label="Marathi" value="mr" />
-          <Picker.Item label="Malayalam" value="ml" />
-          <Picker.Item label="Kannada" value="kn" />
-        </Picker>
-      </View>
-
-      {/* Disaster blocks */}
-      <View style={styles.disasterContainer}>
-        {Object.keys(disasterImages).map((disaster, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.disasterBlock}
-            onPress={() => addDisasterToInput(disaster)}
+    <KeyboardAvoidingView
+      style={styles.wrapper}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}
+    >
+      <View style={styles.container}>
+        <View style={styles.languagePickerContainer}>
+          <Picker
+            selectedValue={language}
+            style={styles.picker}
+            onValueChange={(itemValue: Language) => {
+              setLanguage(itemValue);
+              saveLanguage(itemValue);
+            }}
           >
-            <ImageBackground
-              source={{ uri: disasterImages[disaster] }}
-              style={styles.disasterImageBackground}
+            <Picker.Item label="English" value="en" />
+            <Picker.Item label="Hindi" value="hi" />
+            <Picker.Item label="Marathi" value="mr" />
+            <Picker.Item label="Malayalam" value="ml" />
+            <Picker.Item label="Kannada" value="kn" />
+          </Picker>
+        </View>
+
+        {/* Disaster blocks */}
+        {/* <View style={styles.disasterContainer}>
+          {Object.keys(disasterImages).map((disaster, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.disasterBlock}
+              onPress={() => addDisasterToInput(disaster)}
             >
-              <Text style={styles.disasterText}>{disaster}</Text>
-            </ImageBackground>
+              <ImageBackground
+                source={{ uri: disasterImages[disaster] }}
+                style={styles.disasterImageBackground}
+              >
+                <Text style={styles.disasterText}>{disaster}</Text>
+              </ImageBackground>
+            </TouchableOpacity>
+          ))}
+        </View> */}
+
+        {/* Scrollable response */}
+        <ScrollView style={styles.responseContainer}>
+          {loading && <ActivityIndicator size="large" color="#6200EE" />}
+          {response && !loading && <Text style={styles.response}>{response}</Text>}
+        </ScrollView>
+
+        {/* Fixed input + send button */}
+        <View style={styles.inputArea}>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your message"
+            value={inputText}
+            onChangeText={setInputText}
+          />
+          <TouchableOpacity style={styles.sendButton} onPress={callChatbotApi}>
+            <Text style={styles.sendButtonText}>Send</Text>
           </TouchableOpacity>
-        ))}
+        </View>
       </View>
-
-      {/* Text Input */}
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your message"
-        value={inputText}
-        onChangeText={setInputText}
-      />
-      <TouchableOpacity style={styles.sendButton} onPress={callChatbotApi}>
-        <Text style={styles.sendButtonText}>Send</Text>
-      </TouchableOpacity>
-
-      {loading && <ActivityIndicator size="large" color="#6200EE" />}
-      {response && !loading && <Text style={styles.response}>{response}</Text>}
-    </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#F3F4F6', // Light background color
+  wrapper: {
+    flex: 1,
+    backgroundColor: '#F3F4F6',
   },
-  input: {
-    width: '100%',
-    padding: 14,
-    borderWidth: 1,
-    borderColor: '#ccc',
+  container: {
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingTop: 20,
+  },
+  languagePickerContainer: {
+    alignSelf: 'flex-end',
     marginBottom: 16,
-    borderRadius: 8,
-    backgroundColor: '#fff',
-    fontSize: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
   },
   picker: {
     height: 50,
     width: 150,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
     backgroundColor: '#fff',
-    marginBottom: 20,
-  },
-  languagePickerContainer: {
-    position: 'absolute',
-    top: 40,
-    right: 16,
-    zIndex: 1,
-    padding: 8,
   },
   disasterContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   disasterBlock: {
-    width: 120,
-    height: 120,
-    margin: 8,
+    width: 110,
+    height: 110,
+    margin: 6,
     borderRadius: 10,
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
   },
   disasterImageBackground: {
     flex: 1,
@@ -191,32 +177,51 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#fff',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dark overlay for better text readability
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     paddingHorizontal: 5,
     paddingVertical: 2,
+  },
+  responseContainer: {
+    flex: 1,
+    marginBottom: 70,
+  },
+  response: {
+    fontSize: 16,
+    color: '#333',
+    textAlign: 'justify',
+    padding: 10,
+  },
+  inputArea: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    padding: 8,
+    borderTopWidth: 1,
+    borderColor: '#ccc',
+  },
+  input: {
+    flex: 1,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    marginRight: 8,
+    backgroundColor: '#fff',
+    fontSize: 16,
   },
   sendButton: {
     backgroundColor: '#6200EE',
     paddingVertical: 12,
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     borderRadius: 8,
-    marginTop: 16,
-    shadowColor: '#6200EE',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
+    justifyContent: 'center',
   },
   sendButtonText: {
     color: '#fff',
-    fontSize: 18,
     fontWeight: 'bold',
-  },
-  response: {
-    marginTop: 20,
-    fontSize: 16,
-    color: '#333',
-    textAlign: 'center',
-    paddingHorizontal: 10,
   },
 });
 
