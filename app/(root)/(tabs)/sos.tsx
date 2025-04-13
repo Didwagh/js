@@ -6,12 +6,15 @@ import { useGlobalContext } from "@/context/GlobalProvider";
 import { FontAwesome } from "@expo/vector-icons";
 import { getUsersWithTokens } from "@/lib/appwrite";
 import { sendPushNotification } from "@/lib/appwrite"; // ✅ Make sure this path is correct
+import axios from "axios";
 
 
 const SOS = () => {
   const { user } = useGlobalContext();
 
   const [region, setRegion] = useState<any>(null);
+
+
   const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
   const [flagColor, setFlagColor] = useState("green");
 
@@ -37,20 +40,51 @@ const SOS = () => {
         });
 
         // 🌍 Reverse geocode location
-        const address = await Location.reverseGeocodeAsync({ latitude, longitude });
+        // const address = await Location.reverseGeocodeAsync({ latitude, longitude });
+      //   if (address.length > 0) {
+      //     const { city, district } = address[0];
+      //     setCity(city?city:"");
+      //     setDistrict(district?district:"");
+      //     console.log("📍 Location Info:");
+      //     console.log("City:", city);
+      //     console.log("District:", district);
+      //   }
+      // } else {
+      //   Alert.alert("Permission Denied", "We need location permission to continue.");
+      // }
 
-        if (address.length > 0) {
-          const { city, district } = address[0];
-          setCity(city?city:"");
-          setDistrict(district?district:"");
-          console.log("📍 Location Info:");
-          console.log("City:", city);
-          console.log("District:", district);
+
+
+
+
+      const reverseGeocode = async (latitude: number, longitude: number) => {
+        const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`;
+        console.log(url);
+        try {
+          const response = await axios.get(url, {
+            headers: {
+              'User-Agent': 'js' 
+            }
+          });
+          return response.data;
+        } catch (error) {
+          console.log("reverse geo code error");
+          console.error(error);
+          return null;
         }
-      } else {
-        Alert.alert("Permission Denied", "We need location permission to continue.");
+      };
+      
+
+      const geocodeData = await reverseGeocode(latitude, longitude);
+
+      if (geocodeData) {
+        setDistrict(geocodeData.address.state_district);
+        setCity(geocodeData.address.city)
       }
+    
+
     };
+  }
 
     requestLocationPermission();
   }, []);
@@ -62,7 +96,7 @@ const SOS = () => {
     }
 
     try {
-      await getUsersWithTokens("Vasai-Virar","Palghar"); 
+      await getUsersWithTokens(city,district); 
     } catch (error) {
       console.error("Failed to send notifications:", error);
     }
