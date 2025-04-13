@@ -4,9 +4,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import Navbar from "@/components/Navbar";
+import usePushNotification from "@/hooks/usePushNotification";
+
 
 const HomeScreen: React.FC = () => {
-  // Simulated disaster updates
+  const expoPushToken = usePushNotification();
+  console.log(expoPushToken);
   const disasterUpdates = [
     { id: "1", title: "Flood in Jakarta", status: "Urgent Assistance Needed" },
     { id: "2", title: "Wildfire in California", status: "Evacuations Ongoing" },
