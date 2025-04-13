@@ -6,7 +6,7 @@ import { useGlobalContext } from "@/context/GlobalProvider";
 import { FontAwesome } from "@expo/vector-icons";
 import { getUsersWithTokens } from "@/lib/appwrite";
 import { sendPushNotification } from "@/lib/appwrite"; // ✅ Make sure this path is correct
- // ✅ Make sure this path is correct
+
 
 const SOS = () => {
   const { user } = useGlobalContext();
@@ -61,16 +61,12 @@ const SOS = () => {
       return;
     }
 
-    // try {
-    //   await getUsersWithTokens(city, district); 
-    // } catch (error) {
-    //   console.error("Failed to send notifications:", error);
-    // }
     try {
-      await sendPushNotification("ExponentPushToken[FH1uCfBG8ghTrve4NnlBkS]"); 
+      await getUsersWithTokens("Vasai-Virar","Palghar"); 
     } catch (error) {
       console.error("Failed to send notifications:", error);
     }
+   
 
 
 

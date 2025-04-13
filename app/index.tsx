@@ -8,7 +8,6 @@ Notifications.setNotificationHandler({
     }),
 });
 const Page = () => {
-    console.log(Notifications)
     return <Redirect href="/(auth)/welcome" />
 };
 
