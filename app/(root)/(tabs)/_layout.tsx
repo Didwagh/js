@@ -7,17 +7,15 @@ import Navbar from "@/components/Navbar";
 const Layout = () => {
   const { user } = useGlobalContext();
   console.log(user);
-  // const isAdmin= user.role !== 'user' &&  user.role!=='volunteer' && user.role !== 'ngo'
-  // const isAdmin = user.email === "admin@gmail.com" || "admin1@gmail.com";
-  const isAdmin = user.role === "Admin";
-  // console.log(isAdmin);
-  const isUser = user.role === "User";
-  // console.log(isUser);
-  const isVolunteer = user.role === "Volunteer";
 
-  const isNgo = user.role === "NGO";
-  // console.log(isVolunteer);
-  // console.log("***************************NGO***********************************",isNgo);
+  // Normalize the user role
+  const userRole = user?.role ?? "User"; // Default to "User" if role is null or undefined
+
+  const isUser = userRole === "User";
+  const isAdmin = userRole === "Admin";
+  const isVolunteer = userRole === "Volunteer";
+  const isNgo = userRole === "NGO";
+
 
   return (
     <Tabs
