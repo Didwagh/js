@@ -34,11 +34,20 @@ const DisasterReports = () => {
   useEffect(() => {
     const fetchUserCity = async () => {
       try {
-        const locationDataString = await AsyncStorage.getItem("locationData");
-        if (locationDataString) {
-          const locationData = JSON.parse(locationDataString);
-          setUserCity(locationData.city);
-        }
+        // const locationDataString = await AsyncStorage.getItem("locationData");
+        const locationDataString  = user.city
+        // if (locationDataString) {
+        //   const locationData = JSON.parse(locationDataString);
+          // setUserCity(locationData.city);
+          setUserCity(locationDataString);
+
+        // }
+    
+        
+
+   
+
+     
       } catch (error) {
         console.error("Failed to fetch user city:", error);
       }

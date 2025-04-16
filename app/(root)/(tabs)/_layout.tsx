@@ -44,7 +44,7 @@ const Layout = () => {
       <Tabs.Screen
         name="search"
         options={{
-          href: isUser || isVolunteer ? "/(root)/searchBar" : null, // Specify href here
+          href: isUser || isVolunteer ? "/(root)/searchBar" : null, 
           title: "",
           // headerShown: false,
           tabBarIcon: ({ color, focused }) => (
