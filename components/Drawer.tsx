@@ -1,7 +1,14 @@
-import {Alert,Dimensions,StyleSheet,Text,TouchableOpacity,View,} from "react-native";
+import {
+  Alert,
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import { signOut } from "@/lib/appwrite";
-import {  router,useNavigation } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { useGlobalContext } from "@/context/GlobalProvider";
 
 const Drawer = () => {
@@ -13,12 +20,12 @@ const Drawer = () => {
   const handleViewProfile = () => {
     // Alert.alert(`You clicked on: View Profile`);
     // router.navigate('/(root)/profile');
-    router.push('/(root)/profile')
+    router.push("/(root)/profile");
     // Alert.alert(`You clicked on: View Profile`);
   };
   const handleUpdateProfile = () => {
     Alert.alert(`You clicked on: Update Profile`);
-    router.push('/(root)\\updateProfile')
+    router.push("/(root)\\updateProfile");
   };
   const handleChangePassword = () => {
     Alert.alert(`You clicked on: change password`);
@@ -73,7 +80,10 @@ const Drawer = () => {
           <Text style={styles.buttonText}>Location</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.button,{backgroundColor:'#dd0000'}]} onPress={() => handleLogout()} >
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: "#dd0000" }]}
+          onPress={() => handleLogout()}
+        >
           <Text style={styles.buttonText}>Logout</Text>
         </TouchableOpacity>
       </View>

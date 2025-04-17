@@ -11,35 +11,33 @@ const GlobalProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const initUser = async () => {
-      console.log("Fetching logged in user...");
-
-      try {
-        const res = await getCurrentUser();
-        if (res) {
-          if (expoPushToken && expoPushToken !== res.token) {
-            console.log("Updating push token...");
-            await updateUserPushToken(expoPushToken);
-            const updatedUser = await getCurrentUser(); 
-            setUser(updatedUser);
-          } else {
-            setUser(res);
-          }
-          setIsLogged(true);
-        } else {
-          setIsLogged(false);
-          setUser(null);
+  const refetchUser = async () => {
+    setLoading(true);
+    try {
+      const res = await getCurrentUser();
+      if (res) {
+        if (expoPushToken && expoPushToken !== res.token) {
+          await updateUserPushToken(expoPushToken);
         }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
+        const updatedUser = await getCurrentUser();
+        setUser(updatedUser);
+        setIsLogged(true);
+      } else {
+        setUser(null);
+        setIsLogged(false);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching user", error);
+      setUser(null);
+      setIsLogged(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    initUser();
-  }, [expoPushToken]); // Only re-run when expoPushToken changes
+  useEffect(() => {
+    refetchUser();
+  }, [expoPushToken]);
 
   return (
     <GlobalContext.Provider
@@ -49,6 +47,7 @@ const GlobalProvider = ({ children }) => {
         user,
         setUser,
         loading,
+        refetchUser, // expose function
       }}
     >
       {children}

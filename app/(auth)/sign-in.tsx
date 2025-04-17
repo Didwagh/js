@@ -1,9 +1,18 @@
 // SignIn.tsx
 import React, { useState } from "react";
-import {StyleSheet,Button,Text,View,TextInput,Alert,TouchableOpacity,} from "react-native";
+import {
+  StyleSheet,
+  Button,
+  Text,
+  View,
+  TextInput,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { signIn } from "@/lib/appwrite"; // Adjust the import path accordingly
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 interface FormData {
   email: string;
@@ -11,6 +20,7 @@ interface FormData {
 }
 
 const SignIn: React.FC = () => {
+  const { refetchUser } = useGlobalContext();
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     email: "",
@@ -23,17 +33,9 @@ const SignIn: React.FC = () => {
       return;
     }
     try {
-      const response = await signIn(formData.email, formData.password);
-      // console.log(response);
-      // console.log('Login successful:', response);
-      // setRes(JSON.stringify(response,null,2));
-      // setRes(JSON.stringify(response, null, 2));
-      const result = JSON.stringify(response, null, 2);
+      await signIn(formData.email, formData.password);
+      await refetchUser(); // refresh global context with new user
       Alert.alert("Success", "You have logged in successfully!");
-      // Alert.alert(`${result}`);
-      // Alert.alert(`${formData.email}`);
-      // console.log(response);
-
       router.navigate("/(root)/(tabs)/home");
     } catch (error: any) {
       Alert.alert("Sign In Error", error.message);
@@ -55,7 +57,9 @@ const SignIn: React.FC = () => {
           placeholder="Enter your email address"
           placeholderTextColor="#ccc"
           value={formData.email}
-          onChangeText={(text) => setFormData((prev)=>({ ...prev, email: text }))}
+          onChangeText={(text) =>
+            setFormData((prev) => ({ ...prev, email: text }))
+          }
           autoCapitalize="none"
           keyboardType="email-address"
         />
@@ -74,7 +78,9 @@ const SignIn: React.FC = () => {
           placeholderTextColor="#ccc"
           value={formData.password}
           // onChangeText={(text) => setFormData({ ...formData, password: text })}
-          onChangeText={(text) =>setFormData((prev)=>({ ...prev, password: text }))}
+          onChangeText={(text) =>
+            setFormData((prev) => ({ ...prev, password: text }))
+          }
           secureTextEntry={true}
           autoCapitalize="none"
         />
