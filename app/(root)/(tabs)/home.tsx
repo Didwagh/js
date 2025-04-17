@@ -1,33 +1,51 @@
 import React from "react";
-import {View,Text,TouchableOpacity,FlatList,ScrollView,Dimensions,StyleSheet,} from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  ScrollView,
+  Dimensions,
+  StyleSheet,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import Navbar from "@/components/Navbar";
-
-
+import SimpleMap from "@/components/Map";
 
 const HomeScreen: React.FC = () => {
   const disasterUpdates = [
     { id: "1", title: "Flood in Jakarta", status: "Urgent Assistance Needed" },
     { id: "2", title: "Wildfire in California", status: "Evacuations Ongoing" },
     { id: "3", title: "Earthquake in Japan", status: "Rescue Teams Deployed" },
-    { id: "4", title: "Landslide in Nepal", status: "Blocked roads, need rescue" },
-    { id: "5", title: "Storm in Philippines", status: "Power outage in many areas" },
+    {
+      id: "4",
+      title: "Landslide in Nepal",
+      status: "Blocked roads, need rescue",
+    },
+    {
+      id: "5",
+      title: "Storm in Philippines",
+      status: "Power outage in many areas",
+    },
   ];
-  const router=useRouter()
-  const handleNavigate=()=>{}
+  const router = useRouter();
+  const handleNavigate = () => {};
   return (
     <SafeAreaView style={styles.container}>
       {/* Hero Section */}
-      <Navbar/>
+      <Navbar />
       <View style={styles.heroSection}>
         <Text style={styles.heroTitle}>Disaster Relief & Response</Text>
         <Text style={styles.heroSubtitle}>
           Be the help they need - Join, Report, and Support!
         </Text>
         <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.buttonPrimary} onPress={()=>router.navigate('/(root)/(tabs)/upload')}>
+          <TouchableOpacity
+            style={styles.buttonPrimary}
+            onPress={() => router.navigate("/(root)/(tabs)/upload")}
+          >
             <Ionicons name="megaphone" size={20} color="white" />
             <Text style={styles.buttonText}>Report Disaster</Text>
           </TouchableOpacity>
@@ -69,6 +87,7 @@ const HomeScreen: React.FC = () => {
             <Text>Donate & Support</Text>
           </TouchableOpacity>
         </View>
+        <SimpleMap />
       </View>
     </SafeAreaView>
   );
@@ -76,21 +95,60 @@ const HomeScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f5f5f5" },
-  heroSection: {padding: 20,backgroundColor: "#dfdfdf",alignItems: "center"},
+  heroSection: {
+    padding: 20,
+    backgroundColor: "#dfdfdf",
+    alignItems: "center",
+  },
   heroTitle: { fontSize: 24, fontWeight: "bold", color: "black" },
-  heroSubtitle: {fontSize: 16,color: "black",marginVertical: 10,textAlign: "center"},
+  heroSubtitle: {
+    fontSize: 16,
+    color: "black",
+    marginVertical: 10,
+    textAlign: "center",
+  },
   buttonRow: { flexDirection: "row", gap: 10, marginTop: 10 },
-  buttonPrimary: {flexDirection: "row",alignItems: "center",backgroundColor: "#4CAF50",padding: 10,borderRadius: 5,},
-  buttonSecondary: {flexDirection: "row",alignItems: "center",backgroundColor: "#2196F3",padding: 10,borderRadius: 5,},
+  buttonPrimary: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#4CAF50",
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonSecondary: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#2196F3",
+    padding: 10,
+    borderRadius: 5,
+  },
   buttonText: { color: "white", marginLeft: 5 },
-  content: { padding: 20,gap:5 },
+  content: { padding: 20, gap: 5 },
   sectionTitle: { fontSize: 18, fontWeight: "bold", marginVertical: 7 },
-  disasterCard: {padding: 15,backgroundColor: "white",borderRadius: 8,marginBottom: 10,elevation: 2,},
+  disasterCard: {
+    padding: 15,
+    backgroundColor: "white",
+    borderRadius: 8,
+    marginBottom: 10,
+    elevation: 2,
+  },
   disasterTitle: { fontSize: 16, fontWeight: "bold" },
   disasterStatus: { fontSize: 14, color: "red", marginTop: 5 },
-  helpSection: {flexDirection: "row",justifyContent: "space-between",marginTop: 10,},
-  helpCard: {alignItems: "center",padding: 15,backgroundColor: "white",borderRadius: 8,flex: 1,marginHorizontal: 5,elevation: 2,},
-  helpCardText:{flex:1,textAlign:'center',padding:1},
+  helpSection: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+  },
+  helpCard: {
+    alignItems: "center",
+    padding: 15,
+    backgroundColor: "white",
+    borderRadius: 8,
+    flex: 1,
+    marginHorizontal: 5,
+    elevation: 2,
+  },
+  helpCardText: { flex: 1, textAlign: "center", padding: 1 },
   flatList: {
     maxHeight: Dimensions.get("window").height * 0.45, // Adjust height as needed
   },
