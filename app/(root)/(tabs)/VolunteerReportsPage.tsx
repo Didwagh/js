@@ -1,21 +1,44 @@
 import { getAllVolunteerReports, getDisasterById } from '@/lib/appwrite';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator,
+  ListRenderItem,
+} from 'react-native';
+
+// Define types
+type VolunteerReport = {
+  $id: string;
+  userId: string;
+  service: string;
+  disasterId: string;
+};
+
+type GroupedReports = {
+  [disasterId: string]: VolunteerReport[];
+};
+
+type Disasters = {
+  [disasterId: string]: string;
+};
 
 const VolunteerReportsPage: React.FC = () => {
-  const [reports, setReports] = useState([]);
-  const [groupedReports, setGroupedReports] = useState({});
-  const [disasters, setDisasters] = useState({});
+  const [reports, setReports] = useState<VolunteerReport[]>([]);
+  const [groupedReports, setGroupedReports] = useState<GroupedReports>({});
+  const [disasters, setDisasters] = useState<Disasters>({});
   const [selectedDisaster, setSelectedDisaster] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchReports = async () => {
     try {
-      const data = await getAllVolunteerReports();
+      const data: VolunteerReport[] = await getAllVolunteerReports();
       setReports(data);
 
-      // Group reports by disasterId
-      const grouped = data.reduce((acc, report) => {
+      const grouped: GroupedReports = data.reduce((acc: GroupedReports, report: VolunteerReport) => {
         const { disasterId } = report;
         if (!acc[disasterId]) {
           acc[disasterId] = [];
@@ -25,11 +48,10 @@ const VolunteerReportsPage: React.FC = () => {
       }, {});
       setGroupedReports(grouped);
 
-      // Fetch disaster titles
-      const disasterTitles = {};
+      const disasterTitles: Disasters = {};
       for (let disasterId in grouped) {
         const disasterDoc = await getDisasterById(disasterId);
-        disasterTitles[disasterId] = disasterDoc.title; // 👈 Extracting the title here
+        disasterTitles[disasterId] = disasterDoc.title || 'Unknown Title';
       }
       setDisasters(disasterTitles);
     } catch (err) {
@@ -43,7 +65,7 @@ const VolunteerReportsPage: React.FC = () => {
     fetchReports();
   }, []);
 
-  const renderDisasterItem = ({ item }) => (
+  const renderDisasterItem: ListRenderItem<string> = ({ item }) => (
     <TouchableOpacity
       style={styles.disasterCard}
       onPress={() => setSelectedDisaster(item)}
@@ -55,7 +77,7 @@ const VolunteerReportsPage: React.FC = () => {
     </TouchableOpacity>
   );
 
-  const renderReportItem = ({ item }) => (
+  const renderReportItem: ListRenderItem<VolunteerReport> = ({ item }) => (
     <View style={styles.card}>
       <Text style={styles.detail}>User ID: {item.userId}</Text>
       <Text style={styles.detail}>Service: {item.service}</Text>
@@ -142,10 +164,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f4f4f4',
     borderRadius: 10,
     marginBottom: 12,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
   },
   detail: {
     fontSize: 14,
