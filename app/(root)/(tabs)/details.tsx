@@ -9,26 +9,26 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import VideoModal from '@/components/VideoModal';
 import { useGlobalContext } from '@/context/GlobalProvider';
-import { createVolunteerEvent } from '@/lib/appwrite';
+import { createVolunteerEvent, deleteDisasterById, deleteVolunteerReportsByDisasterId } from '@/lib/appwrite';
 
 const DetailsPage: React.FC = () => {
+  const router = useRouter();
+
   const { user } = useGlobalContext();
   const { id, title, description, city, district, disasterType, video } = useLocalSearchParams();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [volunteerModalVisible, setVolunteerModalVisible] = useState(false);
   const [service, setService] = useState('');
+  const [hasVolunteered, setHasVolunteered] = useState(false);
 
   const handleOpenVideo = () => setModalVisible(true);
   const handleCloseVideo = () => setModalVisible(false);
   const handleOpenVolunteerModal = () => setVolunteerModalVisible(true);
   const handleCloseVolunteerModal = () => setVolunteerModalVisible(false);
-
-  const [hasVolunteered, setHasVolunteered] = useState(false);
-  // at top with other imports
 
   const handleVolunteerSubmit = async () => {
     try {
@@ -36,7 +36,7 @@ const DetailsPage: React.FC = () => {
       console.log('Volunteer event submitted');
       setService('');
       setVolunteerModalVisible(false);
-      setHasVolunteered(true); // Hide the button
+      setHasVolunteered(true);
       Alert.alert('Thank you!', 'Thank you for volunteering. Admin will contact you for further information.');
     } catch (err) {
       console.error('Failed to submit volunteer event:', err);
@@ -44,6 +44,38 @@ const DetailsPage: React.FC = () => {
     }
   };
 
+ 
+  const handleDeleteDisaster = () => {
+    Alert.alert(
+      'Delete Confirmation',
+      'Are you sure you want to delete this disaster and all its reports?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await deleteVolunteerReportsByDisasterId(id); // delete reports first
+              await deleteDisasterById(id); // then delete the disaster
+  
+              Alert.alert('Deleted', 'Disaster and its reports have been deleted.');
+  
+              // ✅ Redirect to /helpUs and refresh
+              router.replace({
+                pathname: '/helpUs',
+                params: { refresh: Date.now().toString() } // 👈 add a changing param
+              });
+               // this will replace current route and force refresh
+            } catch (error) {
+              Alert.alert('Error', 'Failed to delete disaster or reports.');
+            }
+          },
+        },
+      ]
+    );
+  };
+  
 
   return (
     <View style={styles.container}>
@@ -61,6 +93,11 @@ const DetailsPage: React.FC = () => {
 
       {video && (
         <Button title="Watch Video" onPress={handleOpenVideo} />
+      )}
+      {user.role === 'Admin' && (
+        <View style={{ marginVertical: 10 }}>
+          <Button title="Delete Disaster" color="#dc3545" onPress={handleDeleteDisaster} />
+        </View>
       )}
 
       {/* Volunteer Modal */}

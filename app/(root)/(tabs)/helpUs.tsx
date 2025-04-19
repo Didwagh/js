@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { getDisastersByLocation } from '@/lib/appwrite'; // Adjust the import path
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
 interface Disaster {
   $id: string;
@@ -13,9 +13,12 @@ interface Disaster {
   video?: string;
 }
 
+
 const DisasterReportsPage: React.FC = () => {
+  const { refresh } = useLocalSearchParams(); 
   const [disasters, setDisasters] = useState<Disaster[]>([]);
   const router = useRouter();
+
 
   useEffect(() => {
     const fetchDisasters = async () => {
@@ -27,9 +30,9 @@ const DisasterReportsPage: React.FC = () => {
         Alert.alert("Error", "Unable to fetch disaster reports. Please try again later.");
       }
     };
-
+  
     fetchDisasters();
-  }, []);
+  }, [refresh]); //
 
   const renderDisasterItem = ({ item }: { item: Disaster }) => (
     <TouchableOpacity onPress={() => showDisasterDetails(item)}>
