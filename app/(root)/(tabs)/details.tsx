@@ -16,7 +16,8 @@ import {
   createVolunteerEvent,
   deleteDisasterById,
   deleteVolunteerReportsByDisasterId,
-  createPaymentIntent
+  createPaymentIntent,
+  createPaymentEvent
 } from '@/lib/appwrite';
 import {
   initPaymentSheet,
@@ -32,35 +33,69 @@ const DetailsPage: React.FC = () => {
   const [volunteerModalVisible, setVolunteerModalVisible] = useState(false);
   const [service, setService] = useState('');
   const [hasVolunteered, setHasVolunteered] = useState(false);
+  const [donationAmount, setDonationAmount] = useState('');
+  const [showDonationInput, setShowDonationInput] = useState(false); // 👈 NEW
 
-  // ✅ Updated handlePayment using Stripe PaymentSheet
   const handlePayment = async () => {
+    const amount = parseInt(donationAmount, 10);
+
+    if (isNaN(amount) || amount <= 0) {
+      Alert.alert('Invalid Amount', 'Please enter a valid donation amount.');
+      return;
+    }
+
     try {
-      const { clientSecret } = await createPaymentIntent(100); // ₹100 donation
-  
+      const { clientSecret } = await createPaymentIntent(amount);
+
       const init = await initPaymentSheet({
         paymentIntentClientSecret: clientSecret,
-        merchantDisplayName: 'DisasterRelief Org', // ✅ Set your merchant name here
+        merchantDisplayName: 'DisasterRelief Org',
       });
-  
+
       if (init.error) {
         Alert.alert('Error', init.error.message);
         return;
       }
-  
+
       const paymentResult = await presentPaymentSheet();
-  
+
       if (paymentResult.error) {
         Alert.alert('Payment failed', paymentResult.error.message);
       } else {
-        Alert.alert('Thank you!', 'Your donation was successful. ❤️');
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        console.log(donationAmount)
+        Alert.alert('Thank you!', 'Your donation was successful. ❤️' );
+        await createPaymentEvent(user.$id,id,parseInt(donationAmount))
+        setDonationAmount('');
+        setShowDonationInput(false); 
       }
     } catch (err) {
-      console.error('Payment process error:', err);
+      console.error('Payment process error:', err , donationAmount);
       Alert.alert('Error', 'Unable to process the payment at the moment.');
     }
   };
-  
+
   const handleOpenVideo = () => setModalVisible(true);
   const handleCloseVideo = () => setModalVisible(false);
   const handleOpenVolunteerModal = () => setVolunteerModalVisible(true);
@@ -69,7 +104,6 @@ const DetailsPage: React.FC = () => {
   const handleVolunteerSubmit = async () => {
     try {
       await createVolunteerEvent(service, user.$id, id, title);
-      console.log('Volunteer event submitted');
       setService('');
       setVolunteerModalVisible(false);
       setHasVolunteered(true);
@@ -94,8 +128,8 @@ const DetailsPage: React.FC = () => {
           style: 'destructive',
           onPress: async () => {
             try {
-              await deleteVolunteerReportsByDisasterId(id); // delete reports first
-              await deleteDisasterById(id); // then delete the disaster
+              await deleteVolunteerReportsByDisasterId(id);
+              await deleteDisasterById(id);
 
               Alert.alert('Deleted', 'Disaster and its reports have been deleted.');
               router.replace({
@@ -125,9 +159,28 @@ const DetailsPage: React.FC = () => {
         </View>
       )}
 
-      {/* Donate Button */}
+      {/* Donation Section */}
       <View style={{ marginVertical: 10 }}>
-        <Button title="Donate ₹100" color="#28a745" onPress={handlePayment} />
+        {!showDonationInput ? (
+          <Button title="Donate" color="#28a745" onPress={() => setShowDonationInput(true)} />
+        ) : (
+          <View>
+            <Text style={styles.label}>Enter Donation Amount (₹):</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="e.g. 100"
+              keyboardType="numeric"
+              value={donationAmount}
+              onChangeText={setDonationAmount}
+            />
+            <TouchableOpacity style={styles.submitButton} onPress={handlePayment}>
+              <Text style={styles.submitButtonText}>Confirm Donation</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setShowDonationInput(false)}>
+              <Text style={{ marginTop: 10, color: 'red', textAlign: 'center' }}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       {/* Video Button */}
@@ -192,6 +245,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginVertical: 5,
   },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+    fontWeight: '500',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+  },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -207,13 +272,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 10,
     fontWeight: 'bold',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 15,
   },
   submitButton: {
     backgroundColor: '#007bff',
