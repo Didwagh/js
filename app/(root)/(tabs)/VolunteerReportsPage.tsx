@@ -97,7 +97,7 @@ const VolunteerReportsPage: React.FC = () => {
     <View style={styles.container}>
       {!selectedDisaster ? (
         <>
-          <Text style={styles.header}>Disasters</Text>
+          <Text style={styles.header}>Volunteer for Disasters</Text>
           <FlatList
             data={Object.keys(groupedReports)}
             keyExtractor={(item) => item}
@@ -110,7 +110,7 @@ const VolunteerReportsPage: React.FC = () => {
             <Text style={styles.backButton}>← Back to Disasters</Text>
           </TouchableOpacity>
           <Text style={styles.header}>
-            Reports for Disaster: {disasters[selectedDisaster] || 'Loading Title...'}
+            Volunteer for Disaster: {disasters[selectedDisaster] || 'Loading Title...'}
           </Text>
           <FlatList
             data={groupedReports[selectedDisaster]}

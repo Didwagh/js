@@ -42,7 +42,7 @@ const Layout = () => {
       <Tabs.Screen
         name="search"
         options={{
-          href: isUser || isVolunteer ? "/(root)/searchBar" : null, 
+          href: isUser || isVolunteer ? "/(root)/searchBar" : null,
           title: "",
           // headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -120,7 +120,7 @@ const Layout = () => {
       <Tabs.Screen
         name="disasterInfo"
         options={{
-          href: "/disasterInfo",
+          href: !isAdmin ? "/disasterInfo" : null,
           title: "Info",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -170,6 +170,28 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
+        name="PaymentEventsPage"
+        options={{
+          href: isAdmin ? "/PaymentEventsPage":null ,
+          title: "",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialIcons name="payment" size={28} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="PaymentEventDetailPage"
+        options={{
+          href: null,
+          title: "",
+          headerShown: false,
+          // tabBarIcon: ({ color, focused }) => (
+          //   <MaterialIcons name="volunteer-activism" color={color} size={26} />
+          // ),
+        }}
+      />
+      <Tabs.Screen
         name="chatBot"
         options={{
           href: !isAdmin ? "/chatBot" : null,
@@ -180,21 +202,48 @@ const Layout = () => {
           ),
         }}
       />
-      {/* <Tabs.Screen
+      <Tabs.Screen
         name="sos"
         options={{
-          // href: isUser ? "/sos" : null,
-          href: "/(root)(tabs)sos",
+          href: isUser ? "/sos" : null,
           title: "SOS",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <MaterialIcons
               name={focused ? "post-add" : "post-add"}
               color={color}
+              size={26}
             />
           ),
         }}
-      /> */}
+      />
+      <Tabs.Screen
+        name="sosView"
+        options={{
+          href: isAdmin ? "/sosView" : null,
+          title: "SOS Reports",
+          headerShown: true,
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialIcons
+              name={focused ? "post-add" : "post-add"}
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="VolunteerReportsPage"
+        options={{
+          href: isAdmin ? "/VolunteerReportsPage" : null,
+          title: "",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialIcons name="volunteer-activism" color={color} size={26} />
+          ),
+        }}
+      />
+
       {/* <Tabs.Screen
         name="homepage"
         options={{

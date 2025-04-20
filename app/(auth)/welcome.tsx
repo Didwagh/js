@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from "react-na
 import { useRouter } from "expo-router";
 import { useGlobalContext } from "@/context/GlobalProvider";
 import { signOut } from "@/lib/appwrite";
-
+import welcome from '@/assets/images/welcome.png';
 const Welcome = () => {
   const { loading, isLogged, setIsLogged } = useGlobalContext();
   const router = useRouter();
@@ -43,7 +43,8 @@ const Welcome = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: 'https://example.com/welcome-image.png' }}
+        source={welcome}
+        // source={{ uri: 'https://example.com/welcome-image.png' }}
         style={styles.image}
       />
       <Text style={styles.title}>Disaster Response and Relief Coordination</Text>
@@ -67,9 +68,9 @@ const Welcome = () => {
           <Text style={styles.buttonText}>🔑 Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.loginButton} onPress={handlePressLogout}>
+        {/* <TouchableOpacity style={styles.loginButton} onPress={handlePressLogout}>
           <Text style={styles.buttonText}>Logout</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

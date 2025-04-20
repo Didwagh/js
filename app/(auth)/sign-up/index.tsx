@@ -116,6 +116,15 @@ const SignupPage: React.FC = () => {
       <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
+      <Text  style={{padding:10,fontSize: 16, color: "#333",fontWeight:"bold"}}>
+        Already have an account?
+        <Text
+          style={{ color: "#4169E1", fontWeight: "bold" }}
+          onPress={() => router.push("/(auth)/sign-in")}
+        >
+          login
+        </Text>
+      </Text>
     </View>
   );
 };

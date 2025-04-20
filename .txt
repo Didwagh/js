@@ -1,0 +1,12 @@
+   modified:   app/(auth)/sign-in.tsx
+        modified:   app/(auth)/sign-up/index.tsx
+        modified:   app/(auth)/welcome.tsx
+        modified:   app/(root)/(tabs)/VolunteerReportsPage.tsx
+        modified:   app/(root)/(tabs)/_layout.tsx
+        modified:   app/(root)/(tabs)/approveUser.tsx
+        modified:   app/(root)/(tabs)/helpUs.tsx
+        modified:   app/(root)/(tabs)/listDisaster.tsx
+        modified:   app/(root)/(tabs)/upload.tsx
+        modified:   components/VideoModal.tsx
+        modified:   components/declarations.d.ts
+        modified:   lib/appwrite.js

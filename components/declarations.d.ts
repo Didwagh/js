@@ -3,3 +3,4 @@ declare module 'react-native-heroicons/outline' {
   const HeroiconsOutline: React.FC<SvgProps>;
   export default HeroiconsOutline;
 }
+export module '*.png'
