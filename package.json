@@ -20,6 +20,7 @@
     "@react-native-community/geolocation": "^3.4.0",
     "@react-native-picker/picker": "^2.8.1",
     "@react-navigation/native": "^6.0.2",
+    "@stripe/stripe-react-native": "^0.44.0",
     "axios": "^1.7.7",
     "expo": "~51.0.28",
     "expo-av": "~14.0.7",
