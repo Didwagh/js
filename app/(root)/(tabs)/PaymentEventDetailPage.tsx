@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   totalAmountContainer: {
-    marginBottom: 20,
     padding: 10,
     backgroundColor: '#f7f7f7',
     borderRadius: 8,
