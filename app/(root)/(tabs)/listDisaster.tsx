@@ -131,19 +131,21 @@ const DisasterReports = () => {
         {/* <Button title="Reject" onPress={() => handleReject(item.$id)} />
         <Button title="Video" onPress={() => handleVideoButtonPress(item)} /> */}
         <TouchableOpacity
-          style={styles.btn}
+          style={[styles.btn, styles.approveBtn]}
           onPress={() => handleApprove(item.$id)}
         >
           <Text style={styles.btnText}>Approve</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
-          style={[styles.btn, { backgroundColor: "#ef4256" }]}
+          style={[styles.btn, styles.rejectBtn]}
           onPress={() => handleReject(item.$id)}
         >
           <Text style={styles.btnText}>Reject</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
-          style={[styles.btn, { backgroundColor: "#0a92f5" }]}
+          style={[styles.btn, styles.videoBtn]}
           onPress={() => handleVideoButtonPress(item)}
         >
           <Text style={styles.btnText}>Video</Text>
@@ -177,50 +179,66 @@ const DisasterReports = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
-    // backgroundColor:'red'
+    flex: 1,
+    backgroundColor: "#E8F0FF", // Light blue background
+  },
+  heading: {
+    fontSize: 22,
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#1E3A8A", // Darker blue for heading
+    marginTop: 50,
+    marginBottom: 10,
   },
   listContainer: {
-    padding: 20,
+    paddingHorizontal: 16,
+    paddingBottom: 20,
   },
   reportContainer: {
-    padding: 15,
-    marginVertical: 10,
+    backgroundColor: "#FFFFFF",
+    padding: 16,
+    marginVertical: 8,
+    borderRadius: 12,
     borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
+    borderColor: "#D0E0FF", // Soft blue border for a subtle look
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4, // Slightly deeper shadow for a floating effect
   },
   title: {
     fontWeight: "bold",
-    fontSize: 18,
-  },
-  heading: {
-    // marginVertical: 10,
-    fontSize:20,
-    textAlign:"center",
-    fontWeight:"bold",
-    marginTop:'10%',
-    padding: 10,
-    // color: "#000",
+    fontSize: 20,
+    color: "#1D4ED8", // Primary blue color for titles
+    marginBottom: 6,
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 10,
+    marginTop: 14,
   },
   btn: {
-    borderRadius: 10,
+    borderRadius: 8,
     paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingHorizontal: 16,
     alignItems: "center",
-    fontSize: 12,
-    backgroundColor: "#1254ff",
-    marginVertical: 7,
+    flex: 1,
+    marginHorizontal: 5,
+  },
+  approveBtn: {
+    backgroundColor: "#3B82F6",  // Bright blue for approve
+  },
+  rejectBtn: {
+    backgroundColor: "#EF4444",  // Red for reject
+  },
+  videoBtn: {
+    backgroundColor: "#60A5FA",  // Lighter blue for video
   },
   btnText: {
-    fontWeight: "bold",
-    color: "white",
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#FFFFFF",
   },
 });
 

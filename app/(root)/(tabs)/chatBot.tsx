@@ -65,6 +65,7 @@ const ChatBot: React.FC = () => {
   const addDisasterToInput = (disaster: string) => {
     setInputText(disaster); // Update the input text with the disaster name
   };
+  
 
   return (
     <KeyboardAvoidingView
@@ -73,6 +74,8 @@ const ChatBot: React.FC = () => {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}
     >
       <View style={styles.container}>
+  
+        {/* Language Selection Dropdown */}
         <View style={styles.languagePickerContainer}>
           <Picker
             selectedValue={language}
@@ -89,9 +92,10 @@ const ChatBot: React.FC = () => {
             <Picker.Item label="Kannada" value="kn" />
           </Picker>
         </View>
-
+  
         {/* Disaster blocks */}
-        {/* <View style={styles.disasterContainer}>
+        {/* 
+        <View style={styles.disasterContainer}>
           {Object.keys(disasterImages).map((disaster, index) => (
             <TouchableOpacity
               key={index}
@@ -106,122 +110,155 @@ const ChatBot: React.FC = () => {
               </ImageBackground>
             </TouchableOpacity>
           ))}
-        </View> */}
-
-        {/* Scrollable response */}
-        <ScrollView style={styles.responseContainer}>
-          {loading && <ActivityIndicator size="large" color="#6200EE" />}
-          {response && !loading && <Text style={styles.response}>{response}</Text>}
-        </ScrollView>
-
-        {/* Fixed input + send button */}
-        <View style={styles.inputArea}>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your message"
-            value={inputText}
-            onChangeText={setInputText}
-          />
-          <TouchableOpacity style={styles.sendButton} onPress={callChatbotApi}>
-            <Text style={styles.sendButtonText}>Send</Text>
-          </TouchableOpacity>
         </View>
+        */}
+  
+        {/* Scrollable Chat Area */}
+      <ScrollView style={styles.chatContainer}>
+        {loading && (
+          <View style={styles.loadingWrapper}>
+            <ActivityIndicator size="large" color="#13A0EC" />
+          </View>
+        )}
+
+        {/* Display Bot Response */}
+        {!loading && response && (
+          <View style={styles.botMessage}>
+            <Text style={styles.botText}>{response}</Text>
+          </View>
+        )}
+      </ScrollView>
+
+      {/* Fixed Input Bar for User Messages */}
+      <View style={styles.inputArea}>
+        <TextInput
+          style={styles.input}
+          placeholder="Type your message..."
+          placeholderTextColor="#8FA3BF"
+          value={inputText}
+          onChangeText={setInputText}
+        />
+        <TouchableOpacity style={styles.sendButton} onPress={callChatbotApi}>
+          <Text style={styles.sendButtonText}>Send</Text>
+        </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
-  );
-};
+
+    </View>
+  </KeyboardAvoidingView>
+);
+}
 
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#F3F4F6', // Light neutral background
   },
+
+  // Main container for all components
   container: {
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 20,
   },
+
+  // Language dropdown container aligned to top-right
   languagePickerContainer: {
     alignSelf: 'flex-end',
-    marginBottom: 16,
+    marginBottom: 12,
   },
+
+  // Language picker dropdown styles
   picker: {
-    height: 50,
+    height: 44,
     width: 150,
-    backgroundColor: '#fff',
+    backgroundColor: '#E0ECFF', // Light blue
+    borderRadius: 8,
   },
-  disasterContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    marginBottom: 10,
+
+  // Scrollable container for chat messages
+  chatContainer: {
+    flex: 1,
+    padding: 8,
+    marginBottom: 70, // Space for input field at bottom
   },
-  disasterBlock: {
-    width: 110,
-    height: 110,
-    margin: 6,
-    borderRadius: 10,
-    overflow: 'hidden',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  disasterImageBackground: {
+
+  // Centered loader for when response is fetching
+  loadingWrapper: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    opacity: 0.85,
+    paddingTop: 20,
   },
-  disasterText: {
+
+  // Bot message bubble
+  botMessage: {
+    backgroundColor: '#E5F2FF', // Light blue chat bubble
+    padding: 14,
+    borderRadius: 12,
+    marginVertical: 8,
+    alignSelf: 'flex-start',
+    maxWidth: '85%',
+    shadowColor: '#13A0EC',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+
+  // Bot message text styling
+  botText: {
+    color: '#03045E',  // Dark blue text
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#fff',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    paddingHorizontal: 5,
-    paddingVertical: 2,
+    lineHeight: 22,
   },
-  responseContainer: {
-    flex: 1,
-    marginBottom: 70,
-  },
-  response: {
-    fontSize: 16,
-    color: '#333',
-    textAlign: 'justify',
-    padding: 10,
-  },
+
+  // Fixed bottom input + send button container
   inputArea: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     padding: 8,
     borderTopWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#D0D7E2',
+    alignItems: 'center',
   },
+
+  // User text input field
   input: {
     flex: 1,
     padding: 12,
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
+    borderColor: '#B5C9EA', // Subtle blue-gray border
+    borderRadius: 10,
     marginRight: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     fontSize: 16,
+    color: '#03045E',
   },
+
+  // Send button container
   sendButton: {
-    backgroundColor: '#6200EE',
+    backgroundColor: '#13A0EC', // Bright blue button
     paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
+    paddingHorizontal: 18,
+    borderRadius: 10,
     justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#13A0EC',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
   },
+
+  // Send button text styling
   sendButtonText: {
-    color: '#fff',
+    color: '#FFFFFF',
     fontWeight: 'bold',
+    fontSize: 16,
   },
 });
 

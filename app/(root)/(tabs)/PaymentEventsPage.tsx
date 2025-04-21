@@ -86,16 +86,17 @@ const PaymentEventsPage: React.FC = () => {
   if (loading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#007bff" />
+        <ActivityIndicator size="large" color="#4F46E5" />
+        <Text style={styles.loadingText}>Loading Data...</Text>
       </View>
     );
   }
-
+  
   // If there's an error, display an error message
   if (error) {
     return (
       <View style={styles.centered}>
-        <Text style={styles.error}>{error}</Text>
+        <Text style={styles.errorText}>Oops! Something went wrong: {error}</Text>
       </View>
     );
   }
@@ -105,13 +106,11 @@ const PaymentEventsPage: React.FC = () => {
     <View style={styles.disasterContainer}>
       <TouchableOpacity
         style={styles.disasterItem}
-        onPress={() => handleDisasterClick(item.disasterId, item.disasterTitle)} // Pass both disasterId and disasterTitle
+        onPress={() => handleDisasterClick(item.disasterId, item.disasterTitle)}
       >
-        <Text style={styles.title}>
-          {item.disasterTitle || "Unknown Disaster"} {/* Ensure disasterTitle is a valid string */}
-        </Text>
+        <Text style={styles.title}>{item.disasterTitle || "Unknown Disaster"}</Text>
         <Text style={styles.text}>
-          {`Total Reports: ${item.events.length}`} {/* Ensure the value is properly formatted */}
+          {`Total Reports: ${item.events.length}`}
         </Text>
       </TouchableOpacity>
     </View>
@@ -126,7 +125,7 @@ const PaymentEventsPage: React.FC = () => {
     <View style={styles.container}>
       <Text style={styles.header}>Payment Events</Text>
       {groupedDisasters.length === 0 ? (
-        <Text>No payment events available.</Text>
+        <Text style={styles.noDataText}>No payment events available.</Text>
       ) : (
         <FlatList
           data={groupedDisasters}
@@ -135,50 +134,70 @@ const PaymentEventsPage: React.FC = () => {
         />
       )}
     </View>
-  );
+  );  
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#E5F1FF',  // Light blue background for a clean modern feel
   },
   header: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 26,
+    fontWeight: '700',
     marginBottom: 20,
+    marginTop: 25,
     textAlign: 'center',
+    color: '#1E3A8A',  // Dark blue for header text to maintain contrast
   },
   disasterContainer: {
-    marginBottom: 15,
+    marginBottom: 18,
   },
   disasterItem: {
-    backgroundColor: '#f7f7f7',
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 5,
+    backgroundColor: '#FFFFFF',
+    padding: 18,
+    borderRadius: 12,
+    marginBottom: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#B8D0E6',  // Soft light blue border
+    shadowColor: '#3B82F6',  // Blue shadow for depth
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 5,
   },
   title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#1E3A8A',  // Dark blue for titles
+    marginBottom: 6,
   },
   text: {
     fontSize: 16,
-    marginBottom: 5,
+    color: '#4B5563',  // Slightly muted grayish blue for readability
   },
   centered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  error: {
+  loadingText: {
+    fontSize: 16,
+    marginTop: 12,
+    color: '#3B82F6',  // Blue color for loading state
+  },
+  errorText: {
     fontSize: 18,
-    color: 'red',
+    color: '#B91C1C',  // Red for errors to stand out
     textAlign: 'center',
+    marginTop: 10,
+  },
+  noDataText: {
+    fontSize: 16,
+    color: '#6B7280',  // Muted gray for no data state
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
 

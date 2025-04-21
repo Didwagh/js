@@ -21,10 +21,33 @@ const Layout = () => {
     <Tabs
       initialRouteName="index"
       screenOptions={{
-        tabBarActiveTintColor: "#1ea2ff", // Active icon color (when focused)
-        tabBarInactiveTintColor: "gray",
+        // Active icon color 
+        tabBarActiveTintColor: "#1ea2ff", 
+        
+        // Inactive icon color 
+        tabBarInactiveTintColor: "#b0bec5", 
+
+       
+        tabBarStyle: {
+          backgroundColor: "#1976D2", 
+          height: 55, 
+        },
+
+       
+        // tabBarLabelStyle: {
+        //   fontSize: 12, 
+        //   fontWeight: "bold", 
+        //   color: "#ffffff", 
+        // },
+
+        
+        tabBarItemStyle: {
+          paddingVertical: 1, 
+        }
       }}
     >
+  {/* Your Tab Screens go here */}
+
       <Tabs.Screen
         name="home"
         options={{
@@ -42,7 +65,7 @@ const Layout = () => {
       <Tabs.Screen
         name="search"
         options={{
-          href: isUser || isVolunteer ? "/(root)/searchBar" : null,
+          href: isUser || isVolunteer ? "/(root)/(tabs)/search" : null,
           title: "",
           // headerShown: false,
           tabBarIcon: ({ color, focused }) => (
@@ -102,7 +125,7 @@ const Layout = () => {
         options={{
           // href: isVolunteer ? "/helpUs" : null,
           href: "/helpUs",
-          title: "reports",
+          title: "",//reports
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             // <TabBarIcon
@@ -121,7 +144,7 @@ const Layout = () => {
         name="disasterInfo"
         options={{
           href: !isAdmin ? "/disasterInfo" : null,
-          title: "Info",
+          title: "",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
@@ -131,7 +154,7 @@ const Layout = () => {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="Donation/DonationForm"
         options={{
           href: null,
@@ -168,7 +191,7 @@ const Layout = () => {
             />
           ),
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="PaymentEventsPage"
         options={{
@@ -206,7 +229,7 @@ const Layout = () => {
         name="sos"
         options={{
           href: isUser ? "/sos" : null,
-          title: "SOS",
+          title: "",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <MaterialIcons
@@ -221,7 +244,7 @@ const Layout = () => {
         name="sosView"
         options={{
           href: isAdmin ? "/sosView" : null,
-          title: "SOS Reports",
+          title: " ",
           headerShown: true,
           tabBarIcon: ({ color, focused }) => (
             <MaterialIcons

@@ -60,6 +60,7 @@ const VolunteerReportsPage: React.FC = () => {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchReports();
@@ -87,8 +88,8 @@ const VolunteerReportsPage: React.FC = () => {
   if (loading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#007bff" />
-        <Text>Loading Volunteer Reports...</Text>
+        <ActivityIndicator size="large" color="#2563EB" />
+        <Text style={{ marginTop: 8 }}>Loading Volunteer Reports...</Text>
       </View>
     );
   }
@@ -102,73 +103,124 @@ const VolunteerReportsPage: React.FC = () => {
             data={Object.keys(groupedReports)}
             keyExtractor={(item) => item}
             renderItem={renderDisasterItem}
+            ListEmptyComponent={
+              <Text style={styles.emptyText}>No disasters to display at the moment.</Text>
+            }
+            showsVerticalScrollIndicator={false}
           />
         </>
       ) : (
         <>
-          <TouchableOpacity onPress={() => setSelectedDisaster(null)}>
-            <Text style={styles.backButton}>← Back to Disasters</Text>
-          </TouchableOpacity>
+           
           <Text style={styles.header}>
-            Volunteer for Disaster: {disasters[selectedDisaster] || 'Loading Title...'}
+            Volunteers for: {disasters[selectedDisaster] || 'Loading...'}
           </Text>
+  
           <FlatList
             data={groupedReports[selectedDisaster]}
             keyExtractor={(item) => item.$id}
             renderItem={renderReportItem}
+            ListEmptyComponent={
+              <Text style={styles.emptyText}>No volunteer reports for this disaster yet.</Text>
+            }
+            showsVerticalScrollIndicator={false}
           />
+          <TouchableOpacity onPress={() => setSelectedDisaster(null)} style={styles.backButtonContainer}>
+            <Text style={styles.backButton}>← Back to Disasters</Text>
+          </TouchableOpacity>
         </>
       )}
     </View>
   );
-};
+}  
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
+    padding: 18,
+    backgroundColor: '#F1F5F9',  // soft gray-blue
   },
   centered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: '#4B5563',  // subtle gray text
+  },
   header: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 16,
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 24,
+    marginTop: 25,
+    color: '#1F2937',  // dark slate blue for header text
+    textAlign: 'center',
   },
   disasterCard: {
-    padding: 15,
-    backgroundColor: '#e0f7fa',
-    borderRadius: 10,
-    marginBottom: 12,
+    backgroundColor: '#FFFFFF',
+    padding: 18,
+    borderRadius: 16,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',  // very light border color
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.07,
+    shadowRadius: 8,
+    elevation: 4,
   },
   disasterText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
+    color: '#1F2937',  // dark text for readability
   },
   reportCount: {
     fontSize: 14,
     fontStyle: 'italic',
-    color: '#007bff',
+    color: '#3B82F6',  // sky-blue
+    marginTop: 6,
+  },
+  backButtonContainer: {
+    marginBottom: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    backgroundColor: '#EFF6FF',
+    borderRadius: 12,
+    alignSelf: 'flex-start',
   },
   backButton: {
-    color: '#007bff',
+    color: '#2563EB',  // button text color
     fontSize: 16,
-    marginBottom: 10,
+    fontWeight: '500',
   },
   card: {
-    padding: 15,
-    backgroundColor: '#f4f4f4',
-    borderRadius: 10,
-    marginBottom: 12,
+    backgroundColor: '#FFFFFF',
+    padding: 16,
+    borderRadius: 14,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    shadowColor: '#0F172A',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.06,
+    shadowRadius: 5,
+    elevation: 3,
   },
   detail: {
-    fontSize: 14,
-    marginTop: 5,
+    fontSize: 15,
+    marginVertical: 6,
+    color: '#374151',  // dark gray text
+  },
+  emptyText: {
+    textAlign: 'center',
+    marginTop: 40,
+    fontSize: 16,
+    color: '#6B7280',  // faded gray text for empty state
   },
 });
+
+
 
 export default VolunteerReportsPage;

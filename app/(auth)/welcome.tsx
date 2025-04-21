@@ -43,9 +43,8 @@ const Welcome = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={welcome}
-        // source={{ uri: 'https://example.com/welcome-image.png' }}
-        style={styles.image}
+        source={welcome}  // Correct way to load a local image
+        style={styles.image} resizeMode="contain"
       />
       <Text style={styles.title}>Disaster Response and Relief Coordination</Text>
       <Text style={styles.description}>
@@ -67,10 +66,6 @@ const Welcome = () => {
         <TouchableOpacity style={styles.loginButton} onPress={handlePressLogin}>
           <Text style={styles.buttonText}>🔑 Login</Text>
         </TouchableOpacity>
-
-        {/* <TouchableOpacity style={styles.loginButton} onPress={handlePressLogout}>
-          <Text style={styles.buttonText}>Logout</Text>
-        </TouchableOpacity> */}
       </View>
     </View>
   );
@@ -81,32 +76,37 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#f7f7f7',
+    backgroundColor: '#E3F0F0',  // Light greyish blue background
   },
   image: {
     width: '100%',
     height: 200,
-    resizeMode: 'cover',
-    borderRadius: 10,
+    resizeMode: 'contain',  // Ensure image fits within bounds
+    borderRadius: 15,  // Softer rounding for corners
     marginBottom: 20,
+    shadowColor: '#000',  // Shadow for elevation effect
+    shadowOffset: { width: 0, height: 5 },  // Subtle shadow offset
+    shadowOpacity: 0.15,  // Soft shadow opacity
+    shadowRadius: 10,  // Softer shadow radius
+    elevation: 5,  // For Android devices to show shadow
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#2C3E50',  // Darker blue-grey for title
     textAlign: 'center',
     marginBottom: 10,
   },
   description: {
     fontSize: 16,
-    color: '#666',
+    color: '#7F8C8D',  // Soft grey for description text
     textAlign: 'center',
     marginBottom: 30,
     lineHeight: 20,
   },
   descriptions: {
     fontSize: 13,
-    color: '#333',
+    color: '#34495E',  // Slightly darker blue-grey
     fontWeight: 'bold',
   },
   rowContainer: {
@@ -119,14 +119,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   registerButton: {
-    backgroundColor: '#4169E1',
+    backgroundColor: '#5DADE2',  // Light blue for register button
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 10,
     alignItems: 'center',
   },
   loginButton: {
-    backgroundColor: '#4169E1',
+    backgroundColor: '#5DADE2',  // Light blue for login button
     paddingVertical: 12,
     paddingHorizontal: 25,
     borderRadius: 10,

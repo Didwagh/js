@@ -65,25 +65,35 @@ const DisasterNearMe: React.FC<DisasterNearMeProps> = ({
       </TouchableOpacity>
     </View>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 16,
-    alignItems: "center",
-  },
-  button: {
-    backgroundColor: "#4CAF50",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 25,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-    textAlign: "center",
-  },
-});
+  };
+  
+  const styles = StyleSheet.create({
+    container: {
+      marginBottom: 16,
+      alignItems: "center",
+    },
+  
+    // Aqua blue modern button
+    button: {
+      backgroundColor: "#00B4D8", // Your chosen color
+      paddingVertical: 15,
+      paddingHorizontal: 25,
+      borderRadius: 30, // Fully rounded for modern look
+      shadowColor: "#00B4D8",
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.3,
+      shadowRadius: 6,
+      elevation: 4, // Android shadow
+    },
+  
+    // Button text
+    buttonText: {
+      color: "#fff",
+      fontSize: 16,
+      fontWeight: "700",
+      textAlign: "center",
+    },
+  });
+  
 
 export default DisasterNearMe;

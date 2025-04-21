@@ -42,16 +42,17 @@ const PaymentEventDetailPage: React.FC = () => {
   if (loading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#007bff" />
+        <ActivityIndicator size="large" color="#4F46E5" />
+        <Text style={styles.loadingText}>Loading Payment Events...</Text>
       </View>
     );
   }
-
+  
   // If there's an error, display an error message
   if (error) {
     return (
       <View style={styles.centered}>
-        <Text style={styles.error}>{error}</Text>
+        <Text style={styles.errorText}>Something went wrong: {error}</Text>
       </View>
     );
   }
@@ -59,7 +60,7 @@ const PaymentEventDetailPage: React.FC = () => {
   // Render each payment event related to the selected disaster
   const renderPaymentEvent = ({ item }: { item: PaymentEvent }) => (
     <View style={styles.eventContainer}>
-      <Text style={styles.eventTitle}>Amount: ₹{item.Amount}</Text>
+      <Text style={styles.eventTitle}>Amount: ₹{item.Amount.toFixed(2)}</Text>
       <Text style={styles.eventText}>User ID: {item.userId}</Text>
       <Text style={styles.eventText}>Date: {new Date(item.$createdAt).toLocaleDateString()}</Text>
     </View>
@@ -68,14 +69,14 @@ const PaymentEventDetailPage: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{disasterTitle}</Text>
-
+  
       {/* Display the total amount for this disaster */}
       <View style={styles.totalAmountContainer}>
-        <Text style={styles.totalAmountText}>Total Amount: ₹ {totalAmount.toFixed(2)} </Text>
+        <Text style={styles.totalAmountText}>Total Amount: ₹ {totalAmount.toFixed(2)}</Text>
       </View>
-
+  
       {paymentEvents.length === 0 ? (
-        <Text>No payment events for this disaster.</Text>
+        <Text style={styles.noDataText}>No payment events available for this disaster.</Text>
       ) : (
         <FlatList
           data={paymentEvents}
@@ -91,42 +92,56 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#EFF6FF', // Light blue background for a clean look
   },
   header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#1E3A8A', // Dark blue text for the header
+    marginBottom: 18,
+    marginTop: 25,
     textAlign: 'center',
   },
   totalAmountContainer: {
-    padding: 10,
-    backgroundColor: '#f7f7f7',
-    borderRadius: 8,
-    marginBottom: 15,
+    padding: 16,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#D1D5DB', // Light gray border
+    shadowColor: '#3B82F6', // Blue shadow for a touch of style
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
   },
   totalAmountText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#007bff',
+    fontSize: 24,
+    fontWeight: '600',
+    color: '#3B82F6', // Bright blue for total amount
   },
   eventContainer: {
-    backgroundColor: '#f7f7f7',
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 10,
+    backgroundColor: '#FFFFFF',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#D1D5DB',
+    shadowColor: '#3B82F6', // Light blue shadow
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 3,
   },
   eventTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
+    fontWeight: '600',
+    color: '#1E3A8A', // Dark blue for event title
+    marginBottom: 6,
   },
   eventText: {
-    fontSize: 16,
+    fontSize: 14,
+    color: '#4B5563', // Dark gray for event details
     marginBottom: 5,
   },
   centered: {
@@ -134,10 +149,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  error: {
+  loadingText: {
+    fontSize: 16,
+    color: '#3B82F6',
+    marginTop: 12,
+  },
+  errorText: {
     fontSize: 18,
-    color: 'red',
+    color: '#B91C1C', // Red for errors
     textAlign: 'center',
+    marginTop: 10,
+  },
+  noDataText: {
+    fontSize: 16,
+    color: '#6B7280', // Soft gray for no data state
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
 

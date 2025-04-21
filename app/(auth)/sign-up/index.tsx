@@ -55,14 +55,14 @@ const SignupPage: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
-      
+  
       <TextInput
         style={styles.input}
         placeholder="Name"
         value={name}
         onChangeText={setName}
       />
-      
+  
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -71,7 +71,7 @@ const SignupPage: React.FC = () => {
         keyboardType="email-address"
         autoCapitalize="none"
       />
-      
+  
       <TextInput
         style={styles.input}
         placeholder="Password"
@@ -79,7 +79,7 @@ const SignupPage: React.FC = () => {
         onChangeText={setPassword}
         secureTextEntry
       />
-
+  
       <View style={styles.pickerContainer}>
         <Picker
           selectedValue={userType}
@@ -97,7 +97,7 @@ const SignupPage: React.FC = () => {
           <Picker.Item label="Volunteer" value="Volunteer" />
         </Picker>
       </View>
-
+  
       {/* Conditionally render the ID proof picker */}
       {userType !== "User" && (
         <View>
@@ -112,14 +112,15 @@ const SignupPage: React.FC = () => {
           )}
         </View>
       )}
-
+  
       <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
-      <Text  style={{padding:10,fontSize: 16, color: "#333",fontWeight:"bold"}}>
+  
+      <Text style={styles.loginText}>
         Already have an account?
         <Text
-          style={{ color: "#4169E1", fontWeight: "bold" }}
+          style={styles.loginLink}
           onPress={() => router.push("/(auth)/sign-in")}
         >
           login
@@ -127,81 +128,93 @@ const SignupPage: React.FC = () => {
       </Text>
     </View>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: "#f7f9fc",
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    textAlign: "center",
-  },
-  input: {
-    height: 48,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 12,
-    paddingLeft: 10,
-    width: '100%',
-  },
-  pickerContainer: {
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 12,
-    width: '100%',
-  },
-  picker: {
-    height: 48,
-    width: '100%',
-  },
-  button: {
-    backgroundColor: '#4169E1',
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 10,
-    alignItems: 'center',
-    width: '100%',
-  },
-  buttonText: {
-    fontSize: 16,
-    color: '#fff',
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  idProofButton: {
-    backgroundColor: '#28a745',
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 10,
-    alignItems: 'center',
-    width: '100%',
-    marginBottom: 12,
-  },
-  idProofText: {
-    marginTop: 10,
-    color: '#333',
-  },
-  imageContainer: {
-    marginTop: 10,
-    alignItems: 'center',
-  },
-  idProofImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-    marginTop: 5,
-    resizeMode: 'cover',
-  },
-});
+}
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 20,
+      backgroundColor: "#F0F9FF",  // Light blue-grey background
+    },
+    title: {
+      fontSize: 24,
+      marginBottom: 20,
+      fontWeight: 'bold',
+      color: '#333',
+      textAlign: "center",
+    },
+    input: {
+      height: 48,
+      borderColor: "#B0C4DE",  // Light steel blue border
+      borderWidth: 1,
+      borderRadius: 8,
+      marginBottom: 12,
+      paddingLeft: 10,
+      width: '100%',
+      backgroundColor: '#fff',
+    },
+    pickerContainer: {
+      borderColor: "#B0C4DE",  // Light steel blue border
+      borderWidth: 1,
+      borderRadius: 8,
+      marginBottom: 12,
+      width: '100%',
+      backgroundColor: '#fff',
+    },
+    picker: {
+      height: 48,
+      width: '100%',
+    },
+    button: {
+      backgroundColor: '#4183D7',  // Blue button
+      paddingVertical: 12,
+      paddingHorizontal: 25,
+      borderRadius: 10,
+      alignItems: 'center',
+      width: '100%',
+    },
+    buttonText: {
+      fontSize: 16,
+      color: '#fff',
+      fontWeight: '600',
+      textAlign: 'center',
+    },
+    idProofButton: {
+      backgroundColor: '#4183D7',  // Green for ID proof upload
+      paddingVertical: 12,
+      paddingHorizontal: 25,
+      borderRadius: 10,
+      alignItems: 'center',
+      width: '100%',
+      marginBottom: 12,
+    },
+    idProofText: {
+      marginTop: 10,
+      color: '#333',
+    },
+    imageContainer: {
+      marginTop: 10,
+      alignItems: 'center',
+    },
+    idProofImage: {
+      width: 100,
+      height: 100,
+      borderRadius: 10,
+      marginTop: 5,
+      resizeMode: 'cover',
+    },
+    loginText: {
+      padding: 10,
+      fontSize: 16,
+      color: "#333",
+      fontWeight: "bold",
+      textAlign: 'center',
+    },
+    loginLink: {
+      color: "#4183D7",  // Blue color for login link
+      fontWeight: "bold",
+    },
+  });
 
 export default SignupPage;

@@ -96,7 +96,7 @@ const IdentityProof = () => {
         <Ionicons name="image-outline" size={24} color="white" />
         <Text style={styles.buttonText}>Choose Image</Text>
       </TouchableOpacity>
-
+  
       <TouchableOpacity style={styles.buttonContainer} onPress={takePhoto}>
         <Ionicons name="camera-outline" size={24} color="white" />
         <Text style={styles.buttonText}>Take Photo</Text>
@@ -105,49 +105,51 @@ const IdentityProof = () => {
       {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
     </View>
   );
-};
-
+}
 export default IdentityProof;
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 24,
-    marginBottom: 5,
-    marginTop: 20,
-    color: "#333",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 10,
-    backgroundColor: '#6A92D5', 
-    borderRadius: 5,
-    padding: 10,
-    width: 130,
-    height: 50, 
-  },
-  buttonText: {
-    fontSize: 12,
-    marginLeft: 10,
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  image: {
-    width: 200,
-    height: 200,
-    marginTop: 20,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-  },
-  icon: {
-    marginRight: 10,
-  },
-});
+  
+  const styles = StyleSheet.create({
+    container: {
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 20,
+      backgroundColor: "#E8F0FF", // Soft light blue background for modern appeal
+      flex: 1,
+    },
+    text: {
+      fontSize: 24,
+      marginBottom: 20,
+      color: "#1E3A8A", // Dark blue for the text, making it stand out
+      fontWeight: "bold",
+      textAlign: "center",
+    },
+    buttonContainer: {
+      flexDirection: "row",
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginVertical: 15,
+      backgroundColor: '#3B82F6',  // Blue button background
+      borderRadius: 8,
+      padding: 12,
+      width: 180,  // Increased width for better tap area
+      height: 50, 
+      elevation: 3, // Slight elevation to give it a floating effect
+    },
+    buttonText: {
+      fontSize: 14,
+      marginLeft: 10,
+      color: '#fff',
+      fontWeight: 'bold',
+    },
+    image: {
+      width: 250,
+      height: 250,
+      marginTop: 20,
+      borderRadius: 12,
+      borderWidth: 2,
+      borderColor: "#A5B3CC", // Light blue border for the image
+    },
+    icon: {
+      marginRight: 10,
+    },
+  });

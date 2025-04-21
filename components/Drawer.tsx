@@ -51,14 +51,14 @@ const Drawer = () => {
       style={[styles.container, { height: Dimensions.get("window").height }]}
     >
       <View>
-        <Text style={styles.title}>Profile</Text>
+        <Text style={styles.title}>My Profile</Text>
+  
         <TouchableOpacity
           style={styles.button}
           onPress={() => handleViewProfile()}
         >
-          <Text style={styles.buttonText}>My Profile</Text>
+          <Text style={styles.buttonText}>View Profile</Text>
         </TouchableOpacity>
-
         {/* <TouchableOpacity
           style={styles.button}
           onPress={() => handleUpdateProfile()}
@@ -72,51 +72,68 @@ const Drawer = () => {
         >
           <Text style={styles.buttonText}>Change Password</Text>
         </TouchableOpacity> */}
-
+  
         <TouchableOpacity
           style={styles.button}
           onPress={() => handlePress("Settings")}
         >
           <Text style={styles.buttonText}>Location</Text>
         </TouchableOpacity>
-
+  
         <TouchableOpacity
-          style={[styles.button, { backgroundColor: "#dd0000" }]}
+          style={[styles.button, styles.logoutButton]}
           onPress={() => handleLogout()}
         >
-          <Text style={styles.buttonText}>Logout</Text>
+          <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-};
-
-export default Drawer;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // alignItems: "center",
-    backgroundColor: "white",
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  button: {
-    backgroundColor: "#007BFF",
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 8,
-    marginBottom: 15,
-    width: "70%",
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "500",
-  },
-});
+  };
+  
+  export default Drawer;
+  
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: "#EAF6FF", // Soft blue background
+      padding: 25,
+      justifyContent: "flex-start", // Align from the top
+    },
+    title: {
+      fontSize: 26,
+      fontWeight: "bold",
+      marginBottom: 20, // Small space below the title
+      color: "#03045E", // Deep blue for contrast
+      alignSelf: "flex-start", // Align to the left for a neat look
+    },
+    button: {
+      backgroundColor: "#0077B6",
+      paddingVertical: 14,
+      paddingHorizontal: 25,
+      borderRadius: 12,
+      marginBottom: 18,
+      width: "85%",
+      alignSelf: "center",
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 3,
+      elevation: 3,
+    },
+    buttonText: {
+      color: "#ffffff",
+      fontSize: 16,
+      fontWeight: "600",
+    },
+    logoutButton: {
+      backgroundColor: "#FF4D4D",
+      shadowColor: "#FF0000",
+    },
+    logoutText: {
+      color: "#fff",
+      fontSize: 16,
+      fontWeight: "600",
+    },
+  });

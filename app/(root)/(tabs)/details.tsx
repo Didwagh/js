@@ -132,50 +132,71 @@ const DetailsPage: React.FC = () => {
       <Text style={styles.info}>Description: {description}</Text>
       <Text style={styles.info}>Location: {city}, {district}</Text>
       <Text style={styles.info}>Type: {disasterType}</Text>
-
+  
       {/* Volunteer Button */}
       {user.role !== 'User' && !hasVolunteered && (
-        <View style={{ marginVertical: 10 }}>
-          <Button title="Volunteer" onPress={handleOpenVolunteerModal} />
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity 
+            style={styles.button} 
+            onPress={handleOpenVolunteerModal}
+          >
+            <Text style={styles.buttonText}>Volunteer</Text>
+          </TouchableOpacity>
         </View>
       )}
-
+  
       {/* Donation Section */}
-      <View style={{ marginVertical: 10 }}>
+      <View style={styles.buttonContainer}>
         {!showDonationInput ? (
-          <Button title="Donate" color="#28a745" onPress={() => setShowDonationInput(true)} />
+          <TouchableOpacity 
+            style={[styles.button, { backgroundColor: "#00B4D8" }]} 
+            onPress={() => setShowDonationInput(true)}
+          >
+            <Text style={styles.buttonText}>Donate</Text>
+          </TouchableOpacity>
         ) : (
-          <View>
-            <Text style={styles.label}>Enter Donation Amount (₹):</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="e.g. 100"
-              keyboardType="numeric"
-              value={donationAmount}
-              onChangeText={setDonationAmount}
-            />
-            <TouchableOpacity style={styles.submitButton} onPress={handlePayment}>
-              <Text style={styles.submitButtonText}>Confirm Donation</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => setShowDonationInput(false)}>
-              <Text style={{ marginTop: 10, color: 'red', textAlign: 'center' }}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
-
+          <View style={styles.donationInputContainer}>
+          <Text style={styles.label}>Enter Donation Amount (₹):</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Min 100"
+            keyboardType="numeric"
+            value={donationAmount}
+            onChangeText={setDonationAmount}
+          />
+          <TouchableOpacity style={styles.submitButton} onPress={handlePayment}>
+            <Text style={styles.submitButtonText}>Confirm Donation</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setShowDonationInput(false)}>
+            <Text style={styles.cancelText}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </View>
+    
+  
       {/* Video Button */}
       {video && (
-        <Button title="Watch Video" onPress={handleOpenVideo} />
+        <TouchableOpacity 
+          style={[styles.button, { backgroundColor: "#00B4D8" }]} 
+          onPress={handleOpenVideo}
+        >
+          <Text style={styles.buttonText}>Watch Video</Text>
+        </TouchableOpacity>
       )}
-
+  
       {/* Delete Button (Admins only) */}
       {user.role === 'Admin' && (
-        <View style={{ marginVertical: 10 }}>
-          <Button title="Delete Disaster" color="#dc3545" onPress={handleDeleteDisaster} />
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity 
+            style={[styles.button, { backgroundColor: "#dc3545" }]} 
+            onPress={handleDeleteDisaster}
+          >
+            <Text style={styles.buttonText}>Delete Disaster</Text>
+          </TouchableOpacity>
         </View>
       )}
-
+  
       {/* Volunteer Modal */}
       <Modal
         visible={volunteerModalVisible}
@@ -196,12 +217,12 @@ const DetailsPage: React.FC = () => {
               <Text style={styles.submitButtonText}>Submit</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleCloseVolunteerModal}>
-              <Text style={{ marginTop: 10, color: 'red' }}>Cancel</Text>
+              <Text style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
-
+  
       <VideoModal
         visible={modalVisible}
         onClose={handleCloseVideo}
@@ -209,61 +230,102 @@ const DetailsPage: React.FC = () => {
       />
     </View>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  info: {
-    fontSize: 16,
-    marginVertical: 5,
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 5,
-    fontWeight: '500',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)',
-    padding: 20,
-  },
-  modalContent: {
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 10,
-  },
-  modalTitle: {
-    fontSize: 18,
-    marginBottom: 10,
-    fontWeight: 'bold',
-  },
-  submitButton: {
-    backgroundColor: '#007bff',
-    padding: 12,
-    borderRadius: 5,
-    alignItems: 'center',
-  },
-  submitButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-});
+}
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 20,
+      backgroundColor: '#f1faff', // Light blue background color
+    },
+    title: {
+      fontSize: 30,
+      fontWeight: 'bold',
+      marginBottom: 5,
+      color: '#007bff', // Light blue for title
+    },
+    info: {
+      fontSize: 18,
+      marginVertical: 5,
+      color: '#555',
+    },
+    label: {
+      fontSize: 16,
+      marginBottom: 5,
+      fontWeight: '500',
+      color: '#333',
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: '#007bff',
+      borderRadius: 5,
+      padding: 10,
+      marginBottom: 10,
+      backgroundColor: '#fff',
+    },
+    buttonContainer: {
+      marginVertical: 10,
+      width: '100%',
+    },
+    button: {
+      backgroundColor: '#007bff', // Light blue for buttons
+      paddingVertical: 12,
+      paddingHorizontal: 25,
+      borderRadius: 30,
+      alignItems: 'center',
+      justifyContent: 'center',
+      elevation: 5, // Shadow effect for floating effect
+      shadowColor: '#007bff',
+      shadowOffset: { width: 0, height: 5 },
+      shadowOpacity: 0.3,
+      shadowRadius: 10,
+    },
+    buttonText: {
+      color: '#fff',
+      fontSize: 16,
+      fontWeight: 'bold',
+    },
+    donationInputContainer: {
+      marginVertical: 10,
+    },
+    submitButton: {
+      backgroundColor: '#00B4D8', // Light blue for buttons
+      paddingVertical: 12,
+      paddingHorizontal: 25,
+      borderRadius: 30,
+      alignItems: 'center',
+      justifyContent: 'center',
+      elevation: 5, // Shadow effect for floating effect
+      shadowColor: '#007bff',
+      shadowOffset: { width: 0, height: 5 },
+      shadowOpacity: 0.3,
+      shadowRadius: 10,
+    },
+    submitButtonText: {
+      color: '#fff',
+      fontWeight: 'bold',
+    },
+    cancelText: {
+      marginTop: 10,
+      color: 'red',
+      textAlign: 'center',
+    },
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      backgroundColor: 'rgba(0,0,0,0.4)',
+      padding: 20,
+    },
+    modalContent: {
+      backgroundColor: '#fff',
+      padding: 20,
+      borderRadius: 10,
+    },
+    modalTitle: {
+      fontSize: 18,
+      marginBottom: 10,
+      fontWeight: 'bold',
+      color: '#007bff',
+    },
+  });
 
 export default DetailsPage;

@@ -362,94 +362,169 @@ const DisasterPreparednessScreen: React.FC = () => {
     ? disasterData.filter((item) => item.category === selectedCategory)
     : disasterData;
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>India Disaster Preparedness Guide</Text>
-
-      <Picker
-        selectedValue={selectedCategory}
-        style={styles.picker}
-        onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-      >
-        <Picker.Item label="All Categories" value={null} />
-        <Picker.Item label="Natural" value="Natural" />
-        <Picker.Item label="Medical" value="Medical" />
-        <Picker.Item label="Man-Made" value="Man-Made" />
-      </Picker>
-
-      <FlatList
-        data={filteredData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <TouchableOpacity onPress={() => toggleExpand(item.id)}>
-              <Text style={[styles.title, getCategoryStyle(item.category)]}>
-                {item.name}
-              </Text>
-            </TouchableOpacity>
-
-            {expanded === item.id && (
-              <View style={styles.content}>
-                <Text style={styles.subHeader}>Preparedness:</Text>
-                {item.preparedness.map((step, index) => (
-                  <Text key={index} style={styles.step}>🔹 {step}</Text>
-                ))}
-
-                <Text style={styles.subHeader}>Medical Assistance:</Text>
-                {item.medicalAssistance.map((step, index) => (
-                  <Text key={index} style={styles.step}>💊 {step}</Text>
-                ))}
-
-                <TouchableOpacity
-                  style={styles.callButton}
-                  onPress={() => callEmergencyNumber(item.emergencyNumber)}
-                >
-                  <Text style={styles.callText}>📞 Emergency: {item.emergencyNumber}</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.linkButton}
-                  onPress={() => openMedicalLink(item.medicalLink)}
-                >
-                  {/* 🌐 */}
-                  <Text style={styles.linkText}><AntDesign name="earth" size={15}/> More Info</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </View>
-        )}
-      />
-    </View>
-  );
-};
-
-const getCategoryStyle = (category: "Natural" | "Medical" | "Man-Made") => {
-  switch (category) {
-    case "Natural":
-      return styles.naturalTitle;
-    case "Medical":
-      return styles.medicalTitle;
-    case "Man-Made":
-      return styles.manMadeTitle;
+    return (
+      <View style={styles.container}>
+        <Text style={styles.header}>Preparedness Tips</Text>
+    
+        <Picker
+          selectedValue={selectedCategory}
+          style={styles.picker}
+          onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+        >
+          <Picker.Item label="All Categories" value={null} />
+          <Picker.Item label="Natural" value="Natural" />
+          <Picker.Item label="Medical" value="Medical" />
+          <Picker.Item label="Man-Made" value="Man-Made" />
+        </Picker>
+    
+        <FlatList
+          data={filteredData}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <TouchableOpacity onPress={() => toggleExpand(item.id)}>
+                <Text style={[styles.title, getCategoryStyle(item.category)]}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+    
+              {expanded === item.id && (
+                <View style={styles.content}>
+                  <Text style={styles.subHeader}>Preparedness:</Text>
+                  {item.preparedness.map((step, index) => (
+                    <Text key={index} style={styles.step}>🔹 {step}</Text>
+                  ))}
+    
+                  <Text style={styles.subHeader}>Medical Assistance:</Text>
+                  {item.medicalAssistance.map((step, index) => (
+                    <Text key={index} style={styles.step}>💊 {step}</Text>
+                  ))}
+    
+                  <TouchableOpacity
+                    style={styles.callButton}
+                    onPress={() => callEmergencyNumber(item.emergencyNumber)}
+                  >
+                    <Text style={styles.callText}>📞 Emergency: {item.emergencyNumber}</Text>
+                  </TouchableOpacity>
+    
+                  <TouchableOpacity
+                    style={styles.linkButton}
+                    onPress={() => openMedicalLink(item.medicalLink)}
+                  >
+                    <Text style={styles.linkText}>
+                      <AntDesign name="earth" size={15} /> More Info
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+          )}
+        />
+      </View>
+    );
   }
-};
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: "#F4F4F4" },
-  header: { fontSize: 22, fontWeight: "bold", textAlign: "center", marginBottom: 16 },
-  card: { backgroundColor: "#FFF", padding: 16, marginVertical: 8, borderRadius: 10, shadowColor: "#000", shadowOpacity: 0.1, elevation: 2 },
-  title: { fontSize: 18, fontWeight: "bold" },
-  naturalTitle: { color: "#0066CC" },
-  medicalTitle: { color: "#4CAF50" },
-  manMadeTitle: { color: "#FF8800" },
-  content: { marginTop: 10 },
-  subHeader: { fontSize: 16, fontWeight: "bold", marginTop: 10 },
-  step: { fontSize: 16, marginVertical: 4, color: "#555" },
-  callButton: { backgroundColor: "#ff4444", padding: 10, borderRadius: 8, alignItems: "center", marginTop: 10 },
-  callText: { color: "#fff", fontWeight: "bold", fontSize: 16 },
-  linkButton: { backgroundColor: "#13a0ec", padding: 10, borderRadius: 8, alignItems: "center", marginTop: 10 },
-  linkText: { color: "#fff", fontWeight: "bold", fontSize: 16 },
-  picker: {height: 50,width: "100%",marginBottom: 10,backgroundColor: "#e0e0e0",borderRadius: 8,},
-});
+    
+    const getCategoryStyle = (category: "Natural" | "Medical" | "Man-Made") => {
+      switch (category) {
+        case "Natural":
+          return styles.naturalTitle;
+        case "Medical":
+          return styles.medicalTitle;
+        case "Man-Made":
+          return styles.manMadeTitle;
+      }
+    };
+    
+    const styles = StyleSheet.create({
+      container: { 
+        flex: 1, 
+        padding: 16, 
+        backgroundColor: "#E8F1FA"  // Light blue background
+      },
+      header: { 
+        fontSize: 24, 
+        fontWeight: "bold", 
+        textAlign: "center", 
+        marginBottom: 16,
+        marginTop: 20,
+        color: "#03045E"  // Deep Navy Blue
+      },
+      picker: {
+        height: 50,
+        width: "100%",
+        marginBottom: 20,
+        backgroundColor: "#FFFFFF",
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        borderColor: "#13A0EC",
+        borderWidth: 1,
+      },
+      card: { 
+        backgroundColor: "#FFFFFF",
+        padding: 16,
+        marginVertical: 8,
+        borderRadius: 12,
+        shadowColor: "#000",
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+        elevation: 4,
+        marginHorizontal: 5,
+      },
+      title: { 
+        fontSize: 18, 
+        fontWeight: "bold",
+        color: "#03045E"
+      },
+      naturalTitle: { color: "#0077B6" },
+      medicalTitle: { color: "#00B47E" },
+      manMadeTitle: { color: "#FF6B6B" },
+      content: { 
+        marginTop: 12, 
+        paddingTop: 8, 
+        borderTopWidth: 1, 
+        borderTopColor: "#d0d7de" 
+      },
+      subHeader: { 
+        fontSize: 16, 
+        fontWeight: "bold", 
+        marginTop: 10, 
+        color: "#03045E"
+      },
+      step: { 
+        fontSize: 15, 
+        marginVertical: 4, 
+        color: "#333" 
+      },
+      callButton: { 
+        backgroundColor: "#FF4D4D",
+        padding: 12,
+        borderRadius: 10,
+        alignItems: "center",
+        marginTop: 14,
+        shadowColor: "#FF4D4D",
+        shadowOpacity: 0.3,
+        elevation: 4,
+      },
+      callText: { 
+        color: "#fff", 
+        fontWeight: "bold", 
+        fontSize: 16 
+      },
+      linkButton: { 
+        backgroundColor: "#13A0EC",
+        padding: 12,
+        borderRadius: 10,
+        alignItems: "center",
+        marginTop: 12,
+        shadowColor: "#13A0EC",
+        shadowOpacity: 0.3,
+        elevation: 4
+      },
+      linkText: { 
+        color: "#fff", 
+        fontWeight: "bold", 
+        fontSize: 16 
+      },
+    });
 
 export default DisasterPreparednessScreen;
